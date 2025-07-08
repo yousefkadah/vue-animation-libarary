@@ -1,6 +1,6 @@
 {
   "name": "@yousefkadah/vue-magic-ui",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A Vue.js animated component library with beautiful, ready-to-use components",
   "main": "dist/index.umd.js",
   "module": "dist/index.es.js",
