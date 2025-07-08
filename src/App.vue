@@ -31,7 +31,7 @@
 import { SparkleText, MagicButton } from './index'
 
 const openGithub = () => {
-  window.open('https://github.com/your-username/vue-magic-ui', '_blank')
+  window.open('https://github.com/yousefkadah/vue-animation-libarary', '_blank')
 }
 </script>
 

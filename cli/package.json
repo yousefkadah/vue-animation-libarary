@@ -11,6 +11,15 @@
     "dist",
     "templates"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yousefkadah/vue-animation-libarary.git",
+    "directory": "cli"
+  },
+  "homepage": "https://github.com/yousefkadah/vue-animation-libarary#readme",
+  "bugs": {
+    "url": "https://github.com/yousefkadah/vue-animation-libarary/issues"
+  },
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",

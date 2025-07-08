@@ -164,7 +164,7 @@ export const COMPONENTS: ComponentInfo[] = [
   }
 ];
 
-export const GITHUB_BASE_URL = 'https://raw.githubusercontent.com/your-username/vue-magic-ui/main/src/components';
+export const GITHUB_BASE_URL = 'https://raw.githubusercontent.com/yousefkadah/vue-animation-libarary/main/src/components';
 
 export async function downloadComponent(componentName: string, outputPath: string): Promise<void> {
   const component = COMPONENTS.find(c => c.name === componentName);

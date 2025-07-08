@@ -19,8 +19,8 @@ A professional Vue 3 animated component library inspired by MagicUI and modern d
 npm install vue-magic-ui
 
 # Clone and run the demo
-git clone https://github.com/your-username/vue-magic-ui.git
-cd vue-magic-ui
+git clone https://github.com/yousefkadah/vue-animation-libarary.git
+cd vue-animation-libarary
 npm install
 npm run dev
 ```
@@ -274,7 +274,7 @@ onMounted(() => {
 
 ```bash
 # Clone repository
-git clone https://github.com/yourusername/vue-magic-ui.git
+git clone https://github.com/yousefkadah/vue-animation-libarary.git
 
 # Install dependencies  
 npm install

@@ -8,6 +8,14 @@
   "files": [
     "dist"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yousefkadah/vue-animation-libarary.git"
+  },
+  "homepage": "https://github.com/yousefkadah/vue-animation-libarary#readme",
+  "bugs": {
+    "url": "https://github.com/yousefkadah/vue-animation-libarary/issues"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc && vite build",

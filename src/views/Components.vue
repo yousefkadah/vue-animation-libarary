@@ -209,7 +209,7 @@
                           {{ copiedCode === `${component.name}-file` ? 'Copied!' : 'Copy Component' }}
                         </button>
                       </div>
-                      <pre class="code-block"><code>{{ getComponentCodeDisplay(component.name) }}</code></pre>
+                      <pre class="code-block"><code>{{ componentCodeCache[component.name] || 'Loading component code...' }}</code></pre>
                     </div>
                     
                     <div class="manual-steps">
@@ -506,7 +506,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import {
   FadeIn,
   SlideIn,
@@ -1072,6 +1072,9 @@ const scrollToComponent = (componentName: string) => {
   activeTab.value = 'manual' // Reset to manual tab when selecting a component
   isMobileMenuOpen.value = false // Close mobile menu when selecting a component
   
+  // Load component code
+  loadComponentCode(componentName)
+  
   // If we're showing all components, scroll to the specific component
   if (activeCategory.value === 'all') {
     const elementId = componentName.toLowerCase().replace(/\s+/g, '-')
@@ -1082,158 +1085,68 @@ const scrollToComponent = (componentName: string) => {
   }
 }
 
-// Component code management
-const getComponentCodeDisplay = (componentName: string) => {
-  // For now, return a simple placeholder
-  // In a real implementation, this would fetch the actual component code
-  const scriptTag = 'script'
-  const styleTag = 'style'
-  return `<!-- ${componentName}.vue -->
-<template>
-  <!-- Copy the actual ${componentName} component from src/components/${componentName}.vue -->
-  <!-- This is a placeholder - visit GitHub repository for full source code -->
-</template>
-
-<${scriptTag} setup lang="ts">
-// ${componentName} implementation
-// Visit: https://github.com/your-repo/vue-animation-library
-// File: src/components/${componentName}.vue
-</${scriptTag}>
-
-<${styleTag} scoped>
-/* ${componentName} styles */
-</${styleTag}>`
+// Load component code
+const loadComponentCode = async (componentName: string) => {
+  if (!componentCodeCache.value[componentName]) {
+    const code = await getFullComponentCode(componentName)
+    componentCodeCache.value[componentName] = code
+  }
 }
 
+// Copy functionality and code generation
+const copyCode = async (text: string) => {
+  try {
+    await navigator.clipboard.writeText(text)
+    copiedCode.value = text
+    setTimeout(() => {
+      copiedCode.value = ''
+    }, 2000)
+  } catch (err) {
+    console.error('Failed to copy: ', err)
+  }
+}
+
+// Helper functions for code generation
+const getComponentCodeDisplay = async (componentName: string) => {
+  return await getFullComponentCode(componentName)
+}
+
+const getManualUsageCode = (componentName: string) => {
+  return `<template>
+  <${componentName} />
+</template>
+
+<script setup lang="ts">
+import ${componentName} from '@/components/${componentName}.vue'
+</` + `script>`
+}
+
+const copyComponentFile = async (componentName: string) => {
+  const code = await getFullComponentCode(componentName)
+  copyCode(code)
+  copiedCode.value = `${componentName}-file`
+  setTimeout(() => {
+    copiedCode.value = ''
+  }, 2000)
+}
+
+// Component code management
 const getFullComponentCode = async (componentName: string) => {
   // Check cache first
   if (componentCodeCache.value[componentName]) {
     return componentCodeCache.value[componentName]
   }
   
-  try {
-    // Try to read the actual component file
-    const response = await fetch(`/src/components/${componentName}.vue`)
-    if (response.ok) {
-      const code = await response.text()
-      componentCodeCache.value[componentName] = code
-      return code
-    }
-  } catch (error) {
-    console.error('Error reading component file:', error)
-  }
-  
-  // Generate realistic component code based on what we know about each component
-  let componentCode = ''
-  
-  switch (componentName) {
-    case 'MagicButton':
-      componentCode = generateMagicButtonCode()
-      break
-    case 'ShimmerButton':
-      componentCode = generateShimmerButtonCode()
-      break
-    case 'GlowCard':
-      componentCode = generateGlowCardCode()
-      break
-    case 'Meteors':
-      componentCode = generateMeteorsCode()
-      break
-    case 'CountUp':
-      componentCode = generateCountUpCode()
-      break
-    case 'NumberTicker':
-      componentCode = generateNumberTickerCode()
-      break
-    case 'GradientText':
-      componentCode = generateGradientTextCode()
-      break
-    case 'FloatingCard':
-      componentCode = generateFloatingCardCode()
-      break
-    case 'PulseLoader':
-      componentCode = generatePulseLoaderCode()
-      break
-    case 'WaveLoader':
-      componentCode = generateWaveLoaderCode()
-      break
-    case 'ParticleEffect':
-      componentCode = generateParticleEffectCode()
-      break
-    case 'MorphingShape':
-      componentCode = generateMorphingShapeCode()
-      break
-    case 'TextReveal':
-      componentCode = generateTextRevealCode()
-      break
-    default:
-      componentCode = generateDefaultComponentCode(componentName)
-  }
-  
-  componentCodeCache.value[componentName] = componentCode
-  return componentCode
-}
-
-const copyComponentFile = async (componentName: string) => {
-  try {
-    const fullCode = await getFullComponentCode(componentName)
-    await copyCode(fullCode)
-    copiedCode.value = `${componentName}-file`
-    setTimeout(() => {
-      copiedCode.value = ''
-    }, 2000)
-  } catch (error) {
-    console.error('Error copying component file:', error)
-  }
-}
-
-// Load component code when a component is selected
-const loadComponentCode = async (componentName: string) => {
-  if (!componentCodeCache.value[componentName]) {
-    await getFullComponentCode(componentName)
-  }
-}
-
-const getManualUsageCode = (componentName: string) => {
-  const scriptTag = 'script'
-  return `<${scriptTag} setup>
-import ${componentName} from './components/${componentName}.vue'
-</${scriptTag}>
-
-<template>
-  <${componentName} />
-</template>`
-}
-
-const copyCode = async (code: string) => {
-  try {
-    await navigator.clipboard.writeText(code)
-    copiedCode.value = code
-    setTimeout(() => {
-      copiedCode.value = ''
-    }, 2000)
-  } catch (err) {
-    console.error('Failed to copy code:', err)
-  }
-}
-
-// Close mobile menu when clicking outside
-const closeMobileMenu = () => {
-  isMobileMenuOpen.value = false
-}
-
-// Component code generators
-const generateDefaultComponentCode = (componentName: string) => {
-  const scriptTag = 'script'
-  const styleTag = 'style'
-  return `<template>
-  <div class="${componentName.toLowerCase()}">
+  // Generate basic component template
+  const kebabCase = componentName.replace(/([A-Z])/g, '-$1').toLowerCase().replace(/^-/, '')
+  const code = `<template>
+  <div class="${kebabCase}">
     <!-- ${componentName} implementation -->
     <slot />
   </div>
 </template>
 
-<${scriptTag} setup lang="ts">
+<` + `script setup lang="ts">
 // ${componentName} component
 interface Props {
   // Add component props here
@@ -1242,355 +1155,29 @@ interface Props {
 withDefaults(defineProps<Props>(), {
   // Default props
 })
-</${scriptTag}>
+</` + `script>
 
-<${styleTag} scoped>
-.${componentName.toLowerCase()} {
+<` + `style scoped>
+.${kebabCase} {
   /* Component styles */
 }
-</${styleTag}>`
+</` + `style>`
+  
+  componentCodeCache.value[componentName] = code
+  return code
 }
 
-const generateMagicButtonCode = () => {
-  return `<template>
-  <button 
-    ref="buttonElement"
-    :class="['magic-button', variant, size, { 'magic-button--loading': loading }]"
-    :disabled="disabled || loading"
-    @click="handleClick"
-    @mouseenter="onMouseEnter"
-    @mouseleave="onMouseLeave"
-  >
-    <span class="magic-button__bg"></span>
-    <span class="magic-button__border"></span>
-    <span class="magic-button__content">
-      <slot v-if="!loading" />
-      <span v-else class="magic-button__loader">
-        <span class="magic-button__spinner"></span>
-      </span>
-    </span>
-    <span class="magic-button__ripple" :class="{ active: rippleActive }"></span>
-  </button>
-</template>
-
-<script setup lang="ts">
-import { ref } from 'vue'
-
-interface Props {
-  variant?: 'primary' | 'secondary' | 'gradient' | 'glass' | 'outline'
-  size?: 'sm' | 'md' | 'lg'
-  loading?: boolean
-  disabled?: boolean
-  rippleEffect?: boolean
+// Mobile menu close function
+const closeMobileMenu = () => {
+  isMobileMenuOpen.value = false
 }
 
-const props = withDefaults(defineProps<Props>(), {
-  variant: 'primary',
-  size: 'md',
-  loading: false,
-  disabled: false,
-  rippleEffect: true
+// Initialize component codes on mount
+onMounted(() => {
+  components.forEach(component => {
+    loadComponentCode(component.name)
+  })
 })
-
-const emit = defineEmits<{
-  click: [event: MouseEvent]
-}>()
-
-const buttonElement = ref<HTMLElement>()
-const rippleActive = ref(false)
-
-const handleClick = (event: MouseEvent) => {
-  if (props.rippleEffect) {
-    rippleActive.value = true
-    setTimeout(() => {
-      rippleActive.value = false
-    }, 800)
-  }
-  emit('click', event)
-}
-
-const onMouseEnter = () => {
-  if (buttonElement.value) {
-    buttonElement.value.style.transform = 'translateY(-2px)'
-  }
-}
-
-const onMouseLeave = () => {
-  if (buttonElement.value) {
-    buttonElement.value.style.transform = 'translateY(0)'
-  }
-}
-</script>
-
-<style scoped>
-.magic-button {
-  position: relative;
-  padding: 12px 24px;
-  border: none;
-  border-radius: 12px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  overflow: hidden;
-  outline: none;
-  background: transparent;
-}
-
-.magic-button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-  transform: none !important;
-}
-
-.magic-button__bg {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  border-radius: inherit;
-  transition: all 0.3s ease;
-}
-
-.magic-button__border {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  border-radius: inherit;
-  padding: 2px;
-  background: linear-gradient(45deg, #42b883 0%, #369870 100%);
-  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  mask-composite: exclude;
-}
-
-.magic-button__content {
-  position: relative;
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-}
-
-.magic-button__ripple {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 0;
-  height: 0;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.1) 50%, transparent 100%);
-  transform: translate(-50%, -50%);
-  transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  pointer-events: none;
-}
-
-.magic-button__ripple.active {
-  width: 200px;
-  height: 200px;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.05) 40%, transparent 70%);
-}
-
-.magic-button__loader {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.magic-button__spinner {
-  width: 16px;
-  height: 16px;
-  border: 2px solid transparent;
-  border-top: 2px solid currentColor;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-
-/* Sizes */
-.magic-button.sm {
-  padding: 0.5rem 1rem;
-  font-size: 0.875rem;
-}
-
-.magic-button.md {
-  padding: 0.75rem 1.5rem;
-  font-size: 1rem;
-}
-
-.magic-button.lg {
-  padding: 1rem 2rem;
-  font-size: 1.125rem;
-}
-
-/* Variants */
-.magic-button.primary .magic-button__bg {
-  background: linear-gradient(135deg, #42b883 0%, #369870 100%);
-}
-
-.magic-button.primary {
-  color: white;
-}
-
-.magic-button.secondary .magic-button__bg {
-  background: #f8f9fa;
-}
-
-.magic-button.secondary {
-  color: #495057;
-}
-
-.magic-button.gradient .magic-button__bg {
-  background: linear-gradient(135deg, #ff6b6b 0%, #4ecdc4 100%);
-}
-
-.magic-button.gradient {
-  color: white;
-}
-
-.magic-button.glass .magic-button__bg {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.magic-button.glass {
-  color: #333;
-}
-
-.magic-button.outline .magic-button__bg {
-  background: transparent;
-  border: 2px solid #42b883;
-}
-
-.magic-button.outline {
-  color: #42b883;
-}
-
-.magic-button.outline:hover {
-  color: white;
-}
-
-.magic-button.outline:hover .magic-button__bg {
-  background: #42b883;
-}
-
-.magic-button:hover .magic-button__bg {
-  transform: scale(1.05);
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-</style>`
-}
-
-const generateShimmerButtonCode = () => {
-  const scriptTag = 'script'
-  const styleTag = 'style'
-  return `<template>
-  <button
-    :class="[
-      'shimmer-button',
-      \`shimmer-button--\${variant}\`,
-      \`shimmer-button--\${size}\`
-    ]"
-    @click="$emit('click', $event)"
-  >
-    <span class="shimmer-button__content">
-      <slot />
-    </span>
-    <div class="shimmer-button__shimmer"></div>
-  </button>
-</template>
-
-<${scriptTag} setup lang="ts">
-interface Props {
-  variant?: 'primary' | 'secondary' | 'outline'
-  size?: 'sm' | 'md' | 'lg'
-}
-
-withDefaults(defineProps<Props>(), {
-  variant: 'primary',
-  size: 'md'
-})
-
-defineEmits<{
-  click: [event: MouseEvent]
-}>()
-</${scriptTag}>
-
-<${styleTag} scoped>
-.shimmer-button {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  border-radius: 0.5rem;
-  font-weight: 500;
-  cursor: pointer;
-  overflow: hidden;
-  background: linear-gradient(135deg, #42b883 0%, #369870 100%);
-  color: white;
-}
-
-.shimmer-button--sm {
-  padding: 0.5rem 1rem;
-  font-size: 0.875rem;
-}
-
-.shimmer-button--md {
-  padding: 0.75rem 1.5rem;
-  font-size: 1rem;
-}
-
-.shimmer-button--lg {
-  padding: 1rem 2rem;
-  font-size: 1.125rem;
-}
-
-.shimmer-button__content {
-  position: relative;
-  z-index: 2;
-}
-
-.shimmer-button__shimmer {
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-  animation: shimmer 2s infinite;
-}
-
-@keyframes shimmer {
-  0% { left: -100%; }
-  100% { left: 100%; }
-}
-
-.shimmer-button:hover .shimmer-button__shimmer {
-  animation-duration: 0.5s;
-}
-</${styleTag}>`
-}
-
-// Add placeholder generators for other components
-const generateGlowCardCode = () => generateDefaultComponentCode('GlowCard')
-const generateMeteorsCode = () => generateDefaultComponentCode('Meteors')  
-const generateCountUpCode = () => generateDefaultComponentCode('CountUp')
-const generateNumberTickerCode = () => generateDefaultComponentCode('NumberTicker')
-const generateGradientTextCode = () => generateDefaultComponentCode('GradientText')
-const generateFloatingCardCode = () => generateDefaultComponentCode('FloatingCard')
-const generatePulseLoaderCode = () => generateDefaultComponentCode('PulseLoader')
-const generateWaveLoaderCode = () => generateDefaultComponentCode('WaveLoader')
-const generateParticleEffectCode = () => generateDefaultComponentCode('ParticleEffect')
-const generateMorphingShapeCode = () => generateDefaultComponentCode('MorphingShape')
-const generateTextRevealCode = () => generateDefaultComponentCode('TextReveal')
 </script>
 
 <style scoped>
@@ -2641,248 +2228,6 @@ const generateTextRevealCode = () => generateDefaultComponentCode('TextReveal')
   padding: 2rem;
   background: #ffffff;
 }
-.main-content {
-  flex: 1;
-  padding: 2rem;
-  background: #ffffff;
-}
-
-.content-container {
-  max-width: 800px;
-}
-
-.content-section {
-  margin-bottom: 3rem;
-}
-
-.page-title {
-  font-size: 2.5rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
-  color: #09090b;
-}
-
-.page-description {
-  font-size: 1.125rem;
-  line-height: 1.6;
-  color: #71717a;
-  margin-bottom: 2rem;
-}
-
-.section-title {
-  font-size: 1.5rem;
-  font-weight: 600;
-  margin-bottom: 1rem;
-  color: #09090b;
-}
-
-.section-description {
-  font-size: 1rem;
-  line-height: 1.6;
-  color: #71717a;
-}
-
-/* Components Grid */
-.components-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 3rem;
-}
-
-.component-header-section {
-  margin-bottom: 2rem;
-}
-
-.back-button {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: #f4f4f5;
-  border: 1px solid #e4e7eb;
-  border-radius: 6px;
-  padding: 0.5rem 1rem;
-  font-size: 0.875rem;
-  color: #71717a;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  margin-bottom: 1rem;
-}
-
-.back-button:hover {
-  background: #e4e7eb;
-  color: #09090b;
-}
-
-.component-main-title {
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: #09090b;
-  margin-bottom: 0.5rem;
-}
-
-.component-main-description {
-  font-size: 1.125rem;
-  color: #71717a;
-  margin-bottom: 2rem;
-  line-height: 1.6;
-}
-
-.quick-usage {
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
-  border-radius: 12px;
-  padding: 1.5rem;
-  margin-bottom: 2rem;
-}
-
-.usage-title {
-  font-size: 1.125rem;
-  font-weight: 600;
-  color: #09090b;
-  margin-bottom: 1rem;
-}
-
-.usage-steps {
-  display: flex;
-  gap: 1rem;
-}
-
-.usage-step {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.step-number {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
-  background: #3b82f6;
-  color: white;
-  border-radius: 50%;
-  font-size: 0.75rem;
-  font-weight: 600;
-}
-
-.step-text {
-  font-size: 0.875rem;
-  color: #71717a;
-}
-
-/* Tab Content */
-.tab-content {
-  background: white;
-  padding: 1.5rem 2rem;
-}
-
-.no-props {
-  padding: 2rem;
-  text-align: center;
-  color: #71717a;
-  background: #f8fafc;
-  border-radius: 8px;
-  margin-top: 1rem;
-}
-
-.no-props p {
-  margin: 0;
-  font-size: 0.875rem;
-}
-
-.usage-note {
-  margin-top: 1rem;
-  padding: 1rem;
-  background: #f0f9ff;
-  border-radius: 6px;
-  border: 1px solid #bae6fd;
-}
-
-.usage-note h4 {
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: #0369a1;
-  margin-bottom: 0.5rem;
-}
-
-.usage-note ul {
-  margin: 0;
-  padding-left: 1rem;
-}
-
-.usage-note li {
-  font-size: 0.875rem;
-  color: #0369a1;
-  margin-bottom: 0.25rem;
-}
-
-/* Component Header Enhancements */
-.header-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 0.5rem;
-}
-
-.component-badges {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.category-badge {
-  background: #f1f5f9;
-  color: #475569;
-  padding: 0.25rem 0.5rem;
-  border-radius: 4px;
-  font-size: 0.75rem;
-  font-weight: 500;
-}
-
-.props-badge {
-  background: #ecfdf5;
-  color: #059669;
-  padding: 0.25rem 0.5rem;
-  border-radius: 4px;
-  font-size: 0.75rem;
-  font-weight: 500;
-}
-
-.usage-hint {
-  margin-top: 1rem;
-  padding: 0.75rem;
-  background: #f8fafc;
-  border-radius: 6px;
-  border: 1px solid #e4e7eb;
-}
-
-.hint-label {
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: #09090b;
-  margin-right: 0.5rem;
-}
-
-.inline-code {
-  background: #27272a;
-  color: #fafafa;
-  padding: 0.25rem 0.5rem;
-  border-radius: 4px;
-  font-family: 'Fira Code', 'Courier New', monospace;
-  font-size: 0.8125rem;
-}
-
-/* Main Content */
-.main-content {
-  flex: 1;
-  padding: 2rem;
-  background: #ffffff;
-}
-.main-content {
-  flex: 1;
-  padding: 2rem;
-  background: #ffffff;
-}
 
 .content-container {
   max-width: 800px;
@@ -3198,6 +2543,61 @@ const generateTextRevealCode = () => generateDefaultComponentCode('TextReveal')
   color: #71717a;
 }
 
+/* Mobile Menu Toggle */
+.mobile-menu-toggle {
+  display: none;
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 1001;
+  background: white;
+  border: 1px solid #e4e7eb;
+  border-radius: 8px;
+  padding: 0.5rem;
+  cursor: pointer;
+  flex-direction: column;
+  gap: 3px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.mobile-menu-toggle span {
+  width: 18px;
+  height: 2px;
+  background: #09090b;
+  transition: all 0.3s ease;
+}
+
+.mobile-menu-toggle.active span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.mobile-menu-toggle.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.mobile-menu-toggle.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(7px, -6px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  
+  .sidebar.mobile-open {
+    transform: translateX(0);
+  }
+  
+  .main-content {
+    margin-left: 0;
+  }
+  
+  .mobile-menu-toggle {
+    display: flex;
+  }
+}
+
 /* Installation Method Styling */
 .installation-method {
   margin-bottom: 2rem;
@@ -3363,5 +2763,151 @@ const generateTextRevealCode = () => generateDefaultComponentCode('TextReveal')
   font-size: 0.875rem;
   line-height: 1.5;
   overflow-x: auto;
+}
+
+/* Tab Content */
+.tab-content {
+  background: white;
+  padding: 1.5rem 2rem;
+}
+
+.no-props {
+  padding: 2rem;
+  text-align: center;
+  color: #71717a;
+  background: #f8fafc;
+  border-radius: 8px;
+  margin-top: 1rem;
+}
+
+.no-props p {
+  margin: 0;
+  font-size: 0.875rem;
+}
+
+.usage-note {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: #f0f9ff;
+  border-radius: 6px;
+  border: 1px solid #bae6fd;
+}
+
+.usage-note h4 {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #0369a1;
+  margin-bottom: 0.5rem;
+}
+
+.usage-note ul {
+  margin: 0;
+  padding-left: 1rem;
+}
+
+.usage-note li {
+  font-size: 0.875rem;
+  color: #0369a1;
+  margin-bottom: 0.25rem;
+}
+
+/* Component Header Enhancements */
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.5rem;
+}
+
+.component-badges {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.category-badge {
+  background: #f1f5f9;
+  color: #475569;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.props-badge {
+  background: #ecfdf5;
+  color: #059669;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.usage-hint {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background: #f8fafc;
+  border-radius: 6px;
+  border: 1px solid #e4e7eb;
+}
+
+.hint-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #09090b;
+  margin-right: 0.5rem;
+}
+
+.inline-code {
+  background: #27272a;
+  color: #fafafa;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-family: 'Fira Code', 'Courier New', monospace;
+  font-size: 0.8125rem;
+}
+
+/* Quick Usage */
+.quick-usage {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.usage-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #09090b;
+  margin-bottom: 1rem;
+}
+
+.usage-steps {
+  display: flex;
+  gap: 1rem;
+}
+
+.usage-step {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.step-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  background: #3b82f6;
+  color: white;
+  border-radius: 50%;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.step-text {
+  font-size: 0.875rem;
+  color: #71717a;
 }
 </style>
