@@ -12,7 +12,13 @@
       min-height: 100vh;
     }
   </style>
-  <script type="module" crossorigin src="/vue-animation-libarary/assets/index-CDkKH18P.js"></script>
+  <script>
+    // Redirect to hash route if no hash is present
+    if (!window.location.hash) {
+      window.location.hash = '#/';
+    }
+  </script>
+  <script type="module" crossorigin src="/vue-animation-libarary/assets/index-TMhLobdO.js"></script>
   <link rel="stylesheet" crossorigin href="/vue-animation-libarary/assets/index-BnChM9o2.css">
 </head>
 <body>
