@@ -26,6 +26,7 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: [vue()],
+    base: process.env.NODE_ENV === 'production' ? '/vue-animation-libarary/' : '/',
     resolve: {
       alias: {
         '@': resolve(__dirname, 'src')

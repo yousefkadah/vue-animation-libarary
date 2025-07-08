@@ -3,10 +3,17 @@
 [![npm version](https://badge.fury.io/js/@yousefkadah%2Fvue-magic-ui.svg)](https://badge.fury.io/js/@yousefkadah%2Fvue-magic-ui)
 [![npm downloads](https://img.shields.io/npm/dt/@yousefkadah/vue-magic-ui.svg)](https://www.npmjs.com/package/@yousefkadah/vue-magic-ui)
 [![npm downloads per month](https://img.shields.io/npm/dm/@yousefkadah/vue-magic-ui.svg)](https://www.npmjs.com/package/@yousefkadah/vue-magic-ui)
+[![Live Demo](https://img.shields.io/badge/demo-live-brightgreen.svg)](https://yousefkadah.github.io/vue-animation-libarary/)
 [![GitHub license](https://img.shields.io/github/license/yousefkadah/vue-animation-libarary.svg)](https://github.com/yousefkadah/vue-animation-libarary/blob/main/LICENSE)
 [![GitHub stars](https://img.shields.io/github/stars/yousefkadah/vue-animation-libarary.svg?style=social&label=Star)](https://github.com/yousefkadah/vue-animation-libarary)
 
 A professional Vue 3 animated component library inspired by MagicUI and modern design systems. Create stunning, production-ready user interfaces with beautiful animated components.
+
+## 🌟 Live Demo
+
+**[✨ View Live Demo ✨](https://yousefkadah.github.io/vue-animation-libarary/)**
+
+See all components in action with interactive examples and code snippets!
 
 ## ✨ Features
 
