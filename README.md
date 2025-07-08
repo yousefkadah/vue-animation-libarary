@@ -27,13 +27,17 @@ See all components in action with interactive examples and code snippets!
 
 ## 🚀 Quick Start
 
+> **🌟 [Try the Live Demo](https://yousefkadah.github.io/vue-animation-libarary/) - See all components in action!**
+
 [![NPM](https://nodei.co/npm/@yousefkadah/vue-magic-ui.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/@yousefkadah/vue-magic-ui/)
 
 ```bash
 # Install the library
 npm install @yousefkadah/vue-magic-ui
 
-# Clone and run the demo
+# OR explore the live demo first: https://yousefkadah.github.io/vue-animation-libarary/
+
+# Clone and run locally (optional)
 git clone https://github.com/yousefkadah/vue-animation-libarary.git
 cd vue-animation-libarary
 npm install
@@ -42,15 +46,17 @@ npm run dev
 
 ## 🎯 Demo & Documentation
 
-The project includes a comprehensive demo application with two main pages:
+**🌐 Live Demo**: [https://yousefkadah.github.io/vue-animation-libarary/](https://yousefkadah.github.io/vue-animation-libarary/)
 
-### 🏠 Home Page (`/`)
+The live demo includes a comprehensive showcase with two main pages:
+
+### 🏠 Home Page ([Demo Home](https://yousefkadah.github.io/vue-animation-libarary/#/))
 - Beautiful landing page showcasing the library
 - Hero section with interactive animations
 - Feature highlights and statistics
 - Call-to-action sections
 
-### 📚 Components Page (`/components`)
+### 📚 Components Page ([Demo Components](https://yousefkadah.github.io/vue-animation-libarary/#/components))
 - Complete component documentation
 - Live demos for each component
 - Code examples and usage instructions
