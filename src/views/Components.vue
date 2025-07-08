@@ -201,15 +201,30 @@
                     <div class="code-example">
                       <div class="code-header">
                         <span class="code-title">{{ component.name }}.vue</span>
-                        <button 
-                          class="copy-button"
-                          @click="copyComponentFile(component.name)"
-                          :class="{ copied: copiedCode === `${component.name}-file` }"
-                        >
-                          {{ copiedCode === `${component.name}-file` ? 'Copied!' : 'Copy Component' }}
-                        </button>
+                        <div class="code-actions">
+                          <button 
+                            class="copy-button"
+                            @click="copyComponentFile(component.name)"
+                            :class="{ copied: copiedCode === `${component.name}-file` }"
+                          >
+                            {{ copiedCode === `${component.name}-file` ? '✅ Copied!' : '📋 Copy Component' }}
+                          </button>
+                          <button 
+                            class="copy-button secondary"
+                            @click="copyFullSource(component.name)"
+                            :class="{ copied: copiedCode === `${component.name}-full-source` }"
+                          >
+                            {{ copiedCode === `${component.name}-full-source` ? '✅ Copied!' : '🚀 Copy Full Source' }}
+                          </button>
+                        </div>
                       </div>
-                      <pre class="code-block"><code>{{ componentCodeCache[component.name] || 'Loading component code...' }}</code></pre>
+                      <div v-if="componentCodeCache[component.name]" class="code-content">
+                        <pre class="code-block"><code>{{ componentCodeCache[component.name] }}</code></pre>
+                      </div>
+                      <div v-else class="loading-indicator">
+                        <div class="loading-spinner"></div>
+                        <span>Loading source code...</span>
+                      </div>
                     </div>
                     
                     <div class="manual-steps">
@@ -1093,7 +1108,91 @@ const loadComponentCode = async (componentName: string) => {
   }
 }
 
-// Copy functionality and code generation
+// Component code management
+const getFullComponentCode = async (componentName: string) => {
+  // Check cache first
+  if (componentCodeCache.value[componentName]) {
+    return componentCodeCache.value[componentName]
+  }
+  
+  try {
+    // Try to load the actual component file
+    const response = await fetch(`/src/components/${componentName}.vue`)
+    if (response.ok) {
+      const actualCode = await response.text()
+      componentCodeCache.value[componentName] = actualCode
+      return actualCode
+    }
+  } catch (error) {
+    console.warn(`Could not load ${componentName}.vue file, using template:`, error)
+  }
+  
+  // Fallback: Generate enhanced component template based on the component definition
+  const component = components.find(c => c.name === componentName)
+  const kebabCase = componentName.replace(/([A-Z])/g, '-$1').toLowerCase().replace(/^-/, '')
+  
+  // Generate props interface based on propsDoc
+  let propsInterface = 'interface Props {\n'
+  if (component?.propsDoc && component.propsDoc.length > 0) {
+    component.propsDoc.forEach(prop => {
+      const optional = prop.name === 'delay' || prop.name === 'duration' ? '?' : ''
+      propsInterface += `  ${prop.name}${optional}: ${prop.type.toLowerCase()}\n`
+    })
+  }
+  propsInterface += '}'
+  
+  // Generate default props
+  let defaultProps = ''
+  if (component?.propsDoc && component.propsDoc.length > 0) {
+    defaultProps = 'withDefaults(defineProps&lt;Props&gt;(), {\n'
+    component.propsDoc.forEach(prop => {
+      if (prop.name === 'delay') defaultProps += '  delay: 0,\n'
+      else if (prop.name === 'duration') defaultProps += '  duration: 1000,\n'
+      else if (prop.type === 'boolean') defaultProps += `  ${prop.name}: false,\n`
+      else if (prop.type === 'number') defaultProps += `  ${prop.name}: 1,\n`
+      else if (prop.type === 'string') defaultProps += `  ${prop.name}: '',\n`
+      else if (prop.type === 'string[]') defaultProps += `  ${prop.name}: () => [],\n`
+    })
+    defaultProps += '})'
+  } else {
+    defaultProps = 'defineProps&lt;Props&gt;()'
+  }
+  
+  const code = `<template>
+  <div class="${kebabCase}">
+    <!-- ${componentName} implementation -->
+    ${component?.slots?.default ? '<slot />' : '<!-- Component content -->'}
+  </div>
+&lt;/template&gt;
+
+&lt;script setup lang="ts"&gt;
+import { ref, onMounted } from 'vue'
+
+${propsInterface}
+
+const props = ${defaultProps}
+
+// Component logic here
+onMounted(() => {
+  // Initialize ${componentName}
+})
+&lt;/script&gt;
+
+&lt;style scoped&gt;
+.${kebabCase} {
+  /* ${componentName} styles */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100px;
+}
+&lt;/style&gt;`;
+  
+  componentCodeCache.value[componentName] = code;
+  return code;
+}
+
+// Enhanced copy code function with better error handling
 const copyCode = async (text: string) => {
   try {
     await navigator.clipboard.writeText(text)
@@ -1101,8 +1200,34 @@ const copyCode = async (text: string) => {
     setTimeout(() => {
       copiedCode.value = ''
     }, 2000)
+    return true
   } catch (err) {
-    console.error('Failed to copy: ', err)
+    // Fallback for older browsers or when clipboard API is not available
+    const textArea = document.createElement('textarea')
+    textArea.value = text
+    textArea.style.position = 'fixed'
+    textArea.style.left = '-999999px'
+    textArea.style.top = '-999999px'
+    document.body.appendChild(textArea)
+    textArea.focus()
+    textArea.select()
+    
+    try {
+      const result = document.execCommand('copy')
+      document.body.removeChild(textArea)
+      if (!result) {
+        throw new Error('Copy command failed')
+      }
+      copiedCode.value = text
+      setTimeout(() => {
+        copiedCode.value = ''
+      }, 2000)
+      return true
+    } catch (fallbackError) {
+      document.body.removeChild(textArea)
+      console.error('Failed to copy text:', fallbackError)
+      throw fallbackError
+    }
   }
 }
 
@@ -1112,59 +1237,68 @@ const getComponentCodeDisplay = async (componentName: string) => {
 }
 
 const getManualUsageCode = (componentName: string) => {
-  return `<template>
-  <${componentName} />
-</template>
+  return `&lt;template&gt;
+  &lt;${componentName} /&gt;
+&lt;/template&gt;
 
-<script setup lang="ts">
+&lt;script setup lang="ts"&gt;
 import ${componentName} from '@/components/${componentName}.vue'
-</` + `script>`
+&lt;/script&gt;`
 }
 
 const copyComponentFile = async (componentName: string) => {
-  const code = await getFullComponentCode(componentName)
-  copyCode(code)
-  copiedCode.value = `${componentName}-file`
-  setTimeout(() => {
-    copiedCode.value = ''
-  }, 2000)
-}
-
-// Component code management
-const getFullComponentCode = async (componentName: string) => {
-  // Check cache first
-  if (componentCodeCache.value[componentName]) {
-    return componentCodeCache.value[componentName]
+  try {
+    const code = await getFullComponentCode(componentName)
+    await copyCode(code)
+    copiedCode.value = `${componentName}-file`
+    setTimeout(() => {
+      copiedCode.value = ''
+    }, 2000)
+  } catch (error) {
+    console.error('Failed to copy component file:', error)
+    // Show error state briefly
+    copiedCode.value = 'Error'
+    setTimeout(() => {
+      copiedCode.value = ''
+    }, 2000)
   }
-  
-  // Generate basic component template
-  const kebabCase = componentName.replace(/([A-Z])/g, '-$1').toLowerCase().replace(/^-/, '')
-  const code = `<template>
-  <div class="${kebabCase}">
-    <!-- ${componentName} implementation -->
-    <slot />
-  </div>
-</template>
-
-<` + `script setup lang="ts">
-// ${componentName} component
-interface Props {
-  // Add component props here
 }
 
-withDefaults(defineProps<Props>(), {
-  // Default props
-})
-</` + `script>
+// Add function to copy full source with all dependencies
+const copyFullSource = async (componentName: string) => {
+  try {
+    const componentCode = await getFullComponentCode(componentName)
+    const usageCode = getManualUsageCode(componentName)
+    const component = components.find(c => c.name === componentName)
+    
+    const fullSource = `/* 
+ * ${componentName} Component - Vue Magic UI
+ * ${component?.description || 'A Vue component for magical UI experiences'}
+ */
 
-<` + `style scoped>
-.${kebabCase} {
-  /* Component styles */
-}
-</` + `style>`
-  
-  componentCodeCache.value[componentName] = code
-  return code
+// 1. Create the component file: components/${componentName}.vue
+${componentCode}
+
+// 2. Import and use in your component
+${usageCode}
+
+// 3. Available props:
+${component?.propsDoc?.map(prop => `//   ${prop.name}: ${prop.type} - ${prop.description}`).join('\n') || '//   No props available'}
+
+// For more components and documentation, visit: https://vue-magic-ui.com`
+    
+    await copyCode(fullSource)
+    copiedCode.value = `${componentName}-full-source`
+    setTimeout(() => {
+      copiedCode.value = ''
+    }, 2000)
+  } catch (error) {
+    console.error('Failed to copy full source:', error)
+    copiedCode.value = 'Error'
+    setTimeout(() => {
+      copiedCode.value = ''
+    }, 2000)
+  }
 }
 
 // Mobile menu close function
@@ -1505,729 +1639,6 @@ onMounted(() => {
   padding: 2rem;
   background: #ffffff;
 }
-.main-content {
-  flex: 1;
-  padding: 2rem;
-  background: #ffffff;
-}
-
-.content-container {
-  max-width: 800px;
-}
-
-.content-section {
-  margin-bottom: 3rem;
-}
-
-.page-title {
-  font-size: 2.5rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
-  color: #09090b;
-}
-
-.page-description {
-  font-size: 1.125rem;
-  line-height: 1.6;
-  color: #71717a;
-  margin-bottom: 2rem;
-}
-
-.section-title {
-  font-size: 1.5rem;
-  font-weight: 600;
-  margin-bottom: 1rem;
-  color: #09090b;
-}
-
-.section-description {
-  font-size: 1rem;
-  line-height: 1.6;
-  color: #71717a;
-}
-
-/* Components Grid */
-.components-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 3rem;
-}
-
-.component-header-section {
-  margin-bottom: 2rem;
-}
-
-.back-button {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: none;
-  border: 1px solid #e4e7eb;
-  border-radius: 6px;
-  padding: 0.5rem 1rem;
-  font-size: 0.875rem;
-  color: #71717a;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  margin-bottom: 1rem;
-}
-
-.back-button:hover {
-  border-color: #d4d4d8;
-  color: #09090b;
-}
-
-.component-main-title {
-  font-size: 2.5rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
-  color: #09090b;
-}
-
-.component-main-description {
-  font-size: 1.125rem;
-  line-height: 1.6;
-  color: #71717a;
-  margin-bottom: 2rem;
-}
-
-.single-component {
-  border: none;
-  box-shadow: none;
-  background: transparent;
-}
-
-.single-component .component-demo {
-  border: 1px solid #e4e7eb;
-  border-radius: 12px;
-  margin-bottom: 2rem;
-}
-
-.category-section {
-  margin-bottom: 4rem;
-}
-
-.category-title {
-  font-size: 2rem;
-  font-weight: 600;
-  margin-bottom: 2rem;
-  color: #09090b;
-  border-bottom: 2px solid #e4e7eb;
-  padding-bottom: 1rem;
-}
-
-.category-components {
-  display: flex;
-  flex-direction: column;
-  gap: 3rem;
-}
-
-.component-card {
-  background: white;
-  border: 1px solid #e4e7eb;
-  border-radius: 12px;
-  overflow: hidden;
-  transition: all 0.2s ease;
-}
-
-.component-card:hover {
-  border-color: #d4d4d8;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.component-header {
-  padding: 2rem 2rem 1rem;
-}
-
-.component-title {
-  font-size: 1.5rem;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-  color: #09090b;
-}
-
-.component-description {
-  font-size: 1rem;
-  line-height: 1.6;
-  color: #71717a;
-}
-
-.component-demo {
-  padding: 3rem 2rem;
-  background: #f8fafc;
-  border-top: 1px solid #e4e7eb;
-  border-bottom: 1px solid #e4e7eb;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 150px;
-}
-
-/* Code Section */
-.component-code-section {
-  background: white;
-}
-
-.code-tabs {
-  display: flex;
-  background: #f8fafc;
-  border-radius: 8px 8px 0 0;
-  padding: 0.25rem;
-  gap: 0.25rem;
-  border: 1px solid #e2e8f0;
-  border-bottom: none;
-}
-
-.code-tab {
-  padding: 0.75rem 1.25rem;
-  background: transparent;
-  border: none;
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: #64748b;
-  cursor: pointer;
-  border-radius: 6px;
-  transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  position: relative;
-}
-
-.code-tab:hover {
-  background: #e2e8f0;
-  color: #334155;
-}
-
-.code-tab.active {
-  background: white;
-  color: #42b883;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  font-weight: 600;
-}
-
-.component-code {
-  background: #1a1a1a;
-  color: #fafafa;
-  border-radius: 0 0 8px 8px;
-}
-
-.code-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 1.5rem;
-  background: #27272a;
-  border-bottom: 1px solid #3f3f46;
-}
-
-.code-title {
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: #fafafa;
-  font-family: 'Fira Code', 'Courier New', monospace;
-}
-
-.copy-button {
-  background: #27272a;
-  border: 1px solid #3f3f46;
-  border-radius: 4px;
-  color: #fafafa;
-  padding: 0.375rem 0.75rem;
-  font-size: 0.75rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.copy-button:hover {
-  background: #3f3f46;
-}
-
-.copy-button.copied {
-  background: #16a34a;
-  border-color: #16a34a;
-  color: white;
-}
-
-.code-block {
-  padding: 1rem;
-  font-family: 'Fira Code', 'Courier New', monospace;
-  font-size: 0.875rem;
-  line-height: 1.5;
-  color: #fafafa;
-  overflow-x: auto;
-  margin: 0;
-}
-
-.component-props {
-  background: #f8fafc;
-  border-top: 1px solid #e4e7eb;
-  padding: 1.5rem 2rem;
-  margin-top: 0;
-  border-radius: 0 0 8px 8px;
-}
-
-.component-props .props-title {
-  margin-top: 0;
-}
-
-.props-title {
-  font-size: 1rem;
-  font-weight: 600;
-  margin-bottom: 1rem;
-  color: #09090b;
-}
-
-.props-table {
-  background: white;
-  border: 1px solid #e4e7eb;
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-.props-header {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 2fr;
-  gap: 1rem;
-  padding: 0.75rem 1rem;
-  background: #f8fafc;
-  border-bottom: 1px solid #e4e7eb;
-  font-weight: 600;
-  font-size: 0.875rem;
-  color: #09090b;
-}
-
-.prop-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 2fr;
-  gap: 1rem;
-  padding: 0.75rem 1rem;
-  border-bottom: 1px solid #e4e7eb;
-  font-size: 0.875rem;
-}
-
-.prop-row:last-child {
-  border-bottom: none;
-}
-
-.prop-name {
-  font-weight: 600;
-  color: #3b82f6;
-}
-
-.prop-type {
-  font-family: 'Fira Code', 'Courier New', monospace;
-  color: #dc2626;
-  font-size: 0.75rem;
-}
-
-.prop-description {
-  color: #71717a;
-}
-
-/* Mobile Menu Toggle */
-.mobile-menu-toggle {
-  display: none;
-  position: fixed;
-  top: 1rem;
-  left: 1rem;
-  z-index: 1001;
-  background: white;
-  border: 1px solid #e4e7eb;
-  border-radius: 8px;
-  padding: 0.5rem;
-  cursor: pointer;
-  flex-direction: column;
-  gap: 3px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.mobile-menu-toggle span {
-  width: 18px;
-  height: 2px;
-  background: #09090b;
-  transition: all 0.3s ease;
-}
-
-.mobile-menu-toggle.active span:nth-child(1) {
-  transform: rotate(45deg) translate(5px, 5px);
-}
-
-.mobile-menu-toggle.active span:nth-child(2) {
-  opacity: 0;
-}
-
-.mobile-menu-toggle.active span:nth-child(3) {
-  transform: rotate(-45deg) translate(7px, -6px);
-}
-
-.components-page {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  position: relative;
-}
-
-.main-layout {
-  display: flex;
-  flex: 1;
-  gap: 0;
-}
-
-.sidebar {
-  width: 280px;
-  background: #fafafa;
-  border-right: 1px solid #e4e7eb;
-  position: fixed;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  overflow-y: auto;
-  z-index: 1000;
-  transition: transform 0.3s ease;
-}
-
-.sidebar-content {
-  padding: 2rem 1.5rem;
-  height: 100%;
-}
-
-.search-section {
-  margin-bottom: 2rem;
-}
-
-.search-input-wrapper {
-  position: relative;
-}
-
-.search-input {
-  width: 100%;
-  padding: 0.75rem 1rem;
-  padding-right: 2.5rem;
-  border: 1px solid #e4e7eb;
-  border-radius: 8px;
-  font-size: 0.875rem;
-  background: white;
-  transition: all 0.2s ease;
-}
-
-.search-input:focus {
-  outline: none;
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-}
-
-.search-input::placeholder {
-  color: #a1a1aa;
-}
-
-.search-icon {
-  position: absolute;
-  right: 0.75rem;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 16px;
-  height: 16px;
-  color: #a1a1aa;
-  pointer-events: none;
-}
-
-.sidebar-section {
-  margin-bottom: 2rem;
-}
-
-.sidebar-title {
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: #09090b;
-  margin-bottom: 1rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.sidebar-nav {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
-
-.sidebar-link {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.5rem 0.75rem;
-  color: #71717a;
-  text-decoration: none;
-  font-size: 0.875rem;
-  border-radius: 6px;
-  transition: all 0.2s ease;
-  position: relative;
-}
-
-.sidebar-link:hover {
-  background: #f4f4f5;
-  color: #09090b;
-}
-
-.sidebar-link.active {
-  background: #f4f4f5;
-  color: #09090b;
-  font-weight: 500;
-}
-
-.category-link:not(.no-arrow)::after {
-  content: '▼';
-  font-size: 0.75rem;
-  transition: transform 0.2s ease;
-}
-
-.category-group:not(:has(.component-links)) .category-link:not(.no-arrow)::after {
-  transform: rotate(-90deg);
-}
-
-.component-links {
-  margin-left: 1rem;
-  margin-top: 0.25rem;
-  border-left: 1px solid #e4e7eb;
-}
-
-.component-link {
-  margin-left: 0.75rem;
-  padding: 0.375rem 0.75rem;
-  font-size: 0.8125rem;
-  position: relative;
-}
-
-.component-link::before {
-  content: '';
-  position: absolute;
-  left: -0.75rem;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 6px;
-  height: 1px;
-  background: #e4e7eb;
-}
-
-.main-content {
-  flex: 1;
-  margin-left: 280px;
-  background: white;
-  min-height: 100vh;
-  scroll-behavior: smooth;
-  overflow-y: auto;
-}
-
-.content-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 2rem;
-}
-
-.page-title {
-  font-size: 3rem;
-  font-weight: 700;
-  color: #09090b;
-  margin-bottom: 1rem;
-}
-
-.page-description {
-  font-size: 1.125rem;
-  color: #71717a;
-  margin-bottom: 3rem;
-  line-height: 1.6;
-}
-
-.installation-section {
-  margin-bottom: 3rem;
-}
-
-.section-subtitle {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: #09090b;
-  margin-bottom: 1.5rem;
-}
-
-.installation-steps {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-}
-
-.step {
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
-  border-radius: 12px;
-  padding: 1.5rem;
-}
-
-.step-title {
-  font-size: 1.125rem;
-  font-weight: 600;
-  color: #09090b;
-  margin-bottom: 1rem;
-}
-
-.code-block-wrapper {
-  background: #0f0f23;
-  border-radius: 8px;
-  overflow: hidden;
-  border: 1px solid #27272a;
-}
-
-/* Quick Usage */
-.quick-usage {
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
-  border-radius: 12px;
-  padding: 1.5rem;
-  margin-bottom: 2rem;
-}
-
-.usage-title {
-  font-size: 1.125rem;
-  font-weight: 600;
-  color: #09090b;
-  margin-bottom: 1rem;
-}
-
-.usage-steps {
-  display: flex;
-  gap: 1rem;
-}
-
-.usage-step {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.step-number {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
-  background: #3b82f6;
-  color: white;
-  border-radius: 50%;
-  font-size: 0.75rem;
-  font-weight: 600;
-}
-
-.step-text {
-  font-size: 0.875rem;
-  color: #71717a;
-}
-
-/* Tab Content */
-.tab-content {
-  background: white;
-  padding: 1.5rem 2rem;
-}
-
-.no-props {
-  padding: 2rem;
-  text-align: center;
-  color: #71717a;
-  background: #f8fafc;
-  border-radius: 8px;
-  margin-top: 1rem;
-}
-
-.no-props p {
-  margin: 0;
-  font-size: 0.875rem;
-}
-
-.usage-note {
-  margin-top: 1rem;
-  padding: 1rem;
-  background: #f0f9ff;
-  border-radius: 6px;
-  border: 1px solid #bae6fd;
-}
-
-.usage-note h4 {
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: #0369a1;
-  margin-bottom: 0.5rem;
-}
-
-.usage-note ul {
-  margin: 0;
-  padding-left: 1rem;
-}
-
-.usage-note li {
-  font-size: 0.875rem;
-  color: #0369a1;
-  margin-bottom: 0.25rem;
-}
-
-/* Component Header Enhancements */
-.header-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 0.5rem;
-}
-
-.component-badges {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.category-badge {
-  background: #f1f5f9;
-  color: #475569;
-  padding: 0.25rem 0.5rem;
-  border-radius: 4px;
-  font-size: 0.75rem;
-  font-weight: 500;
-}
-
-.props-badge {
-  background: #ecfdf5;
-  color: #059669;
-  padding: 0.25rem 0.5rem;
-  border-radius: 4px;
-  font-size: 0.75rem;
-  font-weight: 500;
-}
-
-.usage-hint {
-  margin-top: 1rem;
-  padding: 0.75rem;
-  background: #f8fafc;
-  border-radius: 6px;
-  border: 1px solid #e4e7eb;
-}
-
-.hint-label {
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: #09090b;
-  margin-right: 0.5rem;
-}
-
-.inline-code {
-  background: #27272a;
-  color: #fafafa;
-  padding: 0.25rem 0.5rem;
-  border-radius: 4px;
-  font-family: 'Fira Code', 'Courier New', monospace;
-  font-size: 0.8125rem;
-}
-
-/* Main Content */
-.main-content {
-  flex: 1;
-  padding: 2rem;
-  background: #ffffff;
-}
 
 .content-container {
   max-width: 800px;
@@ -2439,6 +1850,12 @@ onMounted(() => {
   border-bottom: 1px solid #3f3f46;
 }
 
+.code-actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
 .code-title {
   font-size: 0.875rem;
   font-weight: 500;
@@ -2465,6 +1882,22 @@ onMounted(() => {
   background: #16a34a;
   border-color: #16a34a;
   color: white;
+}
+
+.copy-button.secondary {
+  background: #42b883;
+  border-color: #369870;
+  font-weight: 500;
+}
+
+.copy-button.secondary:hover {
+  background: #369870;
+  border-color: #2a9d8f;
+}
+
+.copy-button.secondary.copied {
+  background: #16a34a;
+  border-color: #16a34a;
 }
 
 .code-block {
@@ -2909,5 +2342,33 @@ onMounted(() => {
 .step-text {
   font-size: 0.875rem;
   color: #71717a;
+}
+
+/* Loading Indicator */
+.loading-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 2rem;
+  color: #64748b;
+  font-size: 0.875rem;
+  background: #f8fafc;
+  border-radius: 6px;
+  margin: 1rem;
+}
+
+.loading-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #e2e8f0;
+  border-top: 2px solid #42b883;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 </style>
