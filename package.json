@@ -1,16 +1,25 @@
 {
-  "name": "vue-magic-ui",
+  "name": "@yousefkadah/vue-magic-ui",
   "version": "1.0.0",
   "description": "A Vue.js animated component library with beautiful, ready-to-use components",
-  "main": "dist/index.js",
-  "module": "dist/index.esm.js",
+  "main": "dist/index.umd.js",
+  "module": "dist/index.es.js",
   "types": "dist/index.d.ts",
+  "style": "dist/style.css",
+  "exports": {
+    ".": {
+      "import": "./dist/index.es.js",
+      "require": "./dist/index.umd.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./dist/style.css": "./dist/style.css"
+  },
   "files": [
     "dist"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/yousefkadah/vue-animation-libarary.git"
+    "url": "git+https://github.com/yousefkadah/vue-animation-libarary.git"
   },
   "homepage": "https://github.com/yousefkadah/vue-animation-libarary#readme",
   "bugs": {
@@ -31,7 +40,11 @@
     "components",
     "ui",
     "library",
-    "typescript"
+    "typescript",
+    "vue3",
+    "animated",
+    "magic",
+    "effects"
   ],
   "author": "Yousef Kadah",
   "license": "MIT",
@@ -49,5 +62,8 @@
   },
   "peerDependencies": {
     "vue": "^3.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

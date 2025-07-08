@@ -1,5 +1,11 @@
 # Vue Magic UI 🎨✨
 
+[![npm version](https://badge.fury.io/js/@yousefkadah%2Fvue-magic-ui.svg)](https://badge.fury.io/js/@yousefkadah%2Fvue-magic-ui)
+[![npm downloads](https://img.shields.io/npm/dt/@yousefkadah/vue-magic-ui.svg)](https://www.npmjs.com/package/@yousefkadah/vue-magic-ui)
+[![npm downloads per month](https://img.shields.io/npm/dm/@yousefkadah/vue-magic-ui.svg)](https://www.npmjs.com/package/@yousefkadah/vue-magic-ui)
+[![GitHub license](https://img.shields.io/github/license/yousefkadah/vue-animation-libarary.svg)](https://github.com/yousefkadah/vue-animation-libarary/blob/main/LICENSE)
+[![GitHub stars](https://img.shields.io/github/stars/yousefkadah/vue-animation-libarary.svg?style=social&label=Star)](https://github.com/yousefkadah/vue-animation-libarary)
+
 A professional Vue 3 animated component library inspired by MagicUI and modern design systems. Create stunning, production-ready user interfaces with beautiful animated components.
 
 ## ✨ Features
@@ -14,9 +20,11 @@ A professional Vue 3 animated component library inspired by MagicUI and modern d
 
 ## 🚀 Quick Start
 
+[![NPM](https://nodei.co/npm/@yousefkadah/vue-magic-ui.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/@yousefkadah/vue-magic-ui/)
+
 ```bash
 # Install the library
-npm install vue-magic-ui
+npm install @yousefkadah/vue-magic-ui
 
 # Clone and run the demo
 git clone https://github.com/yousefkadah/vue-animation-libarary.git

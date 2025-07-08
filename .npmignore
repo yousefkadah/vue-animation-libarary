@@ -1,0 +1,29 @@
+# Source files
+src/
+docs/
+cli/
+
+# Development files
+.vscode/
+.git/
+.gitignore
+.env*
+vite.config.ts
+tsconfig.json
+index.html
+
+# Build tools
+node_modules/
+*.log
+*.tgz
+
+# Demo files
+public/
+*.md
+!README.md
+
+# Keep only essential files
+!dist/
+!package.json
+!README.md
+!LICENSE

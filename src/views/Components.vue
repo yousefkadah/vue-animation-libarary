@@ -1144,7 +1144,7 @@ const getFullComponentCode = async (componentName: string) => {
   // Generate default props
   let defaultProps = ''
   if (component?.propsDoc && component.propsDoc.length > 0) {
-    defaultProps = 'withDefaults(defineProps&lt;Props&gt;(), {\n'
+    defaultProps = 'withDefaults(defineProps<Props>(), {\n'
     component.propsDoc.forEach(prop => {
       if (prop.name === 'delay') defaultProps += '  delay: 0,\n'
       else if (prop.name === 'duration') defaultProps += '  duration: 1000,\n'
@@ -1155,17 +1155,16 @@ const getFullComponentCode = async (componentName: string) => {
     })
     defaultProps += '})'
   } else {
-    defaultProps = 'defineProps&lt;Props&gt;()'
+    defaultProps = 'defineProps<Props>()'
   }
   
   const code = `<template>
   <div class="${kebabCase}">
     <!-- ${componentName} implementation -->
     ${component?.slots?.default ? '<slot />' : '<!-- Component content -->'}
-  </div>
-&lt;/template&gt;
+  </div>  </template>
 
-&lt;script setup lang="ts"&gt;
+<script setup lang="ts">
 import { ref, onMounted } from 'vue'
 
 ${propsInterface}
@@ -1176,9 +1175,9 @@ const props = ${defaultProps}
 onMounted(() => {
   // Initialize ${componentName}
 })
-&lt;/script&gt;
+</` + `script>
 
-&lt;style scoped&gt;
+<style scoped>
 .${kebabCase} {
   /* ${componentName} styles */
   display: flex;
@@ -1186,7 +1185,7 @@ onMounted(() => {
   justify-content: center;
   min-height: 100px;
 }
-&lt;/style&gt;`;
+}</style>`;
   
   componentCodeCache.value[componentName] = code;
   return code;
@@ -1237,13 +1236,13 @@ const getComponentCodeDisplay = async (componentName: string) => {
 }
 
 const getManualUsageCode = (componentName: string) => {
-  return `&lt;template&gt;
-  &lt;${componentName} /&gt;
-&lt;/template&gt;
+  return `<template>
+  <${componentName} />
+</template>
 
-&lt;script setup lang="ts"&gt;
+<script setup lang="ts">
 import ${componentName} from '@/components/${componentName}.vue'
-&lt;/script&gt;`
+</` + `script>`
 }
 
 const copyComponentFile = async (componentName: string) => {
