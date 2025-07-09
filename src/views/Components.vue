@@ -417,9 +417,24 @@ const components = [
     description: 'Animated beam connecting elements',
     category: 'animations',
     component: AnimatedBeam,
-    props: {},
-    code: `<AnimatedBeam />`,
-    propsDoc: []
+    props: { 
+      pathColor: '#3b82f6',
+      strokeWidth: 2,
+      duration: 2
+    },
+    slots: { default: '⚡ Animated Beam Effect' },
+    code: `<AnimatedBeam 
+  path-color="#3b82f6" 
+  :stroke-width="2" 
+  :duration="2"
+>
+  ⚡ Animated Beam Effect
+</AnimatedBeam>`,
+    propsDoc: [
+      { name: 'pathColor', type: 'string', description: 'Color of the beam' },
+      { name: 'strokeWidth', type: 'number', description: 'Width of the beam stroke' },
+      { name: 'duration', type: 'number', description: 'Animation duration in seconds' }
+    ]
   },
   {
     name: 'Marquee',
@@ -440,10 +455,20 @@ const components = [
     description: 'Animated orbiting circles around a center point',
     category: 'animations',
     component: OrbitingCircles,
-    props: { radius: 100 },
-    code: `<OrbitingCircles :radius="100" />`,
+    props: { 
+      items: ['🌟', '✨', '⭐', '💫', '🔥', '💎'],
+      radius: 80,
+      duration: 15
+    },
+    code: `<OrbitingCircles 
+  :items="['🌟', '✨', '⭐', '💫', '🔥', '💎']"
+  :radius="80" 
+  :duration="15" 
+/>`,
     propsDoc: [
-      { name: 'radius', type: 'number', description: 'Orbit radius in pixels' }
+      { name: 'items', type: 'array', description: 'Items to orbit around the center' },
+      { name: 'radius', type: 'number', description: 'Orbit radius in pixels' },
+      { name: 'duration', type: 'number', description: 'Animation duration in seconds' }
     ]
   },
   {
@@ -480,10 +505,20 @@ const components = [
     description: 'Animated particle system with various effects',
     category: 'effects',
     component: ParticleEffect,
-    props: { count: 50 },
-    code: `<ParticleEffect :count="50" />`,
+    props: { 
+      count: 30,
+      color: '#3b82f6',
+      size: 3
+    },
+    code: `<ParticleEffect 
+  :count="30" 
+  color="#3b82f6" 
+  :size="3" 
+/>`,
     propsDoc: [
-      { name: 'count', type: 'number', description: 'Number of particles' }
+      { name: 'count', type: 'number', description: 'Number of particles' },
+      { name: 'color', type: 'string', description: 'Color of particles' },
+      { name: 'size', type: 'number', description: 'Size of particles' }
     ]
   },
   {
@@ -513,10 +548,29 @@ const components = [
     description: 'Animated border beam effect',
     category: 'effects',
     component: BorderBeam,
-    props: { size: 200 },
-    code: `<BorderBeam :size="200" />`,
+    props: { 
+      size: 300, 
+      duration: 8, 
+      borderWidth: 3,
+      colorFrom: '#00d4ff',
+      colorTo: '#ff0080'
+    },
+    slots: { default: '✨ BorderBeam Card with Animated Border' },
+    code: `<BorderBeam 
+  :size="300" 
+  :duration="8"
+  :border-width="3"
+  color-from="#00d4ff"
+  color-to="#ff0080"
+>
+  Card Content
+</BorderBeam>`,
     propsDoc: [
-      { name: 'size', type: 'number', description: 'Beam size' }
+      { name: 'size', type: 'number', description: 'Beam size in pixels' },
+      { name: 'duration', type: 'number', description: 'Animation duration in seconds' },
+      { name: 'borderWidth', type: 'number', description: 'Border width in pixels' },
+      { name: 'colorFrom', type: 'string', description: 'Starting gradient color' },
+      { name: 'colorTo', type: 'string', description: 'Ending gradient color' }
     ]
   },
   {
@@ -1545,5 +1599,30 @@ const closeMobileMenu = () => {
   padding: 1.5rem !important;
   font-size: 1rem !important;
   line-height: 1.5;
+}
+
+/* Special styling for OrbitingCircles */
+.component-preview [class*="orbit-container"] {
+  position: relative;
+  margin: 2rem auto;
+}
+
+.component-preview [class*="orbit-item-default"] {
+  font-size: 1.5rem;
+  filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.5));
+}
+
+/* Special styling for AnimatedBeam */
+.component-preview [class*="animated-beam-container"] {
+  min-height: 120px;
+  min-width: 200px;
+  position: relative;
+}
+
+/* Special styling for BorderBeam component */
+.component-preview [class*="border-beam"] {
+  min-width: 300px !important;
+  min-height: 150px !important;
+  margin: 1rem !important;
 }
 </style>

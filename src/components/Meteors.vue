@@ -64,10 +64,10 @@ const meteors = ref<Meteor[]>([])
 const createMeteors = () => {
   meteors.value = Array.from({ length: props.number }, (_, i) => ({
     id: i,
-    left: Math.random() * (props.width + 200) - 50,
-    top: Math.random() * (props.height + 200) - 100,
-    delay: Math.random() * 6,
-    duration: Math.random() * 3 + 4,
+    left: Math.random() * props.width - 200,
+    top: Math.random() * props.height - 200,
+    delay: Math.random() * 8,
+    duration: (Math.random() * 2 + 3) / props.speed,
     color: props.colors[Math.floor(Math.random() * props.colors.length)]
   }))
 }
@@ -88,28 +88,29 @@ onMounted(() => {
   position: absolute;
   animation: meteor infinite linear;
   pointer-events: none;
-  transform: rotate(-45deg);
+  transform: rotate(45deg);
 }
 
 .meteor-head {
-  width: 2px;
-  height: 2px;
+  width: 3px;
+  height: 3px;
   border-radius: 50%;
   background: var(--meteor-color);
-  box-shadow: 0 0 4px var(--meteor-color);
+  box-shadow: 0 0 6px var(--meteor-color);
   position: relative;
   z-index: 2;
 }
 
 .meteor-tail {
-  width: 50px;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--meteor-color));
+  width: 80px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--meteor-color), transparent);
   position: absolute;
   top: 50%;
-  right: 0;
+  left: -78px;
   transform: translateY(-50%);
-  opacity: 0.7;
+  opacity: 0.6;
+  border-radius: 1px;
 }
 
 .meteors-content {
@@ -123,17 +124,17 @@ onMounted(() => {
 
 @keyframes meteor {
   0% {
-    transform: rotate(-45deg) translateX(0) translateY(0);
+    transform: rotate(45deg) translate(-100px, -100px);
     opacity: 0;
   }
-  3% {
+  5% {
     opacity: 1;
   }
-  97% {
+  95% {
     opacity: 1;
   }
   100% {
-    transform: rotate(-45deg) translateX(-300px) translateY(300px);
+    transform: rotate(45deg) translate(600px, 600px);
     opacity: 0;
   }
 }

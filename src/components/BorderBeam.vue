@@ -65,8 +65,17 @@ const gradientStyles = computed(() => ({
   z-index: 10;
   border-radius: 12px;
   border: solid transparent;
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(12px);
+  padding: 2rem;
+  min-height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: white;
+  font-weight: 600;
+  font-size: 1.1rem;
 }
 
 .border-beam-gradient {
@@ -77,8 +86,8 @@ const gradientStyles = computed(() => ({
   border-radius: 50%;
   animation: border-beam-spin var(--duration) linear infinite;
   animation-delay: var(--delay);
-  opacity: 0.8;
-  filter: blur(1px);
+  opacity: 0.9;
+  filter: blur(2px);
 }
 
 @keyframes border-beam-spin {
