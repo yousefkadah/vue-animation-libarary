@@ -46,6 +46,8 @@ const gridStyles = computed(() => ({
   height: 100%;
   perspective: var(--perspective);
   overflow: hidden;
+  background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
+  border-radius: 12px;
 }
 
 .retro-grid::before {
@@ -71,17 +73,17 @@ const gridStyles = computed(() => ({
   animation: retro-grid-move 20s linear infinite;
   mask-image: linear-gradient(
     to bottom,
-    transparent,
+    transparent 0%,
     black 20%,
     black 80%,
-    transparent
+    transparent 100%
   );
   -webkit-mask-image: linear-gradient(
     to bottom,
-    transparent,
+    transparent 0%,
     black 20%,
     black 80%,
-    transparent
+    transparent 100%
   );
 }
 

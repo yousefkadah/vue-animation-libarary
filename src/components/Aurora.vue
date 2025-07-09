@@ -48,6 +48,7 @@ const layerStyles = computed(() => ({
   width: 100%;
   height: 100%;
   overflow: hidden;
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
   border-radius: 12px;
 }
 

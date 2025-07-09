@@ -672,8 +672,23 @@ const components = [
     description: 'Retro-style animated grid background',
     category: 'backgrounds',
     component: RetroGrid,
-    props: {},
-    code: `<RetroGrid />`,
+    props: {
+      size: 80,
+      color: '#00D4FF',
+      opacity: 0.5,
+      animated: true
+    },
+    slots: {
+      default: '🌌 Retro Grid Background'
+    },
+    code: `<RetroGrid 
+  :size="80" 
+  color="#00D4FF" 
+  :opacity="0.5" 
+  :animated="true"
+>
+  Your content here
+</RetroGrid>`,
     propsDoc: []
   },
   {
@@ -681,8 +696,23 @@ const components = [
     description: 'Aurora borealis animated background effect',
     category: 'backgrounds',
     component: Aurora,
-    props: {},
-    code: `<Aurora />`,
+    props: {
+      size: 600,
+      colors: ['#00ff87', '#60efff', '#ff00ff'],
+      opacity: 0.6,
+      duration: 6
+    },
+    slots: {
+      default: '✨ Aurora Background Effect'
+    },
+    code: `<Aurora 
+  :size="600" 
+  :colors="['#00ff87', '#60efff', '#ff00ff']" 
+  :opacity="0.6" 
+  :duration="6"
+>
+  Your content here
+</Aurora>`,
     propsDoc: []
   },
 
@@ -1377,6 +1407,26 @@ const closeMobileMenu = () => {
   font-size: 1.2rem;
   font-weight: 600;
   text-align: center;
+}
+
+/* Special styling for background components */
+.component-preview .aurora-container,
+.component-preview .retro-grid {
+  width: 100%;
+  height: 200px;
+  min-height: 200px;
+  border-radius: 12px;
+  position: relative;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+/* Ensure background component content is visible */
+.component-preview .aurora-content,
+.component-preview .retro-grid-content {
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 @keyframes gradientShift {
