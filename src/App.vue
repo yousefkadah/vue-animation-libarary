@@ -4,9 +4,7 @@
     <nav class="navbar">
       <div class="nav-container">
         <router-link to="/" class="nav-logo">
-          <SparkleText :auto-sparkle="true" :sparkle-interval="4000">
-            Vue Magic UI
-          </SparkleText>
+          <span class="logo-text">Vue Magic UI</span>
         </router-link>
         
         <!-- Mobile Menu Button -->
@@ -50,7 +48,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { SparkleText, MagicButton } from './index'
+import { MagicButton } from './index'
 
 const isMobileMenuOpen = ref(false)
 
@@ -100,6 +98,7 @@ if (typeof window !== 'undefined') {
   align-items: center;
   height: 64px;
   position: relative;
+  min-width: 0; /* Allow flex shrinking */
 }
 
 .nav-logo {
@@ -109,10 +108,28 @@ if (typeof window !== 'undefined') {
   text-decoration: none;
   transition: all 0.2s ease;
   z-index: 1001;
+  white-space: nowrap;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.logo-text {
+  display: inline-block;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-size: 200% 200%;
+  animation: gradient-shift 3s ease infinite;
+}
+
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
 }
 
 .nav-logo:hover {
-  color: #3b82f6;
+  transform: scale(1.05);
 }
 
 /* Mobile Menu Button */
@@ -215,10 +232,22 @@ if (typeof window !== 'undefined') {
 @media (max-width: 768px) {
   .nav-container {
     padding: 0 1rem;
+    height: 56px;
+  }
+  
+  .nav-logo {
+    font-size: 1.25rem;
+    max-width: calc(100vw - 120px);
+  }
+  
+  .logo-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   
   .mobile-menu-btn {
     display: flex;
+    flex-shrink: 0;
   }
   
   .nav-links {
@@ -284,12 +313,19 @@ if (typeof window !== 'undefined') {
 
 @media (max-width: 480px) {
   .nav-container {
-    padding: 0 1rem;
+    padding: 0 0.75rem;
     height: 56px;
   }
   
   .nav-logo {
-    font-size: 1.25rem;
+    font-size: 1.1rem;
+    max-width: calc(100vw - 100px);
+  }
+  
+  .logo-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   
   .nav-links {

@@ -105,11 +105,11 @@
                       <span class="code-title">Terminal</span>
                       <button 
                         class="copy-button"
-                        @click="copyCode('npm install vue-magic-ui')"
-                        :class="{ copied: copiedCode === 'npm install vue-magic-ui' }"
-                        :title="copiedCode === 'npm install vue-magic-ui' ? 'Copied!' : 'Copy'"
+                        @click="copyCode('npm i @yousefkadah/vue-magic-ui')"
+                        :class="{ copied: copiedCode === 'npm i @yousefkadah/vue-magic-ui' }"
+                        :title="copiedCode === 'npm i @yousefkadah/vue-magic-ui' ? 'Copied!' : 'Copy'"
                       >
-                        <svg v-if="copiedCode === 'npm install vue-magic-ui'" class="copy-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg v-if="copiedCode === 'npm i @yousefkadah/vue-magic-ui'" class="copy-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                         </svg>
                         <svg v-else class="copy-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -117,7 +117,7 @@
                         </svg>
                       </button>
                     </div>
-                    <pre class="code-block"><code>npm install vue-magic-ui</code></pre>
+                    <pre class="code-block"><code>npm i @yousefkadah/vue-magic-ui</code></pre>
                   </div>
                 </div>
                 
@@ -128,11 +128,11 @@
                       <span class="code-title">main.ts</span>
                       <button 
                         class="copy-button"
-                        @click="copyCode('import { FadeIn } from \'vue-magic-ui\'')"
-                        :class="{ copied: copiedCode === 'import { FadeIn } from \'vue-magic-ui\'' }"
-                        :title="copiedCode === 'import { FadeIn } from \'vue-magic-ui\'' ? 'Copied!' : 'Copy'"
+                        @click="copyCode('import { FadeIn } from \'@yousefkadah/vue-magic-ui\'')"
+                        :class="{ copied: copiedCode === 'import { FadeIn } from \'@yousefkadah/vue-magic-ui\'' }"
+                        :title="copiedCode === 'import { FadeIn } from \'@yousefkadah/vue-magic-ui\'' ? 'Copied!' : 'Copy'"
                       >
-                        <svg v-if="copiedCode === 'import { FadeIn } from \'vue-magic-ui\''" class="copy-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg v-if="copiedCode === 'import { FadeIn } from \'@yousefkadah/vue-magic-ui\''" class="copy-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                         </svg>
                         <svg v-else class="copy-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -140,7 +140,7 @@
                         </svg>
                       </button>
                     </div>
-                    <pre class="code-block"><code>import { FadeIn } from 'vue-magic-ui'</code></pre>
+                    <pre class="code-block"><code>import { FadeIn } from '@yousefkadah/vue-magic-ui'</code></pre>
                   </div>
                 </div>
               </div>
@@ -645,10 +645,26 @@ const components = [
     description: 'Animated grid background pattern',
     category: 'backgrounds',
     component: GridPattern,
-    props: { size: 50 },
-    code: `<GridPattern :size="50" />`,
+    props: { 
+      size: 40, 
+      strokeWidth: 2,
+      fadeMask: true,
+      animated: true 
+    },
+    slots: { default: '🔲 Grid Pattern Background' },
+    code: `<GridPattern 
+  :size="40" 
+  :stroke-width="2"
+  :fade-mask="true"
+  :animated="true"
+>
+  Content over grid
+</GridPattern>`,
     propsDoc: [
-      { name: 'size', type: 'number', description: 'Grid cell size' }
+      { name: 'size', type: 'number', description: 'Grid cell size in pixels' },
+      { name: 'strokeWidth', type: 'number', description: 'Grid line thickness' },
+      { name: 'fadeMask', type: 'boolean', description: 'Apply fade mask to edges' },
+      { name: 'animated', type: 'boolean', description: 'Enable grid animation' }
     ]
   },
   {
@@ -1624,5 +1640,13 @@ const closeMobileMenu = () => {
   min-width: 300px !important;
   min-height: 150px !important;
   margin: 1rem !important;
+}
+
+/* Special styling for GridPattern component */
+.component-preview [class*="grid-pattern"] {
+  min-width: 350px !important;
+  min-height: 200px !important;
+  border-radius: 12px !important;
+  overflow: hidden !important;
 }
 </style>
