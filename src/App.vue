@@ -8,9 +8,23 @@
             Vue Magic UI
           </SparkleText>
         </router-link>
-        <div class="nav-links">
-          <router-link to="/" class="nav-link">Home</router-link>
-          <router-link to="/components" class="nav-link">Components</router-link>
+        
+        <!-- Mobile Menu Button -->
+        <button 
+          class="mobile-menu-btn"
+          @click="isMobileMenuOpen = !isMobileMenuOpen"
+          :class="{ active: isMobileMenuOpen }"
+          aria-label="Toggle mobile menu"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        
+        <!-- Navigation Links -->
+        <div class="nav-links" :class="{ 'mobile-open': isMobileMenuOpen }">
+          <router-link to="/" class="nav-link" @click="closeMobileMenu">Home</router-link>
+          <router-link to="/components" class="nav-link" @click="closeMobileMenu">Components</router-link>
           <MagicButton 
             variant="outline" 
             @click="openGithub"
@@ -19,6 +33,13 @@
             GitHub
           </MagicButton>
         </div>
+        
+        <!-- Mobile Menu Overlay -->
+        <div 
+          v-if="isMobileMenuOpen"
+          class="mobile-overlay"
+          @click="closeMobileMenu"
+        ></div>
       </div>
     </nav>
 
@@ -28,10 +49,26 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
 import { SparkleText, MagicButton } from './index'
+
+const isMobileMenuOpen = ref(false)
 
 const openGithub = () => {
   window.open('https://github.com/yousefkadah/vue-animation-libarary', '_blank')
+}
+
+const closeMobileMenu = () => {
+  isMobileMenuOpen.value = false
+}
+
+// Close mobile menu when clicking outside or on route change
+if (typeof window !== 'undefined') {
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 768) {
+      isMobileMenuOpen.value = false
+    }
+  })
 }
 </script>
 
@@ -62,6 +99,7 @@ const openGithub = () => {
   justify-content: space-between;
   align-items: center;
   height: 64px;
+  position: relative;
 }
 
 .nav-logo {
@@ -70,12 +108,58 @@ const openGithub = () => {
   color: #09090b;
   text-decoration: none;
   transition: all 0.2s ease;
+  z-index: 1001;
 }
 
 .nav-logo:hover {
   color: #3b82f6;
 }
 
+/* Mobile Menu Button */
+.mobile-menu-btn {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 32px;
+  height: 32px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 1001;
+  transition: all 0.3s ease;
+}
+
+.mobile-menu-btn span {
+  width: 20px;
+  height: 2px;
+  background: #09090b;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+  transform-origin: center;
+}
+
+.mobile-menu-btn span:nth-child(1) {
+  margin-bottom: 4px;
+}
+
+.mobile-menu-btn span:nth-child(2) {
+  margin-bottom: 4px;
+}
+
+.mobile-menu-btn.active span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.mobile-menu-btn.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.mobile-menu-btn.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -5px);
+}
+
+/* Navigation Links */
 .nav-links {
   display: flex;
   align-items: center;
@@ -106,6 +190,11 @@ const openGithub = () => {
   font-size: 0.9rem;
 }
 
+/* Mobile Overlay */
+.mobile-overlay {
+  display: none;
+}
+
 /* Add padding to account for fixed navbar */
 :deep(.home),
 :deep(.components-page) {
@@ -113,18 +202,170 @@ const openGithub = () => {
 }
 
 /* Responsive Design */
+@media (max-width: 1024px) {
+  .nav-container {
+    padding: 0 1.5rem;
+  }
+  
+  .nav-links {
+    gap: 1.5rem;
+  }
+}
+
 @media (max-width: 768px) {
   .nav-container {
     padding: 0 1rem;
   }
   
+  .mobile-menu-btn {
+    display: flex;
+  }
+  
   .nav-links {
-    gap: 1rem;
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    width: 280px;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(20px);
+    border-left: 1px solid #e4e4e7;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    padding: 5rem 2rem 2rem;
+    gap: 0;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    box-shadow: -4px 0 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .nav-links.mobile-open {
+    transform: translateX(0);
   }
   
   .nav-link {
-    padding: 0.3rem 0.8rem;
-    font-size: 0.9rem;
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    text-align: left;
+    border: 1px solid transparent;
+  }
+  
+  .nav-link:hover {
+    background: #f8fafc;
+    border-color: #e2e8f0;
+  }
+  
+  .nav-link.router-link-active {
+    background: #eff6ff;
+    border-color: #bfdbfe;
+    color: #1d4ed8;
+  }
+  
+  .nav-button {
+    margin-top: 1rem;
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .mobile-overlay {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-container {
+    padding: 0 1rem;
+    height: 56px;
+  }
+  
+  .nav-logo {
+    font-size: 1.25rem;
+  }
+  
+  .nav-links {
+    width: 100%;
+    padding: 4rem 1.5rem 2rem;
+  }
+  
+  .nav-link {
+    padding: 0.875rem 1.25rem;
+    font-size: 0.95rem;
+  }
+  
+  :deep(.home),
+  :deep(.components-page) {
+    padding-top: 56px;
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .mobile-menu-btn span,
+  .nav-links,
+  .nav-link {
+    transition: none;
+  }
+}
+
+/* Dark mode support (future enhancement) */
+@media (prefers-color-scheme: dark) {
+  .navbar {
+    background: rgba(9, 9, 11, 0.95);
+    border-bottom-color: #27272a;
+  }
+  
+  .nav-logo {
+    color: #fafafa;
+  }
+  
+  .nav-logo:hover {
+    color: #60a5fa;
+  }
+  
+  .nav-link {
+    color: #a1a1aa;
+  }
+  
+  .nav-link:hover {
+    color: #fafafa;
+    background: #27272a;
+  }
+  
+  .nav-link.router-link-active {
+    color: #60a5fa;
+    background: #1e293b;
+  }
+  
+  .mobile-menu-btn span {
+    background: #fafafa;
+  }
+  
+  @media (max-width: 768px) {
+    .nav-links {
+      background: rgba(9, 9, 11, 0.98);
+      border-left-color: #27272a;
+    }
+    
+    .nav-link:hover {
+      background: #18181b;
+      border-color: #3f3f46;
+    }
+    
+    .nav-link.router-link-active {
+      background: #1e293b;
+      border-color: #334155;
+      color: #60a5fa;
+    }
   }
 }
 </style>

@@ -441,35 +441,154 @@ const openGithub = () => {
 }
 
 /* Responsive Design */
+@media (max-width: 1024px) {
+  .container {
+    padding: 0 1.5rem;
+  }
+  
+  .demo-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .features-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+}
+
 @media (max-width: 768px) {
   .hero {
-    padding: 4rem 0 2rem;
+    padding: 3rem 0 2rem;
   }
   
   .hero-content {
     padding: 0 1rem;
   }
   
+  .hero-title {
+    font-size: clamp(2rem, 8vw, 3rem);
+    margin-bottom: 1rem;
+  }
+  
+  .hero-subtitle {
+    font-size: clamp(1rem, 3vw, 1.125rem);
+    margin-bottom: 1.5rem;
+    min-height: auto;
+  }
+  
   .hero-buttons {
     flex-direction: column;
     align-items: center;
+    gap: 0.75rem;
+  }
+  
+  .hero-buttons .magic-button,
+  .hero-buttons .shimmer-button {
+    width: 100%;
+    max-width: 280px;
+    justify-content: center;
+  }
+  
+  .demo {
+    padding: 3rem 0;
+  }
+  
+  .demo-title {
+    font-size: clamp(1.75rem, 5vw, 2.5rem);
+    margin-bottom: 2rem;
   }
   
   .demo-grid {
     grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .demo-card {
+    padding: 1.5rem;
+  }
+  
+  .demo-preview {
+    padding: 1.5rem;
+    min-height: 80px;
+  }
+  
+  .demo-code {
+    padding: 0.875rem;
+    font-size: 0.8125rem;
+  }
+  
+  .features {
+    padding: 3rem 0;
+  }
+  
+  .features-title {
+    font-size: clamp(1.75rem, 5vw, 2.5rem);
+    margin-bottom: 2rem;
   }
   
   .features-grid {
     grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .feature-card {
+    padding: 1.5rem;
+  }
+  
+  .feature-icon {
+    font-size: 2.5rem;
+  }
+  
+  .feature-card h3 {
+    font-size: 1.25rem;
+  }
+  
+  .stats {
+    padding: 3rem 0;
   }
   
   .stats-grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+  
+  .stat-card {
+    padding: 1.5rem;
+  }
+  
+  .stat-number {
+    font-size: 2.5rem;
+  }
+  
+  .stat-label {
+    font-size: 1rem;
+  }
+  
+  .cta {
+    padding: 3rem 0;
+  }
+  
+  .cta-title {
+    font-size: clamp(1.75rem, 5vw, 2.5rem);
+  }
+  
+  .cta-subtitle {
+    font-size: 1.125rem;
+    margin-bottom: 1.5rem;
   }
   
   .cta-buttons {
     flex-direction: column;
     align-items: center;
+    gap: 0.75rem;
+  }
+  
+  .cta-buttons .magic-button,
+  .cta-buttons .shimmer-button {
+    width: 100%;
+    max-width: 280px;
+    justify-content: center;
   }
   
   .container {
@@ -478,22 +597,176 @@ const openGithub = () => {
 }
 
 @media (max-width: 480px) {
+  .hero {
+    padding: 2rem 0 1.5rem;
+  }
+  
   .hero-title {
-    font-size: 2rem;
+    font-size: clamp(1.75rem, 10vw, 2.5rem);
+    margin-bottom: 0.875rem;
+  }
+  
+  .hero-subtitle {
+    font-size: clamp(0.9rem, 4vw, 1rem);
+    margin-bottom: 1.25rem;
+  }
+  
+  .hero-buttons {
+    gap: 0.5rem;
+  }
+  
+  .hero-buttons .magic-button,
+  .hero-buttons .shimmer-button {
+    max-width: 100%;
+    padding: 0.75rem 1.5rem;
+    font-size: 0.9rem;
+  }
+  
+  .demo {
+    padding: 2rem 0;
   }
   
   .demo-title,
   .features-title,
   .cta-title {
+    font-size: clamp(1.5rem, 6vw, 2rem);
+    margin-bottom: 1.5rem;
+  }
+  
+  .demo-card {
+    padding: 1.25rem;
+  }
+  
+  .demo-preview {
+    padding: 1.25rem;
+    min-height: 70px;
+  }
+  
+  .demo-code {
+    padding: 0.75rem;
+    font-size: 0.75rem;
+  }
+  
+  .features {
+    padding: 2rem 0;
+  }
+  
+  .feature-card {
+    padding: 1.25rem;
+  }
+  
+  .feature-icon {
     font-size: 2rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .feature-card h3 {
+    font-size: 1.125rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .feature-card p {
+    font-size: 0.9rem;
+  }
+  
+  .stats {
+    padding: 2rem 0;
   }
   
   .stats-grid {
     grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .stat-card {
+    padding: 1.25rem;
   }
   
   .stat-number {
     font-size: 2rem;
+    margin-bottom: 0.25rem;
+  }
+  
+  .stat-label {
+    font-size: 0.9rem;
+  }
+  
+  .cta {
+    padding: 2rem 0;
+  }
+  
+  .cta-subtitle {
+    font-size: 1rem;
+    margin-bottom: 1.25rem;
+  }
+  
+  .cta-buttons .magic-button,
+  .cta-buttons .shimmer-button {
+    padding: 0.75rem 1.25rem;
+    font-size: 0.9rem;
+  }
+  
+  .container {
+    padding: 0 0.75rem;
+  }
+}
+
+/* Landscape orientation on mobile */
+@media (max-width: 768px) and (orientation: landscape) {
+  .hero {
+    padding: 2rem 0 1.5rem;
+  }
+  
+  .hero-title {
+    font-size: clamp(1.5rem, 6vw, 2.5rem);
+  }
+  
+  .hero-subtitle {
+    font-size: clamp(0.9rem, 2.5vw, 1.125rem);
+  }
+  
+  .demo,
+  .features,
+  .stats,
+  .cta {
+    padding: 2rem 0;
+  }
+}
+
+/* Print styles */
+@media print {
+  .hero-buttons,
+  .cta-buttons {
+    display: none;
+  }
+  
+  .demo-code {
+    background: #f8f9fa;
+    color: #212529;
+    border: 1px solid #dee2e6;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .demo-preview {
+    border: 2px solid #000;
+  }
+  
+  .feature-card,
+  .stat-card {
+    border: 2px solid #000;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .feature-card {
+    transition: none;
+  }
+  
+  .feature-card:hover {
+    transform: none;
   }
 }
 
