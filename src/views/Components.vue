@@ -107,8 +107,14 @@
                         class="copy-button"
                         @click="copyCode('npm install vue-magic-ui')"
                         :class="{ copied: copiedCode === 'npm install vue-magic-ui' }"
+                        :title="copiedCode === 'npm install vue-magic-ui' ? 'Copied!' : 'Copy'"
                       >
-                        {{ copiedCode === 'npm install vue-magic-ui' ? 'Copied!' : 'Copy' }}
+                        <svg v-if="copiedCode === 'npm install vue-magic-ui'" class="copy-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                        </svg>
+                        <svg v-else class="copy-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                        </svg>
                       </button>
                     </div>
                     <pre class="code-block"><code>npm install vue-magic-ui</code></pre>
@@ -124,8 +130,14 @@
                         class="copy-button"
                         @click="copyCode('import { FadeIn } from \'vue-magic-ui\'')"
                         :class="{ copied: copiedCode === 'import { FadeIn } from \'vue-magic-ui\'' }"
+                        :title="copiedCode === 'import { FadeIn } from \'vue-magic-ui\'' ? 'Copied!' : 'Copy'"
                       >
-                        {{ copiedCode === 'import { FadeIn } from \'vue-magic-ui\'' ? 'Copied!' : 'Copy' }}
+                        <svg v-if="copiedCode === 'import { FadeIn } from \'vue-magic-ui\''" class="copy-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                        </svg>
+                        <svg v-else class="copy-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                        </svg>
                       </button>
                     </div>
                     <pre class="code-block"><code>import { FadeIn } from 'vue-magic-ui'</code></pre>
@@ -169,30 +181,73 @@
               </div>
               
               <div class="component-code-section">
-                <!-- Simple Code Example -->
-                <div class="component-usage">
-                  <h4 class="usage-title">Usage Example</h4>
+                <!-- Code Tabs -->
+                <div class="code-tabs">
+                  <button 
+                    class="tab-button"
+                    :class="{ active: activeTab[component.name] === 'usage' || !activeTab[component.name] }"
+                    @click="setActiveTab(component.name, 'usage')"
+                  >
+                    Usage
+                  </button>
+                  <button 
+                    class="tab-button"
+                    :class="{ active: activeTab[component.name] === 'source' }"
+                    @click="setActiveTab(component.name, 'source')"
+                  >
+                    Full Source
+                  </button>
+                </div>
+
+                <!-- Usage Code -->
+                <div 
+                  v-show="activeTab[component.name] === 'usage' || !activeTab[component.name]"
+                  class="code-panel"
+                >
                   <div class="code-block-wrapper">
                     <div class="code-header">
-                      <span class="code-title">{{ component.name }}</span>
-                      <div class="code-actions">
-                        <button 
-                          class="copy-button"
-                          @click="copyCode(component.code)"
-                          :class="{ copied: copiedCode === component.code }"
-                        >
-                          {{ copiedCode === component.code ? 'Copied!' : 'Copy Usage' }}
-                        </button>
-                        <button 
-                          class="copy-button secondary"
-                          @click="copyComponentFile(component.name)"
-                          :class="{ copied: copiedCode === (component.name + '-file') }"
-                        >
-                          {{ copiedCode === (component.name + '-file') ? 'Copied!' : 'Copy Source' }}
-                        </button>
-                      </div>
+                      <span class="code-title">Usage Example</span>
+                      <button 
+                        class="copy-button"
+                        @click="copyCode(component.code)"
+                        :class="{ copied: copiedCode === component.code }"
+                        :title="copiedCode === component.code ? 'Copied!' : 'Copy Usage'"
+                      >
+                        <svg v-if="copiedCode === component.code" class="copy-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                        </svg>
+                        <svg v-else class="copy-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                        </svg>
+                      </button>
                     </div>
                     <pre class="code-block"><code>{{ component.code }}</code></pre>
+                  </div>
+                </div>
+
+                <!-- Source Code -->
+                <div 
+                  v-show="activeTab[component.name] === 'source'"
+                  class="code-panel"
+                >
+                  <div class="code-block-wrapper">
+                    <div class="code-header">
+                      <span class="code-title">Complete Component</span>
+                      <button 
+                        class="copy-button"
+                        @click="copyComponentFile(component.name)"
+                        :class="{ copied: copiedCode === (component.name + '-file') }"
+                        :title="copiedCode === (component.name + '-file') ? 'Copied!' : 'Copy Source'"
+                      >
+                        <svg v-if="copiedCode === (component.name + '-file')" class="copy-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                        </svg>
+                        <svg v-else class="copy-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                        </svg>
+                      </button>
+                    </div>
+                    <pre class="code-block"><code>{{ getComponentSource(component) }}</code></pre>
                   </div>
                 </div>
 
@@ -260,6 +315,7 @@ const selectedComponent = ref('')
 const copiedCode = ref('')
 const isMobileMenuOpen = ref(false)
 const searchQuery = ref('')
+const activeTab = ref<Record<string, string>>({})
 
 const categories = [
   { id: 'animations', name: 'Animations' },
@@ -277,7 +333,7 @@ const components = [
     category: 'animations',
     component: FadeIn,
     props: { delay: 0 },
-    slots: { default: 'Fade In Content' },
+    slots: { default: '✨ Beautiful Fade In Animation' },
     code: `<FadeIn :delay="200">
   <div>Your content here</div>
 </FadeIn>`,
@@ -292,7 +348,7 @@ const components = [
     category: 'animations',
     component: SlideIn,
     props: { direction: 'up' },
-    slots: { default: 'Slide In Content' },
+    slots: { default: '🚀 Smooth Slide In Effect' },
     code: `<SlideIn direction="up" :delay="100">
   <div>Your content here</div>
 </SlideIn>`,
@@ -306,10 +362,10 @@ const components = [
     description: 'Typewriter animation effect for text',
     category: 'animations',
     component: TypewriterText,
-    props: { text: 'Hello World!', speed: 100 },
+    props: { text: 'Welcome to Vue Magic UI! ✨', speed: 80 },
     code: `<TypewriterText 
-  text="Hello World!" 
-  :speed="100" 
+  text="Welcome to Vue Magic UI! ✨" 
+  :speed="80" 
 />`,
     propsDoc: [
       { name: 'text', type: 'string', description: 'Text to animate' },
@@ -321,7 +377,7 @@ const components = [
     description: 'Animated number counter with easing',
     category: 'animations',
     component: CountUp,
-    props: { endValue: 100, duration: 2000 },
+    props: { endValue: 1000, duration: 2000 },
     code: `<CountUp 
   :end-value="100" 
   :duration="2000" 
@@ -337,7 +393,7 @@ const components = [
     category: 'animations',
     component: TextReveal,
     props: { text: 'Reveal me!' },
-    slots: { default: 'Reveal me!' },
+    slots: { default: '🎯 Text Reveal Animation' },
     code: `<TextReveal text="Reveal me!">
   Reveal me!
 </TextReveal>`,
@@ -350,8 +406,8 @@ const components = [
     description: 'Animated number ticker with smooth transitions',
     category: 'animations',
     component: NumberTicker,
-    props: { value: 42 },
-    code: `<NumberTicker :value="42" />`,
+    props: { value: 1234 },
+    code: `<NumberTicker :value="1234" />`,
     propsDoc: [
       { name: 'value', type: 'number', description: 'Number value to display' }
     ]
@@ -371,7 +427,7 @@ const components = [
     category: 'animations',
     component: Marquee,
     props: { speed: 50 },
-    slots: { default: 'Scrolling text...' },
+    slots: { default: '📜 Amazing Scrolling Text Animation' },
     code: `<Marquee :speed="50">
   <div>Scrolling text...</div>
 </Marquee>`,
@@ -407,7 +463,7 @@ const components = [
     category: 'effects',
     component: SparkleText,
     props: { autoSparkle: true, sparkleInterval: 2000 },
-    slots: { default: 'Sparkle Text' },
+    slots: { default: '✨ Sparkle Text Magic' },
     code: `<SparkleText 
   :auto-sparkle="true" 
   :sparkle-interval="3000"
@@ -469,7 +525,7 @@ const components = [
     category: 'effects',
     component: GradientText,
     props: {},
-    slots: { default: 'Gradient Text' },
+    slots: { default: '🌈 Beautiful Gradient Text' },
     code: `<GradientText>
   Gradient Text
 </GradientText>`,
@@ -483,7 +539,7 @@ const components = [
     category: 'ui',
     component: MagicButton,
     props: { variant: 'gradient' },
-    slots: { default: 'Click me!' },
+    slots: { default: '✨ Magic Button Click Me!' },
     code: `<MagicButton variant="gradient">
   Click me!
 </MagicButton>`,
@@ -498,7 +554,7 @@ const components = [
     category: 'ui',
     component: ShimmerButton,
     props: {},
-    slots: { default: 'Shimmer Button' },
+    slots: { default: '✨ Shimmer Button Effect' },
     code: `<ShimmerButton>
   Shimmer Button
 </ShimmerButton>`,
@@ -510,7 +566,7 @@ const components = [
     category: 'ui',
     component: FloatingCard,
     props: {},
-    slots: { default: 'Card content' },
+    slots: { default: '🏗️ Floating Card Component with amazing hover effects and animations' },
     code: `<FloatingCard>
   <div>Card content</div>
 </FloatingCard>`,
@@ -522,7 +578,7 @@ const components = [
     category: 'ui',
     component: GlowCard,
     props: {},
-    slots: { default: 'Glow card content' },
+    slots: { default: '✨ Glowing Card with beautiful light effects and smooth animations' },
     code: `<GlowCard>
   <div>Glow card content</div>
 </GlowCard>`,
@@ -669,6 +725,42 @@ const scrollToSection = (sectionId: string) => {
   }, 100)
 }
 
+// Tab management
+const setActiveTab = (componentName: string, tab: string) => {
+  activeTab.value[componentName] = tab
+}
+
+// Get component source code for display
+const getComponentSource = (comp: any) => {
+  const componentName = comp.name
+  const kebabCase = componentName.replace(/([A-Z])/g, '-$1').toLowerCase().replace(/^-/, '')
+  
+  const templateSection = `<template>
+  <div class="${kebabCase}">
+    ${comp.slots?.default ? '<slot />' : `<!-- ${componentName} content -->`}
+  </div>
+</template>`
+
+  const scriptSection = `<script setup lang="ts">
+interface Props {${comp.propsDoc?.map((prop: any) => 
+  `\n  ${prop.name}${prop.name === 'delay' || prop.name === 'duration' ? '?' : ''}: ${prop.type.toLowerCase()}`
+).join('') || ''}
+}
+
+const props = defineProps<Props>()
+
+// Component logic here
+</scr` + `ipt>`
+
+  const styleSection = `<style scoped>
+.${kebabCase} {
+  /* ${componentName} styles */
+}
+</style>`
+  
+  return templateSection + '\n\n' + scriptSection + '\n\n' + styleSection
+}
+
 // Enhanced copy code function with better error handling
 const copyCode = async (text: string) => {
   try {
@@ -723,7 +815,7 @@ const copyComponentFile = async (componentName: string) => {
 </template>`
 
   const scriptSection = `<script setup lang="ts">
-interface Props {${comp.propsDoc?.map(prop => 
+interface Props {${comp.propsDoc?.map((prop: any) => 
   `\n  ${prop.name}${prop.name === 'delay' || prop.name === 'duration' ? '?' : ''}: ${prop.type.toLowerCase()}`
 ).join('') || ''}
 }
@@ -1081,16 +1173,27 @@ const closeMobileMenu = () => {
   background: #3b82f6;
   color: white;
   border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
+  padding: 0.75rem;
+  border-radius: 6px;
   font-size: 0.875rem;
   cursor: pointer;
   transition: all 0.2s ease;
   white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+}
+
+.copy-icon {
+  width: 18px;
+  height: 18px;
 }
 
 .copy-button:hover {
   background: #2563eb;
+  transform: scale(1.05);
 }
 
 .copy-button.copied {
@@ -1107,6 +1210,49 @@ const closeMobileMenu = () => {
   white-space: pre;
   margin: 0;
   background: #1a1a1a;
+}
+
+/* Code Tabs */
+.code-tabs {
+  display: flex;
+  border-bottom: 1px solid #e4e7eb;
+  background: #f8f9fa;
+  border-radius: 8px 8px 0 0;
+}
+
+.tab-button {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  background: transparent;
+  border: none;
+  color: #6b7280;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-radius: 8px 8px 0 0;
+}
+
+.tab-button:hover {
+  background: #e5e7eb;
+  color: #374151;
+}
+
+.tab-button.active {
+  background: white;
+  color: #1f2937;
+  border-bottom: 2px solid #3b82f6;
+}
+
+.code-panel {
+  border-radius: 0 0 8px 8px;
+}
+
+.code-panel .code-block-wrapper {
+  border-radius: 0 0 8px 8px;
+}
+
+.code-panel .code-block {
+  border-radius: 0 0 8px 8px;
 }
 
 /* Component Cards */
@@ -1145,15 +1291,44 @@ const closeMobileMenu = () => {
 }
 
 .component-preview {
-  padding: 3rem 2rem;
-  background: #fafafa;
+  padding: 4rem 2rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background-size: 400% 400%;
+  animation: gradientShift 8s ease infinite;
   border-bottom: 1px solid #e4e7eb;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 200px;
+  min-height: 240px;
   max-width: 100%;
   overflow: hidden;
+  position: relative;
+  color: white;
+  font-size: 1.2rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.component-preview::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.1);
+  z-index: 1;
+}
+
+.component-preview > * {
+  position: relative;
+  z-index: 2;
 }
 
 /* Component Usage */
@@ -1287,8 +1462,27 @@ const closeMobileMenu = () => {
   }
   
   .component-preview {
-    padding: 2rem 1.5rem;
+    padding: 2rem 1rem;
     min-height: 180px;
+  }
+
+  .component-preview [class*="typewriter"],
+  .component-preview [class*="gradient-text"],
+  .component-preview [class*="sparkle-text"],
+  .component-preview [class*="text-reveal"] {
+    font-size: 1.5rem !important;
+  }
+
+  .component-preview [class*="count-up"],
+  .component-preview [class*="number-ticker"] {
+    font-size: 2rem !important;
+  }
+
+  .component-preview [class*="magic-button"],
+  .component-preview [class*="shimmer-button"] {
+    transform: scale(1);
+    font-size: 1rem !important;
+    padding: 0.75rem 1.5rem !important;
   }
 }
 
@@ -1317,5 +1511,39 @@ const closeMobileMenu = () => {
     padding: 1.5rem 1rem;
     min-height: 150px;
   }
+}
+
+/* Special styling for text-based components */
+.component-preview [class*="typewriter"],
+.component-preview [class*="gradient-text"],
+.component-preview [class*="sparkle-text"],
+.component-preview [class*="text-reveal"] {
+  font-size: 2rem !important;
+  font-weight: bold !important;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.component-preview [class*="count-up"],
+.component-preview [class*="number-ticker"] {
+  font-size: 3rem !important;
+  font-weight: bold !important;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Enhanced button styling in previews */
+.component-preview [class*="magic-button"],
+.component-preview [class*="shimmer-button"] {
+  transform: scale(1.2);
+  font-size: 1.1rem !important;
+  padding: 1rem 2rem !important;
+}
+
+/* Enhanced card styling in previews */
+.component-preview [class*="floating-card"],
+.component-preview [class*="glow-card"] {
+  max-width: 350px;
+  padding: 1.5rem !important;
+  font-size: 1rem !important;
+  line-height: 1.5;
 }
 </style>
