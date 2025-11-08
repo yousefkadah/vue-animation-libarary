@@ -86,7 +86,7 @@
       <div class="container">
         <FadeIn :delay="100">
           <h2 class="features-title">
-            <TextReveal>Why Vue Magic UI?</TextReveal>
+            <TextReveal text="Why Vue Magic UI?" />
           </h2>
         </FadeIn>
         <div class="features-grid">

@@ -29,6 +29,19 @@ import OrbitingCircles from './components/OrbitingCircles.vue'
 import AnimatedBeam from './components/AnimatedBeam.vue'
 import Marquee from './components/Marquee.vue'
 
+// Modern components
+import Motion from './components/Motion.vue'
+import FadeInModern from './components/FadeInModern.vue'
+
+// Export composables
+export { useSpring } from './composables/useSpring'
+export { useGesture } from './composables/useGesture'
+export { useScroll, useParallax, useScrollTransform } from './composables/useScroll'
+
+// Export utilities
+export { easings, getEasing, cubicBezier } from './utils/easing'
+export type { EasingFunction, EasingName } from './utils/easing'
+
 // Component map
 const components = {
   FadeIn,
@@ -55,7 +68,9 @@ const components = {
   NumberTicker,
   OrbitingCircles,
   AnimatedBeam,
-  Marquee
+  Marquee,
+  Motion,
+  FadeInModern
 }
 
 // Install function
@@ -91,7 +106,9 @@ export {
   NumberTicker,
   OrbitingCircles,
   AnimatedBeam,
-  Marquee
+  Marquee,
+  Motion,
+  FadeInModern
 }
 
 // Default export

@@ -1,16 +1,26 @@
 {
   "name": "@yousefkadah/vue-magic-ui",
-  "version": "1.0.1",
-  "description": "A Vue.js animated component library with beautiful, ready-to-use components",
-  "main": "dist/index.umd.js",
-  "module": "dist/index.es.js",
+  "version": "2.0.0",
+  "description": "A modern Vue 3 animated component library with spring physics, gesture support, and advanced animations",
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "style": "dist/style.css",
   "exports": {
     ".": {
-      "import": "./dist/index.es.js",
-      "require": "./dist/index.umd.js",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs",
       "types": "./dist/index.d.ts"
+    },
+    "./composables": {
+      "import": "./dist/composables.mjs",
+      "require": "./dist/composables.cjs",
+      "types": "./dist/composables.d.ts"
+    },
+    "./utils": {
+      "import": "./dist/utils.mjs",
+      "require": "./dist/utils.cjs",
+      "types": "./dist/utils.d.ts"
     },
     "./dist/style.css": "./dist/style.css"
   },
@@ -28,36 +38,59 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "build:lib": "vue-tsc && vite build --mode lib",
+    "build:lib": "vue-tsc --noEmit && vite build --mode lib",
     "build:demo": "vite build",
     "preview": "vite preview",
     "deploy": "npm run build:demo && gh-pages -d dist",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
-    "docs:preview": "vitepress preview docs"
+    "docs:preview": "vitepress preview docs",
+    "type-check": "vue-tsc --noEmit",
+    "lint": "eslint src --ext .vue,.js,.ts,.jsx,.tsx",
+    "lint:fix": "eslint src --ext .vue,.js,.ts,.jsx,.tsx --fix",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest --coverage"
   },
   "keywords": [
     "vue",
+    "vue3",
     "animation",
     "components",
     "ui",
     "library",
     "typescript",
-    "vue3",
     "animated",
     "magic",
-    "effects"
+    "effects",
+    "spring",
+    "physics",
+    "gestures",
+    "scroll",
+    "framer-motion",
+    "modern",
+    "performance",
+    "accessibility",
+    "composables",
+    "motion"
   ],
   "author": "Yousef Kadah",
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^20.10.0",
     "@vitejs/plugin-vue": "^4.5.0",
+    "@vue/eslint-config-typescript": "^12.0.0",
+    "@vue/tsconfig": "^0.4.0",
+    "eslint": "^8.53.0",
+    "eslint-plugin-vue": "^9.18.0",
     "gh-pages": "^6.3.0",
-    "typescript": "^5.2.0",
+    "terser": "^5.44.1",
+    "typescript": "^5.3.3",
     "vite": "^5.0.0",
+    "vite-plugin-dts": "^4.5.4",
     "vitepress": "^1.0.0",
-    "vue-tsc": "^1.8.0"
+    "vitest": "^1.0.0",
+    "vue-tsc": "^2.0.29"
   },
   "dependencies": {
     "vue": "^3.0.0",
@@ -68,5 +101,15 @@
   },
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "sideEffects": false,
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead",
+    "not ie 11"
+  ]
 }
