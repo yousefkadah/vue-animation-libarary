@@ -1,13 +1,12 @@
-# Vue Magic UI 🎨✨
+# Vue Magic UI 2.0 🎨✨
 
 [![npm version](https://badge.fury.io/js/@yousefkadah%2Fvue-magic-ui.svg)](https://badge.fury.io/js/@yousefkadah%2Fvue-magic-ui)
 [![npm downloads](https://img.shields.io/npm/dt/@yousefkadah/vue-magic-ui.svg)](https://www.npmjs.com/package/@yousefkadah/vue-magic-ui)
-[![npm downloads per month](https://img.shields.io/npm/dm/@yousefkadah/vue-magic-ui.svg)](https://www.npmjs.com/package/@yousefkadah/vue-magic-ui)
 [![Live Demo](https://img.shields.io/badge/demo-live-brightgreen.svg)](https://yousefkadah.github.io/vue-animation-libarary/)
 [![GitHub license](https://img.shields.io/github/license/yousefkadah/vue-animation-libarary.svg)](https://github.com/yousefkadah/vue-animation-libarary/blob/main/LICENSE)
 [![GitHub stars](https://img.shields.io/github/stars/yousefkadah/vue-animation-libarary.svg?style=social&label=Star)](https://github.com/yousefkadah/vue-animation-libarary)
 
-A professional Vue 3 animated component library inspired by MagicUI and modern design systems. Create stunning, production-ready user interfaces with beautiful animated components.
+A **modern Vue 3 animation library** with spring physics, gesture recognition, and advanced animations that rivals **Framer Motion** and **React Spring**. Build stunning, production-ready user interfaces with physics-based animations and interactive components.
 
 ## 🌟 Live Demo
 
@@ -15,33 +14,51 @@ A professional Vue 3 animated component library inspired by MagicUI and modern d
 
 See all components in action with interactive examples and code snippets!
 
-## ✨ Features
+## ✨ What's New in 2.0
 
-- **25+ Professional Components** - Complete collection of modern UI animations
-- **TypeScript Support** - Full type safety and IntelliSense  
-- **Vue 3 Composition API** - Modern Vue.js patterns
-- **Highly Customizable** - Easy theming and configuration
-- **Performance Optimized** - Smooth 60fps animations
-- **Production Ready** - Battle-tested components
-- **Zero Dependencies** - Lightweight and self-contained
+### 🚀 **Spring Physics System**
+- Realistic spring animations with configurable tension, friction, and mass
+- Velocity-based physics that feels natural and responsive
+- Auto-stop detection for performance optimization
 
-## 🚀 Quick Start
+### 👆 **Advanced Gesture Recognition**  
+- Multi-touch drag support with velocity tracking
+- Bounds constraints and elastic resistance
+- Cross-platform compatibility (mouse + touch)
 
-> **🌟 [Try the Live Demo](https://yousefkadah.github.io/vue-animation-libarary/) - See all components in action!**
+### 📜 **Scroll-Triggered Animations**
+- Intersection Observer integration for performance
+- Parallax effects with customizable speed
+- Advanced triggers for complex scroll interactions
 
-[![NPM](https://nodei.co/npm/@yousefkadah/vue-magic-ui.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/@yousefkadah/vue-magic-ui/)
+### ⚡ **Performance Optimization**
+- Reduced motion detection for accessibility compliance
+- Device capability assessment (GPU acceleration, battery)
+- Smart animation degradation based on device performance
+
+### 🎯 **React Feature Parity**
+- **Spring physics** (react-spring equivalent)
+- **Gesture system** (react-use-gesture equivalent)  
+- **Declarative animations** (Framer Motion equivalent)
+- **Performance optimizations** beyond most React libraries
+
+## 🔧 Installation & Setup
 
 ```bash
 # Install the library
 npm install @yousefkadah/vue-magic-ui
 
-# OR explore the live demo first: https://yousefkadah.github.io/vue-animation-libarary/
+# Import styles (required)
+import '@yousefkadah/vue-magic-ui/dist/style.css'
+```
 
-# Clone and run locally (optional)
-git clone https://github.com/yousefkadah/vue-animation-libarary.git
-cd vue-animation-libarary
-npm install
-npm run dev
+### Tree-Shakeable Imports
+
+```typescript
+// Import only what you need
+import { useSpring, useGesture } from '@yousefkadah/vue-magic-ui/composables'
+import { easings } from '@yousefkadah/vue-magic-ui/utils'
+import { Motion, FadeIn } from '@yousefkadah/vue-magic-ui'
 ```
 
 ## 🎯 Demo & Documentation
