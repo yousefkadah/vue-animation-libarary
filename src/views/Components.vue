@@ -1,10 +1,52 @@
 <template>
   <div class="components-page">
+    <!-- Header Section -->
+    <section class="page-header">
+      <div class="container">
+        <Motion
+          :initial="{ opacity: 0, y: 30 }"
+          :animate="{ opacity: 1, y: 0 }"
+          :transition="{ duration: 0.8 }"
+        >
+          <h1 class="header-title">
+            <GradientText>Component Library</GradientText>
+          </h1>
+          <p class="header-subtitle">
+            Explore our collection of modern, animated Vue components. 
+            Copy the code and start building amazing interfaces.
+          </p>
+        </Motion>
+        
+        <!-- Stats Bar -->
+        <Motion
+          :initial="{ opacity: 0, scale: 0.9 }"
+          :animate="{ opacity: 1, scale: 1 }"
+          :transition="{ duration: 0.8, delay: 0.2 }"
+        >
+          <div class="stats-bar">
+            <div class="stat-item">
+              <CountUp :end="filteredComponents.length" :duration="2" />
+              <span>Components</span>
+            </div>
+            <div class="stat-item">
+              <CountUp :end="categories.length" :duration="1.5" />
+              <span>Categories</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-highlight">100%</span>
+              <span>TypeScript</span>
+            </div>
+          </div>
+        </Motion>
+      </div>
+    </section>
+
     <!-- Mobile Menu Toggle -->
     <button 
       class="mobile-menu-toggle"
       :class="{ active: isMobileMenuOpen }"
       @click="isMobileMenuOpen = !isMobileMenuOpen"
+      aria-label="Toggle mobile menu"
     >
       <span></span>
       <span></span>
@@ -307,7 +349,12 @@ import {
   AnimatedBeam,
   Marquee,
   GradientText,
-  GlowCard
+  GlowCard,
+  CardHoverEffect,
+  ProgressCircle,
+  Spotlight,
+  LoadingDots,
+  SkeletonLoader
 } from '../index'
 
 const activeCategory = ref('animations')
@@ -742,6 +789,97 @@ const components = [
     propsDoc: [
       { name: 'color', type: 'string', description: 'Wave color' }
     ]
+  },
+
+  // New modern components
+  {
+    name: 'CardHoverEffect',
+    description: 'Modern card with stunning hover animations and multiple variants',
+    category: 'ui',
+    component: CardHoverEffect,
+    props: { variant: 'gradient' },
+    slots: { default: '✨ Hover me for amazing effects!' },
+    code: `<CardHoverEffect variant="gradient">
+  Card content here
+</CardHoverEffect>`,
+    propsDoc: [
+      { name: 'variant', type: 'string', description: 'Card style: default, gradient, neon, glass' }
+    ]
+  },
+  {
+    name: 'ProgressCircle',
+    description: 'Animated circular progress indicator with glow effects',
+    category: 'ui',
+    component: ProgressCircle,
+    props: { value: 75, size: 120, color: '#3b82f6', glowEffect: true },
+    code: `<ProgressCircle 
+  :value="75" 
+  :size="120" 
+  color="#3b82f6" 
+  :glow-effect="true" 
+/>`,
+    propsDoc: [
+      { name: 'value', type: 'number', description: 'Progress value (0-100)' },
+      { name: 'size', type: 'number', description: 'Circle size in pixels' },
+      { name: 'color', type: 'string', description: 'Progress color' },
+      { name: 'glowEffect', type: 'boolean', description: 'Enable glow effect' }
+    ]
+  },
+  {
+    name: 'Spotlight',
+    description: 'Interactive spotlight effect that follows mouse movement',
+    category: 'effects',
+    component: Spotlight,
+    props: { color: '#3b82f6', size: 300, intensity: 0.4 },
+    slots: { default: '🎯 Spotlight Effect - Move your mouse around!' },
+    code: `<Spotlight 
+  color="#3b82f6" 
+  :size="300" 
+  :intensity="0.4"
+>
+  Content with spotlight
+</Spotlight>`,
+    propsDoc: [
+      { name: 'color', type: 'string', description: 'Spotlight color' },
+      { name: 'size', type: 'number', description: 'Spotlight size in pixels' },
+      { name: 'intensity', type: 'number', description: 'Spotlight intensity (0-1)' }
+    ]
+  },
+  {
+    name: 'LoadingDots',
+    description: 'Modern loading animation with multiple variants',
+    category: 'loaders',
+    component: LoadingDots,
+    props: { variant: 'bounce', color: '#3b82f6', size: 10, dotCount: 4 },
+    code: `<LoadingDots 
+  variant="bounce" 
+  color="#3b82f6" 
+  :size="10" 
+  :dot-count="4" 
+/>`,
+    propsDoc: [
+      { name: 'variant', type: 'string', description: 'Animation style: default, bounce, pulse, wave, elastic' },
+      { name: 'color', type: 'string', description: 'Dots color' },
+      { name: 'size', type: 'number', description: 'Dot size in pixels' },
+      { name: 'dotCount', type: 'number', description: 'Number of dots' }
+    ]
+  },
+  {
+    name: 'SkeletonLoader',
+    description: 'Beautiful skeleton loading placeholders for content',
+    category: 'loaders',
+    component: SkeletonLoader,
+    props: { variant: 'card', animated: true, imageHeight: 120 },
+    code: `<SkeletonLoader 
+  variant="card" 
+  :animated="true" 
+  :image-height="120" 
+/>`,
+    propsDoc: [
+      { name: 'variant', type: 'string', description: 'Skeleton type: text, avatar, card, custom' },
+      { name: 'animated', type: 'boolean', description: 'Enable shimmer animation' },
+      { name: 'lines', type: 'number', description: 'Number of text lines (for text variant)' }
+    ]
   }
 ]
 
@@ -944,11 +1082,97 @@ const closeMobileMenu = () => {
 </script>
 
 <style scoped>
-/* Include all the existing CSS from the original file here */
+/* Global Styles */
 .components-page {
   min-height: 100vh;
-  background: #ffffff;
-  color: #09090b;
+  background: linear-gradient(135deg, #f8fafc 0%, #ffffff 50%, #f1f5f9 100%);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  color: #1e293b;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* Page Header */
+.page-header {
+  padding: 6rem 0 4rem;
+  background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #ec4899 100%);
+  color: white;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.page-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
+  opacity: 0.3;
+}
+
+.header-title {
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-weight: 900;
+  margin-bottom: 1.5rem;
+  line-height: 1.2;
+  position: relative;
+  z-index: 1;
+}
+
+.header-subtitle {
+  font-size: clamp(1.125rem, 2.5vw, 1.25rem);
+  margin-bottom: 3rem;
+  line-height: 1.6;
+  opacity: 0.95;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  z-index: 1;
+}
+
+.stats-bar {
+  display: flex;
+  gap: 3rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  border-radius: 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  position: relative;
+  z-index: 1;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-item span:first-child,
+.stat-highlight {
+  display: block;
+  font-size: 2rem;
+  font-weight: 800;
+  line-height: 1;
+  margin-bottom: 0.25rem;
+}
+
+.stat-item span:last-child {
+  font-size: 0.875rem;
+  opacity: 0.8;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 /* Main Layout */

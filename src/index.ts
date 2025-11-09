@@ -33,6 +33,13 @@ import Marquee from './components/Marquee.vue'
 import Motion from './components/Motion.vue'
 import FadeInModern from './components/FadeInModern.vue'
 
+// New modern components
+import CardHoverEffect from './components/CardHoverEffect.vue'
+import ProgressCircle from './components/ProgressCircle.vue'
+import Spotlight from './components/Spotlight.vue'
+import LoadingDots from './components/LoadingDots.vue'
+import SkeletonLoader from './components/SkeletonLoader.vue'
+
 // Export composables
 export { useSpring } from './composables/useSpring'
 export { useGesture } from './composables/useGesture'
@@ -70,7 +77,12 @@ const components = {
   AnimatedBeam,
   Marquee,
   Motion,
-  FadeInModern
+  FadeInModern,
+  CardHoverEffect,
+  ProgressCircle,
+  Spotlight,
+  LoadingDots,
+  SkeletonLoader
 }
 
 // Install function
@@ -108,7 +120,12 @@ export {
   AnimatedBeam,
   Marquee,
   Motion,
-  FadeInModern
+  FadeInModern,
+  CardHoverEffect,
+  ProgressCircle,
+  Spotlight,
+  LoadingDots,
+  SkeletonLoader
 }
 
 // Default export
