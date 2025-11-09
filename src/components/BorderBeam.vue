@@ -1,12 +1,8 @@
 <template>
-  <div class="border-beam" :style="containerStyles">
-    <div class="border-beam-inner" :style="innerStyles">
+  <div class="border-beam-wrapper" :style="wrapperStyles">
+    <div class="border-beam-content">
       <slot />
     </div>
-    <div 
-      class="border-beam-gradient" 
-      :style="gradientStyles"
-    ></div>
   </div>
 </template>
 
@@ -16,98 +12,137 @@ import { computed } from 'vue'
 interface Props {
   size?: number
   duration?: number
-  anchor?: number
   borderWidth?: number
   colorFrom?: string
   colorTo?: string
   delay?: number
+  borderRadius?: number
 }
 
 const props = withDefaults(defineProps<Props>(), {
   size: 200,
-  duration: 15,
-  anchor: 90,
-  borderWidth: 1.5,
-  colorFrom: '#ffaa40',
-  colorTo: '#9c40ff',
-  delay: 0
+  duration: 8,
+  borderWidth: 2,
+  colorFrom: '#3b82f6',
+  colorTo: '#8b5cf6',
+  delay: 0,
+  borderRadius: 12
 })
 
-const containerStyles = computed(() => ({
+const wrapperStyles = computed(() => ({
+  '--border-radius': `${props.borderRadius}px`,
   '--border-width': `${props.borderWidth}px`,
   '--duration': `${props.duration}s`,
-  '--anchor': `${props.anchor}%`,
-  '--delay': `${props.delay}s`
-}))
-
-const innerStyles = computed(() => ({
-  borderWidth: `${props.borderWidth}px`
-}))
-
-const gradientStyles = computed(() => ({
-  background: `conic-gradient(from 0deg, transparent, ${props.colorFrom}, ${props.colorTo}, transparent)`,
-  width: `${props.size}px`,
-  height: `${props.size}px`,
-  animationDelay: `${props.delay}s`
+  '--delay': `${props.delay}s`,
+  '--color-from': props.colorFrom,
+  '--color-to': props.colorTo,
+  '--beam-length': '30%'
 }))
 </script>
 
 <style scoped>
-.border-beam {
+.border-beam-wrapper {
   position: relative;
+  border-radius: var(--border-radius);
   background: transparent;
-  border-radius: 12px;
+  padding: var(--border-width);
   overflow: hidden;
 }
 
-.border-beam-inner {
-  position: relative;
-  z-index: 10;
-  border-radius: 12px;
-  border: solid transparent;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(12px);
-  padding: 2rem;
-  min-height: 120px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  color: white;
-  font-weight: 600;
-  font-size: 1.1rem;
-}
-
-.border-beam-gradient {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  border-radius: 50%;
-  animation: border-beam-spin var(--duration) linear infinite;
-  animation-delay: var(--delay);
-  opacity: 0.9;
-  filter: blur(2px);
-}
-
-@keyframes border-beam-spin {
-  0% {
-    transform: translate(-50%, -50%) rotate(0deg);
-  }
-  100% {
-    transform: translate(-50%, -50%) rotate(360deg);
-  }
-}
-
-.border-beam::before {
+.border-beam-wrapper::before {
   content: '';
   position: absolute;
-  inset: 0;
-  padding: var(--border-width);
-  background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-  border-radius: inherit;
-  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  mask-composite: exclude;
-  -webkit-mask-composite: xor;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: var(--border-radius);
+  background: 
+    linear-gradient(90deg, 
+      transparent, 
+      transparent 40%, 
+      var(--color-from) 45%, 
+      var(--color-to) 55%, 
+      transparent 60%, 
+      transparent
+    );
+  background-size: 300% 100%;
+  background-position: -100% 0;
+  animation: border-beam-horizontal var(--duration) ease-in-out infinite;
+  animation-delay: var(--delay);
+  z-index: 1;
+}
+
+.border-beam-wrapper::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: var(--border-radius);
+  background: 
+    linear-gradient(0deg, 
+      transparent, 
+      transparent 40%, 
+      var(--color-from) 45%, 
+      var(--color-to) 55%, 
+      transparent 60%, 
+      transparent
+    );
+  background-size: 100% 300%;
+  background-position: 0 -100%;
+  animation: border-beam-vertical calc(var(--duration) * 1.2) ease-in-out infinite;
+  animation-delay: calc(var(--delay) + var(--duration) * 0.25);
+  z-index: 1;
+}
+
+.border-beam-content {
+  position: relative;
+  z-index: 2;
+  background: inherit;
+  border-radius: calc(var(--border-radius) - var(--border-width));
+  width: 100%;
+  height: 100%;
+}
+
+@keyframes border-beam-horizontal {
+  0%, 20% {
+    background-position: -100% 0;
+    opacity: 0;
+  }
+  25%, 75% {
+    opacity: 1;
+  }
+  30% {
+    background-position: 0% 0;
+  }
+  70% {
+    background-position: 100% 0;
+  }
+  80%, 100% {
+    background-position: 200% 0;
+    opacity: 0;
+  }
+}
+
+@keyframes border-beam-vertical {
+  0%, 20% {
+    background-position: 0 -100%;
+    opacity: 0;
+  }
+  25%, 75% {
+    opacity: 1;
+  }
+  30% {
+    background-position: 0 0%;
+  }
+  70% {
+    background-position: 0 100%;
+  }
+  80%, 100% {
+    background-position: 0 200%;
+    opacity: 0;
+  }
 }
 </style>
