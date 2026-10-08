@@ -61,7 +61,6 @@ export default defineConfig(({ mode, command }) => {
           tsconfigPath: './tsconfig.lib.json',
           entryRoot: 'src',
           include: ['src/index.ts', 'src/lib/**/*.ts', 'src/registry/ui/**/*'],
-          rollupTypes: false,
         }),
         copyTheme(),
       ],

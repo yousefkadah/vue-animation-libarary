@@ -71,11 +71,13 @@ const maskStyle = computed(() => {
     `text-anchor='${escapeXml(props.textAnchor)}' dominant-baseline='${escapeXml(props.dominantBaseline)}' ` +
     `font-family='${escapeXml(props.fontFamily)}'>${escapeXml(content.value)}</text></svg>`
   const mask = `url("data:image/svg+xml,${encodeURIComponent(svg)}")`
+  // The SVG has no intrinsic size, so it is stretched to exactly the box (`contain` left the
+  // fit to the browser's guess of an aspect ratio).
   return {
     maskImage: mask,
     WebkitMaskImage: mask,
-    maskSize: 'contain',
-    WebkitMaskSize: 'contain',
+    maskSize: '100% 100%',
+    WebkitMaskSize: '100% 100%',
     maskRepeat: 'no-repeat',
     WebkitMaskRepeat: 'no-repeat',
     maskPosition: 'center',
@@ -86,7 +88,12 @@ const maskStyle = computed(() => {
 
 <template>
   <component :is="props.as" :class="cn('relative size-full', props.class)">
-    <div class="absolute inset-0 flex items-center justify-center" :style="maskStyle">
+    <!--
+      p-px keeps the video 1px inside the mask box. Chrome snaps the mask tile and the video layer to
+      device pixels independently, which could otherwise leave a 1px unmasked row of video at the
+      top and bottom edges. The glyphs never reach the edges, so nothing visible is lost.
+    -->
+    <div class="absolute inset-0 flex items-center justify-center p-px" :style="maskStyle">
       <video
         class="h-full w-full object-cover"
         :autoplay="props.autoPlay"
