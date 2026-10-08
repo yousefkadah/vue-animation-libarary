@@ -1,0 +1,42 @@
+{
+  "name": "animated-beam",
+  "title": "Animated Beam",
+  "description": "An animated beam of light which travels along a path. Useful for showcasing the integration features of a website.",
+  "category": "special-effects",
+  "exports": ["AnimatedBeam"],
+  "dependencies": ["motion-v"],
+  "usage": "<script setup lang=\"ts\">\nimport { ref } from 'vue'\nimport { AnimatedBeam } from '@/components/ui/animated-beam'\n\nconst container = ref<HTMLElement | null>(null)\nconst from = ref<HTMLElement | null>(null)\nconst to = ref<HTMLElement | null>(null)\n</script>\n\n<template>\n  <div ref=\"container\" class=\"relative flex w-full max-w-md justify-between p-10\">\n    <div ref=\"from\" class=\"z-10 size-12 rounded-full border-2 bg-white\" />\n    <div ref=\"to\" class=\"z-10 size-12 rounded-full border-2 bg-white\" />\n    <AnimatedBeam :container-ref=\"container\" :from-ref=\"from\" :to-ref=\"to\" />\n  </div>\n</template>",
+  "examples": [
+    {"name": "animated-beam-demo", "title": "Integrations hub"},
+    {"name": "animated-beam-unidirectional", "title": "Uni-directional"},
+    {"name": "animated-beam-bidirectional", "title": "Bi-directional"},
+    {"name": "animated-beam-multiple-inputs", "title": "Multiple inputs"},
+    {"name": "animated-beam-multiple-outputs", "title": "Multiple outputs"}
+  ],
+  "api": [
+    {
+      "name": "AnimatedBeam",
+      "props": [
+        {"name": "class", "type": "string", "description": "Classes for the SVG overlay."},
+        {"name": "containerRef", "type": "HTMLElement | ComponentPublicInstance | Ref<…> | null", "required": true, "description": "A positioned (`relative`) element that contains both ends. Pass a template ref — in a template it is unwrapped to the element, which is fine."},
+        {"name": "fromRef", "type": "HTMLElement | ComponentPublicInstance | Ref<…> | null", "required": true, "description": "The element the beam starts from."},
+        {"name": "toRef", "type": "HTMLElement | ComponentPublicInstance | Ref<…> | null", "required": true, "description": "The element the beam travels to."},
+        {"name": "curvature", "type": "number", "default": "0", "description": "Bend of the path in pixels. Negative curves up, positive curves down."},
+        {"name": "reverse", "type": "boolean", "default": "false", "description": "Run the beam from `toRef` back to `fromRef`."},
+        {"name": "duration", "type": "number", "default": "5", "description": "Seconds for one pass."},
+        {"name": "delay", "type": "number", "default": "0", "description": "Seconds before the first pass."},
+        {"name": "repeat", "type": "number", "default": "Infinity", "description": "How many times the beam repeats."},
+        {"name": "repeatDelay", "type": "number", "default": "0", "description": "Seconds between passes."},
+        {"name": "pathColor", "type": "string", "default": "\"gray\"", "description": "Colour of the static path."},
+        {"name": "pathWidth", "type": "number", "default": "2", "description": "Stroke width in pixels."},
+        {"name": "pathOpacity", "type": "number", "default": "0.2", "description": "Opacity of the static path."},
+        {"name": "gradientStartColor", "type": "string", "default": "\"#ffaa40\"", "description": "Leading colour of the beam."},
+        {"name": "gradientStopColor", "type": "string", "default": "\"#9c40ff\"", "description": "Trailing colour of the beam."},
+        {"name": "startXOffset", "type": "number", "default": "0", "description": "Horizontal offset of the start point in pixels."},
+        {"name": "startYOffset", "type": "number", "default": "0", "description": "Vertical offset of the start point in pixels."},
+        {"name": "endXOffset", "type": "number", "default": "0", "description": "Horizontal offset of the end point in pixels."},
+        {"name": "endYOffset", "type": "number", "default": "0", "description": "Vertical offset of the end point in pixels."}
+      ]
+    }
+  ]
+}

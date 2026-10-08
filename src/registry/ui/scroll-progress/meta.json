@@ -1,0 +1,22 @@
+{
+  "name": "scroll-progress",
+  "title": "Scroll Progress",
+  "description": "Animated scroll progress bar for your pages.",
+  "category": "components",
+  "exports": ["ScrollProgress"],
+  "dependencies": ["motion-v"],
+  "usage": "<script setup lang=\"ts\">\nimport { ScrollProgress } from '@/components/ui/scroll-progress'\n</script>\n\n<template>\n  <ScrollProgress />\n</template>",
+  "examples": [
+    { "name": "scroll-progress-demo", "title": "Page", "description": "Fixed to the top of the viewport; here offset with `class=\"top-14\"` to sit under the navbar." },
+    { "name": "scroll-progress-container", "title": "Scroll container", "description": "Track a scrollable element with `container` and make the bar `sticky`." }
+  ],
+  "api": [
+    {
+      "name": "ScrollProgress",
+      "props": [
+        { "name": "class", "type": "string", "description": "Classes for the bar — position (`top-*`), thickness (`h-*`) or colours (`from-*`, `via-*`, `to-*`)." },
+        { "name": "container", "type": "HTMLElement | null", "description": "Scrollable element to track instead of the page. Not in Magic UI." }
+      ]
+    }
+  ]
+}

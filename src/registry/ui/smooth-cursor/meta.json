@@ -1,0 +1,22 @@
+{
+  "name": "smooth-cursor",
+  "title": "Smooth Cursor",
+  "description": "A page-wide custom cursor that follows the pointer on a spring and leans into the direction of travel.",
+  "category": "components",
+  "exports": ["SmoothCursor"],
+  "dependencies": ["motion-v"],
+  "usage": "<script setup lang=\"ts\">\nimport { SmoothCursor } from '@/components/ui/smooth-cursor'\n</script>\n\n<template>\n  <SmoothCursor />\n</template>",
+  "examples": [
+    { "name": "smooth-cursor-demo", "title": "Default" },
+    { "name": "smooth-cursor-custom", "title": "Custom cursor" }
+  ],
+  "api": [
+    {
+      "name": "SmoothCursor",
+      "props": [
+        { "name": "springConfig", "type": "{ damping: number; stiffness: number; mass: number; restDelta: number }", "default": "{ damping: 45, stiffness: 400, mass: 1, restDelta: 0.001 }", "description": "Spring used to follow the pointer. Rotation and scale use stiffer variants of it." }
+      ],
+      "slots": [{ "name": "cursor", "description": "Custom cursor markup (Magic UI's cursor prop). Defaults to an arrow with a soft shadow." }]
+    }
+  ]
+}

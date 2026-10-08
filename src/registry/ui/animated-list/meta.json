@@ -1,0 +1,28 @@
+{
+  "name": "animated-list",
+  "title": "Animated List",
+  "description": "A list that animates each item in sequence with a delay. Used to showcase notifications or events on your landing page.",
+  "category": "components",
+  "exports": ["AnimatedList", "AnimatedListItem"],
+  "dependencies": ["motion-v"],
+  "usage": "<script setup lang=\"ts\">\nimport { AnimatedList } from '@/components/ui/animated-list'\n</script>\n\n<template>\n  <AnimatedList>\n    <p v-for=\"item in ['Item 1', 'Item 2', 'Item 3']\" :key=\"item\">{{ item }}</p>\n  </AnimatedList>\n</template>",
+  "examples": [
+    { "name": "animated-list-demo", "title": "Notifications" },
+    { "name": "animated-list-activity", "title": "Activity feed", "description": "A slower `delay` and denser rows." }
+  ],
+  "api": [
+    {
+      "name": "AnimatedList",
+      "props": [
+        { "name": "class", "type": "string", "description": "Classes for the list container." },
+        { "name": "delay", "type": "number", "default": "1000", "description": "Milliseconds between two items appearing." }
+      ],
+      "slots": [{ "name": "default", "description": "The items, in order. They appear one at a time, newest on top. Give `v-for` items a `:key` so each animates in exactly once." }]
+    },
+    {
+      "name": "AnimatedListItem",
+      "props": [{ "name": "class", "type": "string", "description": "Classes for the item wrapper." }],
+      "slots": [{ "name": "default", "description": "Item content. Used internally by `AnimatedList`; exported so you can reuse the pop-in animation." }]
+    }
+  ]
+}

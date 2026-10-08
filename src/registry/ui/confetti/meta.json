@@ -1,0 +1,46 @@
+{
+  "name": "confetti",
+  "title": "Confetti",
+  "description": "Confetti animations are best used to delight your users when something special happens.",
+  "category": "special-effects",
+  "exports": ["Confetti", "ConfettiButton", "useConfetti"],
+  "dependencies": ["canvas-confetti", "@types/canvas-confetti"],
+  "usage": "<script setup lang=\"ts\">\nimport { ConfettiButton } from '@/components/ui/confetti'\n</script>\n\n<template>\n  <ConfettiButton>Confetti 🎉</ConfettiButton>\n</template>",
+  "examples": [
+    { "name": "confetti-demo", "title": "Canvas" },
+    { "name": "confetti-button", "title": "Basic" },
+    { "name": "confetti-random-direction", "title": "Random direction" },
+    { "name": "confetti-fireworks", "title": "Fireworks" },
+    { "name": "confetti-side-cannons", "title": "Side cannons" },
+    { "name": "confetti-stars", "title": "Stars" },
+    { "name": "confetti-custom-shapes", "title": "Custom shapes" },
+    { "name": "confetti-emoji", "title": "Emoji" }
+  ],
+  "api": [
+    {
+      "name": "Confetti",
+      "props": [
+        { "name": "class", "type": "string", "description": "Classes for the canvas. Size it yourself, e.g. absolute inset-0 size-full. Other attributes and listeners (e.g. @mouseenter) also go to the canvas." },
+        { "name": "options", "type": "ConfettiOptions", "description": "Default options for every burst (particleCount, angle, spread, startVelocity, decay, gravity, drift, flat, ticks, origin, colors, shapes, scalar, zIndex)." },
+        { "name": "globalOptions", "type": "ConfettiGlobalOptions", "default": "{ resize: true, useWorker: true }", "description": "Options for confetti.create()." },
+        { "name": "manualstart", "type": "boolean", "default": "false", "description": "Don't fire a burst on mount." }
+      ],
+      "slots": [{ "name": "default", "description": "Content rendered after the canvas. It can call useConfetti() to get { fire }." }]
+    },
+    {
+      "name": "ConfettiRef",
+      "props": [
+        { "name": "fire", "type": "(options?: ConfettiOptions) => Promise<void>", "description": "Exposed through a template ref (and useConfetti()). Fires a burst on the canvas; per-call options override the options prop." }
+      ]
+    },
+    {
+      "name": "ConfettiButton",
+      "props": [
+        { "name": "class", "type": "string", "description": "Classes for the button." },
+        { "name": "options", "type": "ConfettiOptions & ConfettiGlobalOptions & { canvas?: HTMLCanvasElement }", "description": "Burst options. The origin is always the centre of the button." }
+      ],
+      "slots": [{ "name": "default", "description": "Button label." }],
+      "emits": [{ "name": "click", "payload": "MouseEvent", "description": "Native click, emitted before the burst. Call event.preventDefault() to skip the confetti." }]
+    }
+  ]
+}

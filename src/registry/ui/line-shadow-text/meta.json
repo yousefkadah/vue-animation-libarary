@@ -1,0 +1,36 @@
+{
+  "name": "line-shadow-text",
+  "title": "Line Shadow Text",
+  "description": "A text component with a moving line shadow.",
+  "category": "text-animations",
+  "exports": ["LineShadowText"],
+  "dependencies": ["motion-v"],
+  "cssVars": {
+    "theme": {
+      "animate-line-shadow": "line-shadow 15s linear infinite"
+    }
+  },
+  "css": {
+    "@keyframes line-shadow": {
+      "0%": { "background-position": "0 0" },
+      "100%": { "background-position": "100% -100%" }
+    }
+  },
+  "usage": "<script setup lang=\"ts\">\nimport { LineShadowText } from '@/components/ui/line-shadow-text'\n</script>\n\n<template>\n  <h1 class=\"text-6xl font-semibold tracking-tighter\">\n    Ship\n    <LineShadowText class=\"italic\" shadow-color=\"var(--foreground)\">Fast</LineShadowText>\n  </h1>\n</template>",
+  "examples": [
+    { "name": "line-shadow-text-demo", "title": "Ship fast" },
+    { "name": "line-shadow-text-colors", "title": "Custom colour" }
+  ],
+  "api": [
+    {
+      "name": "LineShadowText",
+      "props": [
+        { "name": "text", "type": "string", "description": "The text to render. When omitted, the plain-text content of the default slot is used (Magic UI's `children`); the shadow copy needs a plain string." },
+        { "name": "class", "type": "string", "description": "Classes for the rendered element." },
+        { "name": "shadowColor", "type": "string", "default": "\"black\"", "description": "Colour of the moving line shadow. Pass a theme variable such as `var(--foreground)` to follow light / dark mode." },
+        { "name": "as", "type": "\"article\" | \"div\" | \"h1\" | \"h2\" | \"h3\" | \"h4\" | \"h5\" | \"h6\" | \"li\" | \"p\" | \"section\" | \"span\"", "default": "\"span\"", "description": "Element to render. Motion props such as `initial` and `animate` fall through to it." }
+      ],
+      "slots": [{ "name": "default", "description": "Plain text to render, used when the `text` prop is not set." }]
+    }
+  ]
+}

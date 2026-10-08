@@ -1,0 +1,24 @@
+{
+  "name": "pointer",
+  "title": "Pointer",
+  "description": "Replaces the cursor with a custom animated pointer while hovering a container.",
+  "category": "components",
+  "exports": ["Pointer"],
+  "dependencies": ["motion-v"],
+  "usage": "<script setup lang=\"ts\">\nimport { Pointer } from '@/components/ui/pointer'\n</script>\n\n<template>\n  <div class=\"relative rounded-xl border p-8\">\n    Hover me\n    <Pointer class=\"fill-blue-500\" />\n  </div>\n</template>",
+  "examples": [
+    { "name": "pointer-demo", "title": "Pointers" },
+    { "name": "pointer-custom", "title": "Name tag" }
+  ],
+  "api": [
+    {
+      "name": "Pointer",
+      "props": [
+        { "name": "class", "type": "string", "description": "Classes for the default arrow, e.g. fill-blue-500." },
+        { "name": "style", "type": "CSSProperties", "description": "Extra styles for the floating pointer element." },
+        { "name": "...motion props", "type": "MotionProps", "description": "Any other attribute (initial, animate, exit, transition, …) is forwarded to the motion element that follows the cursor." }
+      ],
+      "slots": [{ "name": "default", "description": "Custom pointer content. Defaults to an arrow. The real cursor is hidden only over the Pointer's parent element." }]
+    }
+  ]
+}

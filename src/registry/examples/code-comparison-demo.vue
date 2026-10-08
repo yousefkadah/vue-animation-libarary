@@ -1,0 +1,57 @@
+<script setup lang="ts">
+import { CodeComparison } from '@/components/ui/code-comparison'
+
+const beforeCode = `<script>
+export default {
+  data() {
+    return { count: 0 } // [!code highlight]
+  },
+  computed: {
+    double() { // [!code highlight]
+      return this.count * 2 // [!code highlight]
+    }, // [!code highlight]
+  },
+  methods: {
+    increment() {
+      this.count++
+    },
+  },
+  mounted() {
+    console.log(\`count is \${this.count}\`)
+  },
+}
+<\/script>
+
+<template>
+  <button @click="increment">{{ count }} × 2 = {{ double }}</button>
+</template>`
+
+const afterCode = `<script setup>
+import { computed, onMounted, ref } from 'vue' // [!code ++]
+import { useCounter } from './useCounter' // [!code --]
+
+const count = ref(0) // [!code focus]
+const double = computed(() => count.value * 2) // [!code focus]
+const increment = () => count.value++
+
+onMounted(() => {
+  console.log(\`count is \${count.value}\`)
+})
+<\/script>
+
+<template>
+  <button @click="increment">{{ count }} × 2 = {{ double }}</button>
+</template>`
+</script>
+
+<template>
+  <CodeComparison
+    :before-code="beforeCode"
+    :after-code="afterCode"
+    language="vue"
+    filename="Counter.vue"
+    light-theme="github-light"
+    dark-theme="github-dark"
+    highlight-color="rgba(101, 117, 133, 0.16)"
+  />
+</template>

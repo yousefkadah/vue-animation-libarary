@@ -1,0 +1,27 @@
+{
+  "name": "interactive-hover-button",
+  "title": "Interactive Hover Button",
+  "description": "Interactive hover button: a dot grows to fill the button and the label slides out for an arrow.",
+  "category": "buttons",
+  "exports": ["InteractiveHoverButton"],
+  "dependencies": ["@lucide/vue"],
+  "usage": "<script setup lang=\"ts\">\nimport { InteractiveHoverButton } from '@/components/ui/interactive-hover-button'\n</script>\n\n<template>\n  <InteractiveHoverButton>Hover Me</InteractiveHoverButton>\n</template>",
+  "examples": [
+    {"name": "interactive-hover-button-demo", "title": "Default"},
+    {"name": "interactive-hover-button-custom", "title": "Custom styles"}
+  ],
+  "api": [
+    {
+      "name": "InteractiveHoverButton",
+      "props": [
+        {"name": "class", "type": "string", "description": "Classes for the button."}
+      ],
+      "slots": [
+        {"name": "default", "description": "Button label (rendered twice: at rest and in the hover state)."}
+      ],
+      "emits": [
+        {"name": "click", "description": "Native click (falls through to the button)."}
+      ]
+    }
+  ]
+}

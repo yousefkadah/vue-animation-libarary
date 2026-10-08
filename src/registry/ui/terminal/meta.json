@@ -1,0 +1,44 @@
+{
+  "name": "terminal",
+  "title": "Terminal",
+  "description": "An implementation of the MacOS terminal. Useful for showcasing a command line interface.",
+  "category": "components",
+  "exports": ["Terminal", "AnimatedSpan", "TerminalTypingAnimation"],
+  "dependencies": ["motion-v"],
+  "usage": "<script setup lang=\"ts\">\nimport { AnimatedSpan, Terminal, TerminalTypingAnimation } from '@/components/ui/terminal'\n</script>\n\n<template>\n  <Terminal>\n    <TerminalTypingAnimation>npx shadcn-vue@latest init</TerminalTypingAnimation>\n    <AnimatedSpan>✔ Preflight checks.</AnimatedSpan>\n    <AnimatedSpan>✔ Validating Tailwind CSS.</AnimatedSpan>\n    <TerminalTypingAnimation>Success! Project initialization completed.</TerminalTypingAnimation>\n  </Terminal>\n</template>",
+  "examples": [
+    { "name": "terminal-demo", "title": "Sequenced", "description": "Each line starts when the previous one finishes — no delays needed." },
+    { "name": "terminal-delays", "title": "Custom delays", "description": "Turn `sequence` off and give every line its own `delay`." }
+  ],
+  "api": [
+    {
+      "name": "Terminal",
+      "props": [
+        { "name": "class", "type": "string", "description": "Classes for the terminal window." },
+        { "name": "sequence", "type": "boolean", "default": "true", "description": "Play the lines one after another: each `TerminalTypingAnimation` / `AnimatedSpan` starts when the previous one finishes." },
+        { "name": "startOnView", "type": "boolean", "default": "true", "description": "Start the sequence when the terminal scrolls into view." }
+      ],
+      "slots": [{ "name": "default", "description": "The terminal lines: `TerminalTypingAnimation` and `AnimatedSpan` components, in order." }]
+    },
+    {
+      "name": "AnimatedSpan",
+      "props": [
+        { "name": "class", "type": "string", "description": "Classes for the line." },
+        { "name": "delay", "type": "number", "default": "0", "description": "Milliseconds before the line fades in. Only used when the terminal's `sequence` is off." },
+        { "name": "startOnView", "type": "boolean", "default": "false", "description": "Wait until the line is in view. Only used when the terminal's `sequence` is off." }
+      ],
+      "slots": [{ "name": "default", "description": "Content to fade in." }]
+    },
+    {
+      "name": "TerminalTypingAnimation",
+      "props": [
+        { "name": "class", "type": "string", "description": "Classes for the line." },
+        { "name": "duration", "type": "number", "default": "60", "description": "Milliseconds per character." },
+        { "name": "delay", "type": "number", "default": "0", "description": "Milliseconds before typing starts. Only used when the terminal's `sequence` is off." },
+        { "name": "as", "type": "\"span\" | \"div\" | \"p\" | \"li\" | \"h1\"–\"h6\" | \"article\" | \"section\"", "default": "\"span\"", "description": "Element to render." },
+        { "name": "startOnView", "type": "boolean", "default": "true", "description": "Wait until the line is in view. Only used when the terminal's `sequence` is off." }
+      ],
+      "slots": [{ "name": "default", "description": "The text to type. Plain text only — markup inside is flattened to its text. Named `TypingAnimation` in Magic UI; renamed so it doesn't clash with the standalone Typing Animation component." }]
+    }
+  ]
+}

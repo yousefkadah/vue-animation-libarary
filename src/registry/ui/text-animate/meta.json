@@ -1,0 +1,35 @@
+{
+  "name": "text-animate",
+  "title": "Text Animate",
+  "description": "A text animation component that animates text using a variety of different animations.",
+  "category": "text-animations",
+  "exports": ["TextAnimate"],
+  "dependencies": ["motion-v"],
+  "usage": "<script setup lang=\"ts\">\nimport { TextAnimate } from '@/components/ui/text-animate'\n</script>\n\n<template>\n  <TextAnimate text=\"Blur in by character\" animation=\"blurInUp\" by=\"character\" once />\n\n  <!-- or pass the text through the default slot -->\n  <TextAnimate animation=\"slideUp\" by=\"word\">Slide up by word</TextAnimate>\n</template>",
+  "examples": [
+    { "name": "text-animate-demo", "title": "Blur in by character" },
+    { "name": "text-animate-slide-up", "title": "Slide up by word" },
+    { "name": "text-animate-by-line", "title": "Fade in by line" },
+    { "name": "text-animate-custom-variants", "title": "Custom motion variants" }
+  ],
+  "api": [
+    {
+      "name": "TextAnimate",
+      "props": [
+        { "name": "text", "type": "string", "description": "The text to animate. When omitted, the plain-text content of the default slot is used instead (Magic UI's `children`)." },
+        { "name": "class", "type": "string", "description": "Classes for the wrapping element." },
+        { "name": "segmentClass", "type": "string", "description": "Classes applied to every animated segment (Magic UI's `segmentClassName`)." },
+        { "name": "delay", "type": "number", "default": "0", "description": "Seconds to wait before the first segment animates." },
+        { "name": "duration", "type": "number", "default": "0.3", "description": "Seconds over which the segments are staggered in." },
+        { "name": "variants", "type": "Variants", "description": "Custom `hidden` / `show` / `exit` variants for each segment. Each segment receives `index * stagger` as its `custom` value. Replaces the `animation` preset." },
+        { "name": "as", "type": "\"article\" | \"div\" | \"h1\" | \"h2\" | \"h3\" | \"h4\" | \"h5\" | \"h6\" | \"li\" | \"p\" | \"section\" | \"span\"", "default": "\"p\"", "description": "Element to render." },
+        { "name": "by", "type": "\"text\" | \"word\" | \"character\" | \"line\"", "default": "\"word\"", "description": "How the text is split into animated segments." },
+        { "name": "startOnView", "type": "boolean", "default": "true", "description": "Wait until the element scrolls into view before animating." },
+        { "name": "once", "type": "boolean", "default": "false", "description": "Only animate the first time the element enters the viewport." },
+        { "name": "animation", "type": "\"fadeIn\" | \"blurIn\" | \"blurInUp\" | \"blurInDown\" | \"slideUp\" | \"slideDown\" | \"slideLeft\" | \"slideRight\" | \"scaleUp\" | \"scaleDown\"", "default": "\"fadeIn\"", "description": "The animation preset to use." },
+        { "name": "accessible", "type": "boolean", "default": "true", "description": "Render the full string for screen readers (`aria-label` + `sr-only` copy) and hide the split segments from them." }
+      ],
+      "slots": [{ "name": "default", "description": "Plain text to animate, used when the `text` prop is not set. Markup inside the slot is flattened to its text." }]
+    }
+  ]
+}

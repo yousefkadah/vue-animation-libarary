@@ -1,0 +1,23 @@
+{
+  "name": "kinetic-text",
+  "title": "Kinetic Text",
+  "description": "Letters that swell in weight and spacing as the pointer passes over them, with a ripple into their neighbours.",
+  "category": "text-animations",
+  "exports": ["KineticText"],
+  "dependencies": [],
+  "usage": "<script setup lang=\"ts\">\nimport { KineticText } from '@/components/ui/kinetic-text'\n</script>\n\n<template>\n  <KineticText text=\"Nostalgia\" class=\"text-[6rem]\" />\n</template>",
+  "examples": [
+    { "name": "kinetic-text-demo", "title": "Default" },
+    { "name": "kinetic-text-heading", "title": "Headings" }
+  ],
+  "api": [
+    {
+      "name": "KineticText",
+      "props": [
+        { "name": "class", "type": "string", "description": "Classes for the wrapper." },
+        { "name": "text", "type": "string", "required": true, "description": "The text to render with the kinetic hover effect." },
+        { "name": "as", "type": "\"h1\" | \"h2\" | \"h3\" | \"h4\" | \"h5\" | \"h6\" | \"p\" | \"span\"", "default": "\"h1\"", "description": "Element to render." }
+      ]
+    }
+  ]
+}

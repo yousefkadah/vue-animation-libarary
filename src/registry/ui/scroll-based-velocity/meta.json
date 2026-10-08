@@ -1,0 +1,42 @@
+{
+  "name": "scroll-based-velocity",
+  "title": "Scroll Based Velocity",
+  "description": "Scrolling rows of content whose speed and direction follow the page scroll velocity.",
+  "category": "text-animations",
+  "exports": ["ScrollVelocityContainer", "ScrollVelocityRow"],
+  "dependencies": ["motion-v"],
+  "usage": "<script setup lang=\"ts\">\nimport { ScrollVelocityContainer, ScrollVelocityRow } from '@/components/ui/scroll-based-velocity'\n</script>\n\n<template>\n  <ScrollVelocityContainer class=\"text-4xl font-bold md:text-7xl\">\n    <ScrollVelocityRow :base-velocity=\"20\" :direction=\"1\">Velocity Scroll</ScrollVelocityRow>\n    <ScrollVelocityRow :base-velocity=\"20\" :direction=\"-1\">Velocity Scroll</ScrollVelocityRow>\n  </ScrollVelocityContainer>\n</template>",
+  "examples": [
+    { "name": "scroll-based-velocity-demo", "title": "Text", "description": "Scroll the page to speed the rows up or flip their direction." },
+    { "name": "scroll-based-velocity-images", "title": "Images" },
+    { "name": "scroll-based-velocity-tags", "title": "Standalone rows" }
+  ],
+  "api": [
+    {
+      "name": "ScrollVelocityContainer",
+      "props": [
+        { "name": "class", "type": "string", "description": "Classes for the container." }
+      ],
+      "slots": [
+        { "name": "default", "description": "One or more `ScrollVelocityRow`s, which share one scroll-velocity value." }
+      ]
+    },
+    {
+      "name": "ScrollVelocityRow",
+      "props": [
+        { "name": "class", "type": "string", "description": "Classes for the row." },
+        {
+          "name": "baseVelocity",
+          "type": "number",
+          "default": "5",
+          "description": "Base speed, as a percentage of the content width per second. Rows stay still when the user prefers reduced motion."
+        },
+        { "name": "direction", "type": "1 | -1", "default": "1", "description": "`1` moves the content to the left, `-1` to the right. Scrolling up flips it." },
+        { "name": "scrollReactivity", "type": "boolean", "default": "true", "description": "Speed up (up to 6×) and flip direction with the page scroll velocity." }
+      ],
+      "slots": [
+        { "name": "default", "description": "Content to repeat and scroll. Copies are added until the row is filled." }
+      ]
+    }
+  ]
+}

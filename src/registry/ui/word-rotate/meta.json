@@ -1,0 +1,30 @@
+{
+  "name": "word-rotate",
+  "title": "Word Rotate",
+  "description": "A vertical rotation of words.",
+  "category": "text-animations",
+  "exports": ["WordRotate"],
+  "dependencies": ["motion-v"],
+  "usage": "<script setup lang=\"ts\">\nimport { WordRotate } from '@/components/ui/word-rotate'\n</script>\n\n<template>\n  <WordRotate class=\"text-4xl font-bold\" :words=\"['Word', 'Rotate']\" />\n</template>",
+  "examples": [
+    { "name": "word-rotate-demo", "title": "Default" },
+    { "name": "word-rotate-sentence", "title": "In a sentence" },
+    { "name": "word-rotate-blur", "title": "Custom motion" }
+  ],
+  "api": [
+    {
+      "name": "WordRotate",
+      "props": [
+        { "name": "class", "type": "string", "description": "Classes for each word." },
+        { "name": "words", "type": "string[]", "required": true, "description": "The words to rotate through." },
+        { "name": "duration", "type": "number", "default": "2500", "description": "Milliseconds each word stays on screen." },
+        {
+          "name": "motionProps",
+          "type": "MotionProps",
+          "default": "slide down + fade",
+          "description": "Motion props applied to each word (`initial`, `animate`, `exit`, `transition`). With reduced motion and no custom props, words cross-fade without moving."
+        }
+      ]
+    }
+  ]
+}

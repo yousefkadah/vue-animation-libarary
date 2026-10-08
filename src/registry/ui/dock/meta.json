@@ -1,0 +1,40 @@
+{
+  "name": "dock",
+  "title": "Dock",
+  "description": "An implementation of the MacOS dock using Vue, Tailwind CSS and Motion.",
+  "category": "components",
+  "exports": ["Dock", "DockIcon"],
+  "dependencies": ["motion-v", "@vueuse/core"],
+  "usage": "<script setup lang=\"ts\">\nimport { House, Search, Settings } from '@lucide/vue'\nimport { Dock, DockIcon } from '@/components/ui/dock'\n</script>\n\n<template>\n  <Dock>\n    <DockIcon><House class=\"size-5\" /></DockIcon>\n    <DockIcon><Settings class=\"size-5\" /></DockIcon>\n    <DockIcon><Search class=\"size-5\" /></DockIcon>\n  </Dock>\n</template>",
+  "examples": [
+    { "name": "dock-demo", "title": "Navigation dock", "description": "Links with tooltips and a separator." },
+    { "name": "dock-direction", "title": "Custom direction", "description": "`direction` aligns the icons to the top, middle or bottom of the dock as they grow." },
+    { "name": "dock-magnification", "title": "Custom magnification" }
+  ],
+  "api": [
+    {
+      "name": "Dock",
+      "props": [
+        { "name": "class", "type": "string", "description": "Classes for the dock." },
+        { "name": "iconSize", "type": "number", "default": "40", "description": "Resting size of every icon in pixels." },
+        { "name": "iconMagnification", "type": "number", "default": "60", "description": "Size an icon grows to when the pointer is right over it." },
+        { "name": "iconDistance", "type": "number", "default": "140", "description": "Distance in pixels from the pointer within which icons grow." },
+        { "name": "direction", "type": "\"top\" | \"middle\" | \"bottom\"", "default": "\"middle\"", "description": "Vertical alignment of the icons inside the dock." },
+        { "name": "disableMagnification", "type": "boolean", "default": "false", "description": "Turn the magnification effect off." }
+      ],
+      "slots": [{ "name": "default", "description": "`DockIcon`s, plus anything else (e.g. a separator), rendered in order." }]
+    },
+    {
+      "name": "DockIcon",
+      "props": [
+        { "name": "class", "type": "string", "description": "Classes for the icon bubble." },
+        { "name": "size", "type": "number", "default": "dock's iconSize", "description": "Resting size in pixels. Overrides the dock's `iconSize` for this icon." },
+        { "name": "magnification", "type": "number", "default": "dock's iconMagnification", "description": "Size when the pointer is right over the icon." },
+        { "name": "distance", "type": "number", "default": "dock's iconDistance", "description": "Distance in pixels within which the icon grows." },
+        { "name": "disableMagnification", "type": "boolean", "default": "dock's disableMagnification", "description": "Turn magnification off for this icon." },
+        { "name": "mouseX", "type": "MotionValue<number>", "description": "Pointer X position to react to. Provided automatically inside a `Dock`; pass one to use an icon on its own." }
+      ],
+      "slots": [{ "name": "default", "description": "The icon, link or button." }]
+    }
+  ]
+}

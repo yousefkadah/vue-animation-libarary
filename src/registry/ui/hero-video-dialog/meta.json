@@ -1,0 +1,30 @@
+{
+  "name": "hero-video-dialog",
+  "title": "Hero Video Dialog",
+  "description": "A hero video thumbnail with a play button that opens the video in an animated dialog.",
+  "category": "components",
+  "exports": ["HeroVideoDialog"],
+  "dependencies": ["motion-v", "@lucide/vue"],
+  "usage": "<script setup lang=\"ts\">\nimport { HeroVideoDialog } from '@/components/ui/hero-video-dialog'\n</script>\n\n<template>\n  <HeroVideoDialog\n    animation-style=\"from-center\"\n    video-src=\"https://www.youtube.com/embed/OrxmtDw4pVI\"\n    thumbnail-src=\"https://i.ytimg.com/vi/OrxmtDw4pVI/maxresdefault.jpg\"\n    thumbnail-alt=\"Hero video\"\n  />\n</template>",
+  "examples": [
+    { "name": "hero-video-dialog-demo", "title": "From center" },
+    { "name": "hero-video-dialog-top-in-bottom-out", "title": "Top in, bottom out" },
+    { "name": "hero-video-dialog-styles", "title": "All animation styles", "description": "Pick a style, then open the video." }
+  ],
+  "api": [
+    {
+      "name": "HeroVideoDialog",
+      "props": [
+        { "name": "class", "type": "string", "description": "Classes for the wrapper." },
+        { "name": "animationStyle", "type": "\"from-center\" | \"from-bottom\" | \"from-top\" | \"from-left\" | \"from-right\" | \"fade\" | \"top-in-bottom-out\" | \"left-in-right-out\"", "default": "\"from-center\"", "description": "How the dialog enters and leaves. `top-in-bottom-out` and `left-in-right-out` exit on the opposite side." },
+        { "name": "videoSrc", "type": "string", "required": true, "description": "URL of the video, loaded in an iframe. For YouTube use the embed URL (`https://www.youtube.com/embed/<id>`)." },
+        { "name": "thumbnailSrc", "type": "string", "required": true, "description": "URL of the thumbnail image (for YouTube: `https://i.ytimg.com/vi/<id>/maxresdefault.jpg`)." },
+        { "name": "thumbnailAlt", "type": "string", "default": "\"Video thumbnail\"", "description": "Alt text for the thumbnail; also labels the dialog." }
+      ],
+      "emits": [
+        { "name": "open", "payload": "void", "description": "The dialog opened." },
+        { "name": "close", "payload": "void", "description": "The dialog closed (close button, Escape or a click on the backdrop)." }
+      ]
+    }
+  ]
+}

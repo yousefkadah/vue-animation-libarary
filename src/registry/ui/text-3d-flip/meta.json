@@ -1,0 +1,38 @@
+{
+  "name": "text-3d-flip",
+  "title": "Text 3D Flip",
+  "description": "Letters that flip in 3D, one after another, when hovered.",
+  "category": "text-animations",
+  "exports": ["Text3DFlip"],
+  "dependencies": ["motion-v"],
+  "usage": "<script setup lang=\"ts\">\nimport { Text3DFlip } from '@/components/ui/text-3d-flip'\n</script>\n\n<template>\n  <Text3DFlip\n    class=\"text-5xl\"\n    text-class=\"bg-background text-foreground\"\n    flip-text-class=\"bg-background text-foreground\"\n    rotate-direction=\"top\"\n  >\n    Stay hungry, stay foolish\n  </Text3DFlip>\n</template>",
+  "examples": [
+    { "name": "text-3d-flip-demo", "title": "Default" },
+    { "name": "text-3d-flip-center", "title": "Stagger from center" },
+    { "name": "text-3d-flip-colors", "title": "Coloured back face" }
+  ],
+  "api": [
+    {
+      "name": "Text3DFlip",
+      "props": [
+        { "name": "class", "type": "string", "description": "Classes for the wrapper." },
+        { "name": "text", "type": "string", "description": "The text to flip. Falls back to the text of the default slot." },
+        { "name": "as", "type": "string", "default": "\"p\"", "description": "Element to render." },
+        { "name": "textClass", "type": "string", "description": "Classes for each letter's front face (visible before the flip)." },
+        { "name": "flipTextClass", "type": "string", "description": "Classes for each letter's back face (revealed by the flip)." },
+        { "name": "staggerDuration", "type": "number", "default": "0.05", "description": "Seconds between each letter starting its flip." },
+        { "name": "staggerFrom", "type": "\"first\" | \"last\" | \"center\" | \"random\" | number", "default": "\"first\"", "description": "Where the stagger starts." },
+        {
+          "name": "transition",
+          "type": "ValueAnimationTransition | AnimationOptions",
+          "default": "{ type: \"spring\", damping: 30, stiffness: 300 }",
+          "description": "Motion transition for the flip."
+        },
+        { "name": "rotateDirection", "type": "\"top\" | \"right\" | \"bottom\" | \"left\"", "default": "\"right\"", "description": "Direction the letters rotate towards." }
+      ],
+      "slots": [
+        { "name": "default", "description": "Plain text to flip, used when the `text` prop is not set." }
+      ]
+    }
+  ]
+}

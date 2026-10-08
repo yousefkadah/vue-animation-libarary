@@ -1,0 +1,42 @@
+{
+  "name": "rainbow-button",
+  "title": "Rainbow Button",
+  "description": "An animated button with a rainbow effect.",
+  "category": "buttons",
+  "exports": ["RainbowButton", "rainbowButtonVariants"],
+  "dependencies": [],
+  "cssVars": {
+    "theme": {
+      "animate-rainbow": "rainbow var(--speed, 2s) infinite linear"
+    }
+  },
+  "css": {
+    "@keyframes rainbow": {
+      "0%": {"background-position": "0%"},
+      "100%": {"background-position": "200%"}
+    }
+  },
+  "usage": "<script setup lang=\"ts\">\nimport { RainbowButton } from '@/components/ui/rainbow-button'\n</script>\n\n<template>\n  <RainbowButton>Get Unlimited Access</RainbowButton>\n</template>",
+  "examples": [
+    {"name": "rainbow-button-demo", "title": "Default"},
+    {"name": "rainbow-button-outline", "title": "Outline"},
+    {"name": "rainbow-button-sizes", "title": "Sizes"}
+  ],
+  "api": [
+    {
+      "name": "RainbowButton",
+      "props": [
+        {"name": "class", "type": "string", "description": "Classes for the button. Override the rainbow with `[--color-1:…]` … `[--color-5:…]` and the speed with `[--speed:4s]`."},
+        {"name": "variant", "type": "\"default\" | \"outline\"", "default": "\"default\"", "description": "Solid, or light with a rainbow underline."},
+        {"name": "size", "type": "\"default\" | \"sm\" | \"lg\" | \"icon\"", "default": "\"default\"", "description": "Size of the button."},
+        {"name": "as", "type": "string | Component", "default": "\"button\"", "description": "Element or component to render, e.g. `a` or `RouterLink` (Vue's take on `asChild`)."}
+      ],
+      "slots": [
+        {"name": "default", "description": "Button content."}
+      ],
+      "emits": [
+        {"name": "click", "description": "Native click (falls through to the element)."}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "name": "android",
+  "title": "Android",
+  "description": "A mockup of an Android device.",
+  "category": "device-mocks",
+  "exports": ["Android"],
+  "dependencies": [],
+  "usage": "<script setup lang=\"ts\">\nimport { Android } from '@/components/ui/android'\n</script>\n\n<template>\n  <Android :width=\"200\" :height=\"437\" src=\"https://picsum.photos/seed/phone/720/1600\" />\n</template>",
+  "examples": [
+    { "name": "android-demo", "title": "Empty screen" },
+    { "name": "android-image", "title": "With image" },
+    { "name": "android-video", "title": "With video" }
+  ],
+  "api": [
+    {
+      "name": "Android",
+      "props": [
+        { "name": "class", "type": "string", "description": "Classes for the SVG." },
+        { "name": "width", "type": "number", "default": "433", "description": "Width of the SVG in pixels. The device scales to fit and stays centred." },
+        { "name": "height", "type": "number", "default": "882", "description": "Height of the SVG in pixels." },
+        { "name": "src", "type": "string", "description": "Image shown on the screen." },
+        { "name": "videoSrc", "type": "string", "description": "Video shown on the screen (autoplays muted and loops). Takes precedence over src." }
+      ]
+    }
+  ]
+}

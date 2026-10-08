@@ -1,0 +1,77 @@
+{
+  "name": "file-tree",
+  "title": "File Tree",
+  "description": "A component used to showcase the folder and file structure of a directory.",
+  "category": "components",
+  "exports": ["Tree", "Folder", "File", "CollapseButton"],
+  "dependencies": ["@lucide/vue"],
+  "usage": "<script setup lang=\"ts\">\nimport { Tree, type TreeViewElement } from '@/components/ui/file-tree'\n\nconst elements: TreeViewElement[] = [\n  {\n    id: 'src',\n    type: 'folder',\n    name: 'src',\n    children: [\n      { id: 'components', type: 'folder', name: 'components' },\n      { id: 'app', name: 'App.vue' },\n      { id: 'main', name: 'main.ts' },\n    ],\n  },\n]\n</script>\n\n<template>\n  <Tree :elements=\"elements\" :initial-expanded-items=\"['src']\" />\n</template>",
+  "examples": [
+    { "name": "file-tree-demo", "title": "From data", "description": "Pass `elements`; siblings are sorted folders-first and alphabetically (`sort=\"none\"` keeps your order)." },
+    { "name": "file-tree-composed", "title": "Composed", "description": "Build the tree from `Folder` / `File` components and add a `CollapseButton`." },
+    { "name": "file-tree-icons", "title": "Custom icons", "description": "`openIcon`, `closeIcon` and `fileIcon` take icon components; `select` reports the clicked id." }
+  ],
+  "api": [
+    {
+      "name": "Tree",
+      "props": [
+        { "name": "class", "type": "string", "description": "Classes for the outer wrapper." },
+        { "name": "elements", "type": "TreeViewElement[]", "description": "Data to render when the default slot is empty." },
+        { "name": "initialSelectedId", "type": "string", "description": "Id of the item selected at first; its parent folders are expanded." },
+        { "name": "initialExpandedItems", "type": "string[]", "description": "Ids of the folders expanded at first." },
+        { "name": "indicator", "type": "boolean", "default": "true", "description": "Show the vertical guide line inside expanded folders." },
+        { "name": "openIcon", "type": "Component", "description": "Icon component for expanded folders (a ReactNode in Magic UI)." },
+        { "name": "closeIcon", "type": "Component", "description": "Icon component for collapsed folders." },
+        { "name": "sort", "type": "\"default\" | \"none\" | ((a, b) => number)", "default": "\"default\"", "description": "Sorting for data-driven trees: folders first then alphabetical, input order, or your comparator." },
+        { "name": "dir", "type": "\"rtl\" | \"ltr\"", "default": "\"ltr\"", "description": "Text direction." }
+      ],
+      "slots": [{ "name": "default", "description": "`Folder` / `File` / `CollapseButton` components. When provided, `elements` is not rendered." }],
+      "emits": [{ "name": "select", "payload": "id: string", "description": "A folder or file was selected." }]
+    },
+    {
+      "name": "Folder",
+      "props": [
+        { "name": "class", "type": "string", "description": "Classes for the folder's button." },
+        { "name": "element", "type": "string", "required": true, "description": "Folder name." },
+        { "name": "value", "type": "string", "required": true, "description": "Unique id, used for selection and expansion." },
+        { "name": "isSelectable", "type": "boolean", "default": "true", "description": "Whether the folder can be selected and opened." },
+        { "name": "isSelect", "type": "boolean", "description": "Force the selected state." }
+      ],
+      "slots": [{ "name": "default", "description": "Nested `Folder` / `File` components." }]
+    },
+    {
+      "name": "File",
+      "props": [
+        { "name": "class", "type": "string", "description": "Classes for the file's button." },
+        { "name": "value", "type": "string", "required": true, "description": "Unique id, used for selection." },
+        { "name": "isSelectable", "type": "boolean", "default": "true", "description": "Whether the file can be selected." },
+        { "name": "isSelect", "type": "boolean", "description": "Force the selected state." },
+        { "name": "fileIcon", "type": "Component", "description": "Icon component (a ReactNode in Magic UI). Use the `icon` slot for anything else." }
+      ],
+      "slots": [
+        { "name": "default", "description": "The file name." },
+        { "name": "icon", "description": "Replaces the file icon." }
+      ],
+      "emits": [{ "name": "select", "payload": "value: string", "description": "The file was clicked (Magic UI's `handleSelect`)." }]
+    },
+    {
+      "name": "CollapseButton",
+      "props": [
+        { "name": "class", "type": "string", "description": "Classes for the button (absolutely positioned bottom-end by default)." },
+        { "name": "elements", "type": "TreeViewElement[]", "required": true, "description": "The tree's data, used to find every folder." },
+        { "name": "expandAll", "type": "boolean", "default": "false", "description": "Expand every folder straight away." }
+      ],
+      "slots": [{ "name": "default", "description": "Button content, e.g. an icon. Clicking collapses everything, or expands everything when all are collapsed." }]
+    },
+    {
+      "name": "TreeViewElement",
+      "props": [
+        { "name": "id", "type": "string", "required": true, "description": "Unique identifier." },
+        { "name": "name", "type": "string", "required": true, "description": "Label shown for the node." },
+        { "name": "type", "type": "\"file\" | \"folder\"", "description": "Explicit node type. Use `\"folder\"` for empty folders." },
+        { "name": "isSelectable", "type": "boolean", "default": "true", "description": "Whether the node can be selected." },
+        { "name": "children", "type": "TreeViewElement[]", "description": "Child nodes." }
+      ]
+    }
+  ]
+}

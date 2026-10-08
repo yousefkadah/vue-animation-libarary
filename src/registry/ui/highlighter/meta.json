@@ -1,0 +1,38 @@
+{
+  "name": "highlighter",
+  "title": "Highlighter",
+  "description": "A hand-drawn highlight, underline, box or circle that animates around inline text.",
+  "category": "text-animations",
+  "exports": ["Highlighter"],
+  "dependencies": ["motion-v", "rough-notation"],
+  "usage": "<script setup lang=\"ts\">\nimport { Highlighter } from '@/components/ui/highlighter'\n</script>\n\n<template>\n  <p>\n    The <Highlighter action=\"underline\" color=\"#FF9800\">Magic UI Highlighter</Highlighter> makes important\n    <Highlighter action=\"highlight\" color=\"#87CEFA\">text stand out</Highlighter> effortlessly.\n  </p>\n</template>",
+  "examples": [
+    { "name": "highlighter-demo", "title": "Default" },
+    { "name": "highlighter-actions", "title": "All actions" },
+    { "name": "highlighter-in-view", "title": "Draw when in view" }
+  ],
+  "api": [
+    {
+      "name": "Highlighter",
+      "props": [
+        { "name": "class", "type": "string", "description": "Classes for the annotated span." },
+        {
+          "name": "action",
+          "type": "\"highlight\" | \"underline\" | \"box\" | \"circle\" | \"strike-through\" | \"crossed-off\" | \"bracket\"",
+          "default": "\"highlight\"",
+          "description": "The kind of annotation to draw."
+        },
+        { "name": "color", "type": "string", "default": "\"#ffd1dc\"", "description": "Colour of the annotation." },
+        { "name": "strokeWidth", "type": "number", "default": "1.5", "description": "Stroke width in pixels." },
+        { "name": "animationDuration", "type": "number", "default": "600", "description": "Milliseconds the drawing animation takes." },
+        { "name": "iterations", "type": "number", "default": "2", "description": "How many times the annotation is drawn; more than 1 looks sketchier." },
+        { "name": "padding", "type": "number", "default": "2", "description": "Padding between the text and the annotation, in pixels." },
+        { "name": "multiline", "type": "boolean", "default": "true", "description": "Annotate each line of wrapped text separately." },
+        { "name": "isView", "type": "boolean", "default": "false", "description": "Wait until the text scrolls into view before drawing." }
+      ],
+      "slots": [
+        { "name": "default", "description": "The content to annotate." }
+      ]
+    }
+  ]
+}

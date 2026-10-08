@@ -1,0 +1,37 @@
+{
+  "name": "hyper-text",
+  "title": "Hyper Text",
+  "description": "A text animation that scrambles letters before revealing the final text.",
+  "category": "text-animations",
+  "exports": ["HyperText"],
+  "dependencies": ["motion-v"],
+  "usage": "<script setup lang=\"ts\">\nimport { HyperText } from '@/components/ui/hyper-text'\n</script>\n\n<template>\n  <HyperText>Hover Me!</HyperText>\n</template>",
+  "examples": [
+    { "name": "hyper-text-demo", "title": "Hover me" },
+    { "name": "hyper-text-characters", "title": "Custom character sets" },
+    { "name": "hyper-text-start-on-view", "title": "Start on view" }
+  ],
+  "api": [
+    {
+      "name": "HyperText",
+      "props": [
+        { "name": "class", "type": "string", "description": "Classes for the wrapper." },
+        { "name": "text", "type": "string", "description": "The text to scramble. Falls back to the text of the default slot." },
+        { "name": "duration", "type": "number", "default": "800", "description": "Duration of the scramble in milliseconds." },
+        { "name": "delay", "type": "number", "default": "0", "description": "Delay before the first scramble in milliseconds." },
+        {
+          "name": "as",
+          "type": "\"article\" | \"div\" | \"h1\" | \"h2\" | \"h3\" | \"h4\" | \"h5\" | \"h6\" | \"li\" | \"p\" | \"section\" | \"span\"",
+          "default": "\"div\"",
+          "description": "Element to render."
+        },
+        { "name": "startOnView", "type": "boolean", "default": "false", "description": "Wait until the element scrolls into view before the first scramble." },
+        { "name": "animateOnHover", "type": "boolean", "default": "true", "description": "Scramble again whenever the pointer enters the element." },
+        { "name": "characterSet", "type": "string[]", "default": "A–Z", "description": "Characters used while scrambling." }
+      ],
+      "slots": [
+        { "name": "default", "description": "Plain text to scramble, used when the `text` prop is not set." }
+      ]
+    }
+  ]
+}

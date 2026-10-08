@@ -1,0 +1,27 @@
+{
+  "name": "noise-texture",
+  "title": "Noise Texture",
+  "description": "An SVG fractal noise layer using feTurbulence, desaturation, and contrast controls for subtle texture overlays.",
+  "category": "backgrounds",
+  "exports": ["NoiseTexture"],
+  "dependencies": [],
+  "usage": "<script setup lang=\"ts\">\nimport { NoiseTexture } from '@/components/ui/noise-texture'\n</script>\n\n<template>\n  <div class=\"relative overflow-hidden rounded-xl border bg-card p-6\">\n    <NoiseTexture :noise-opacity=\"0.45\" />\n    <p class=\"relative z-10\">Content on a grainy surface</p>\n  </div>\n</template>",
+  "examples": [
+    { "name": "noise-texture-demo", "title": "Radial mask" },
+    { "name": "noise-texture-card", "title": "Newsletter card" },
+    { "name": "noise-texture-button", "title": "Button" },
+    { "name": "noise-texture-input", "title": "Input" }
+  ],
+  "api": [
+    {
+      "name": "NoiseTexture",
+      "props": [
+        { "name": "class", "type": "string", "description": "Classes for the SVG (absolutely positioned to fill its parent)." },
+        { "name": "frequency", "type": "number", "default": "0.4", "description": "baseFrequency of the turbulence; higher values give finer grain." },
+        { "name": "octaves", "type": "number", "default": "6", "description": "numOctaves of the turbulence; more octaves add detail at smaller scales." },
+        { "name": "slope", "type": "number", "default": "0.15", "description": "Linear slope applied to each channel after desaturating; controls the contrast of the grain." },
+        { "name": "noiseOpacity", "type": "number", "default": "0.6", "description": "Opacity of the noise layer." }
+      ]
+    }
+  ]
+}

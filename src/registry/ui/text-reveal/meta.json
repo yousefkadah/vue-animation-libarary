@@ -1,0 +1,24 @@
+{
+  "name": "text-reveal",
+  "title": "Text Reveal",
+  "description": "Fade in text as you scroll down the page.",
+  "category": "text-animations",
+  "exports": ["TextReveal"],
+  "dependencies": ["motion-v"],
+  "usage": "<script setup lang=\"ts\">\nimport { TextReveal } from '@/components/ui/text-reveal'\n</script>\n\n<template>\n  <TextReveal text=\"Vue Magic UI will change the way you design.\" />\n</template>",
+  "examples": [
+    { "name": "text-reveal-demo", "title": "Inside a scroll area" },
+    { "name": "text-reveal-card", "title": "Card with slot text" }
+  ],
+  "api": [
+    {
+      "name": "TextReveal",
+      "props": [
+        { "name": "text", "type": "string", "description": "The text to reveal, split on spaces. When omitted, the plain-text content of the default slot is used (Magic UI's `children`)." },
+        { "name": "class", "type": "string", "description": "Classes for the tall scroll section (default height `200vh`; the sticky text panel is half of it)." },
+        { "name": "container", "type": "HTMLElement | null", "description": "The scrolling element to track. Defaults to the page. Vue addition: set it when TextReveal sits inside its own `overflow-y-auto` box." }
+      ],
+      "slots": [{ "name": "default", "description": "Plain text to reveal, used when the `text` prop is not set." }]
+    }
+  ]
+}

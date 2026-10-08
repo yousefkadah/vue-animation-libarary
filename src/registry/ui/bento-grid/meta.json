@@ -1,0 +1,38 @@
+{
+  "name": "bento-grid",
+  "title": "Bento Grid",
+  "description": "Bento grid is a layout used to showcase the features of a product in a simple and elegant way.",
+  "category": "components",
+  "exports": ["BentoGrid", "BentoCard"],
+  "dependencies": ["@lucide/vue"],
+  "usage": "<script setup lang=\"ts\">\nimport { FileText } from '@lucide/vue'\nimport { BentoCard, BentoGrid } from '@/components/ui/bento-grid'\n</script>\n\n<template>\n  <BentoGrid>\n    <BentoCard\n      :icon=\"FileText\"\n      name=\"Save your files\"\n      description=\"We automatically save your files as you type.\"\n      href=\"#\"\n      cta=\"Learn more\"\n      class=\"col-span-3 lg:col-span-1\"\n    >\n      <template #background>\n        <div class=\"absolute inset-0 bg-linear-to-br from-sky-400/20 to-transparent\" />\n      </template>\n    </BentoCard>\n  </BentoGrid>\n</template>",
+  "examples": [
+    { "name": "bento-grid-demo", "title": "Features", "description": "Cards with live backgrounds: Marquee, Animated List and Orbiting Circles." },
+    { "name": "bento-grid-vertical", "title": "Vertical", "description": "Place cards on an explicit grid with `lg:row-*` / `lg:col-*` classes." },
+    { "name": "bento-grid-compact", "title": "Compact", "description": "Override the row height and column count through `class`." }
+  ],
+  "api": [
+    {
+      "name": "BentoGrid",
+      "props": [
+        { "name": "class", "type": "string", "description": "Classes for the grid. Defaults to three columns with 22rem rows (`auto-rows-[22rem] grid-cols-3`)." }
+      ],
+      "slots": [{ "name": "default", "description": "The `BentoCard`s." }]
+    },
+    {
+      "name": "BentoCard",
+      "props": [
+        { "name": "class", "type": "string", "description": "Classes for the card — usually its `col-span-*` / `row-*` placement." },
+        { "name": "name", "type": "string", "required": true, "description": "Card title." },
+        { "name": "description", "type": "string", "required": true, "description": "Text under the title." },
+        { "name": "icon", "type": "Component", "description": "Icon component, e.g. from `@lucide/vue` (Magic UI's `Icon` prop). For anything else use the `icon` slot." },
+        { "name": "href", "type": "string", "required": true, "description": "Where the call-to-action link points." },
+        { "name": "cta", "type": "string", "required": true, "description": "Call-to-action label, revealed on hover on large screens." }
+      ],
+      "slots": [
+        { "name": "background", "description": "Decorative content behind the text (Magic UI's `background` prop). Position it `absolute`." },
+        { "name": "icon", "description": "Replaces the `icon` component." }
+      ]
+    }
+  ]
+}

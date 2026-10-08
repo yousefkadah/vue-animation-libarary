@@ -1,0 +1,29 @@
+{
+  "name": "number-ticker",
+  "title": "Number Ticker",
+  "description": "Animate numbers to count up or down to a target number.",
+  "category": "text-animations",
+  "exports": ["NumberTicker"],
+  "dependencies": ["motion-v"],
+  "usage": "<script setup lang=\"ts\">\nimport { NumberTicker } from '@/components/ui/number-ticker'\n</script>\n\n<template>\n  <NumberTicker :value=\"100\" class=\"text-8xl font-medium tracking-tighter\" />\n</template>",
+  "examples": [
+    { "name": "number-ticker-demo", "title": "Default" },
+    { "name": "number-ticker-decimal", "title": "Decimal" },
+    { "name": "number-ticker-start-value", "title": "Start value" },
+    { "name": "number-ticker-stats", "title": "Stats with locales and count-down" }
+  ],
+  "api": [
+    {
+      "name": "NumberTicker",
+      "props": [
+        { "name": "value", "type": "number", "required": true, "description": "The value to count to (or from, when counting down)." },
+        { "name": "startValue", "type": "number", "default": "0", "description": "The value to count from (or to, when counting down)." },
+        { "name": "direction", "type": "\"up\" | \"down\"", "default": "\"up\"", "description": "Count up from `startValue` to `value`, or down from `value` to `startValue`." },
+        { "name": "delay", "type": "number", "default": "0", "description": "Seconds to wait after the number scrolls into view." },
+        { "name": "decimalPlaces", "type": "number", "default": "0", "description": "Number of decimal places to show." },
+        { "name": "locale", "type": "string", "default": "\"en-US\"", "description": "Locale for `Intl.NumberFormat` (grouping and decimal separators). Vue addition; Magic UI always formats as en-US." },
+        { "name": "class", "type": "string", "description": "Classes for the number." }
+      ]
+    }
+  ]
+}

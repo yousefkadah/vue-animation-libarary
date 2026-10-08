@@ -1,0 +1,31 @@
+{
+  "name": "spinning-text",
+  "title": "Spinning Text",
+  "description": "Text laid out around a circle that rotates continuously.",
+  "category": "text-animations",
+  "exports": ["SpinningText"],
+  "dependencies": ["motion-v"],
+  "usage": "<script setup lang=\"ts\">\nimport { SpinningText } from '@/components/ui/spinning-text'\n</script>\n\n<template>\n  <SpinningText>learn more • earn more • grow more •</SpinningText>\n</template>",
+  "examples": [
+    { "name": "spinning-text-demo", "title": "Basic" },
+    { "name": "spinning-text-reverse", "title": "Reverse" },
+    { "name": "spinning-text-badge", "title": "Badge" }
+  ],
+  "api": [
+    {
+      "name": "SpinningText",
+      "props": [
+        { "name": "class", "type": "string", "description": "Classes for the rotating container." },
+        { "name": "text", "type": "string | string[]", "description": "The text to place around the circle. Falls back to the text of the default slot." },
+        { "name": "duration", "type": "number", "default": "10", "description": "Seconds for one full rotation. The text stays still when the user prefers reduced motion." },
+        { "name": "reverse", "type": "boolean", "default": "false", "description": "Rotate counter-clockwise." },
+        { "name": "radius", "type": "number", "default": "5", "description": "Radius of the circle, in `ch`." },
+        { "name": "transition", "type": "Transition", "description": "Overrides for the rotation transition." },
+        { "name": "variants", "type": "{ container?: Variants; item?: Variants }", "description": "Custom variants for the container and for each letter." }
+      ],
+      "slots": [
+        { "name": "default", "description": "Plain text to place around the circle, used when the `text` prop is not set." }
+      ]
+    }
+  ]
+}
