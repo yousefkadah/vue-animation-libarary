@@ -1,0 +1,1 @@
+import{L as e,_ as t,p as n,ut as r,y as i}from"./runtime-core.esm-bundler-De2lc3Ib.js";import{t as a}from"./AnimatedThemeToggler-DpcvjsB4.js";var o={class:`flex justify-center p-6`},s=i({__name:`animated-theme-toggler-demo`,setup(i){return(i,s)=>(e(),n(`div`,o,[t(r(a))]))}});export{s as default};
