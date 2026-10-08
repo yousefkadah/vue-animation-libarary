@@ -7,18 +7,18 @@ import { runCommand, site } from '../site'
 
 /** Live demos shown on the landing page, in order. Missing ones are skipped. */
 const featuredExamples = [
-  { example: 'globe-demo', span: 'md:col-span-2 md:row-span-2' },
-  { example: 'animated-beam-multiple-outputs', span: 'md:col-span-2' },
-  { example: 'border-beam-demo', span: '' },
-  { example: 'shimmer-button-demo', span: '' },
-  { example: 'animated-list-demo', span: 'md:row-span-2' },
-  { example: 'number-ticker-demo', span: '' },
-  { example: 'hyper-text-demo', span: '' },
-  { example: 'dock-demo', span: 'md:col-span-2' },
-  { example: 'marquee-demo', span: 'md:col-span-2' },
-  { example: 'flickering-grid-demo', span: 'md:col-span-2' },
-  { example: 'blur-fade-text', span: '' },
-  { example: 'confetti-demo', span: '' },
+  { example: 'globe-demo', span: 'md:col-span-2 md:row-span-2', zoom: 0.85 },
+  { example: 'animated-beam-multiple-outputs', span: 'md:col-span-2', zoom: 0.7 },
+  { example: 'border-beam-demo', span: '', zoom: 0.6 },
+  { example: 'shimmer-button-demo', span: '', zoom: 0.9 },
+  { example: 'animated-list-demo', span: 'md:row-span-2', zoom: 0.75 },
+  { example: 'number-ticker-demo', span: '', zoom: 0.8 },
+  { example: 'hyper-text-demo', span: '', zoom: 0.7 },
+  { example: 'confetti-demo', span: '', zoom: 0.55 },
+  { example: 'dock-demo', span: 'md:col-span-2', zoom: 0.7 },
+  { example: 'blur-fade-text', span: '', zoom: 0.6 },
+  { example: 'marquee-demo', span: 'md:col-span-2', zoom: 0.75 },
+  { example: 'flickering-grid-demo', span: 'md:col-span-2', zoom: 1 },
 ]
 
 const available = new Set(exampleNames())
@@ -105,14 +105,16 @@ const heroMarquee = computed(() => components.slice(0, 24))
         <h2 class="text-3xl font-semibold tracking-tight sm:text-4xl">Live, not screenshots</h2>
         <p class="max-w-xl text-muted-foreground">Every tile below is a real component running on this page.</p>
       </div>
-      <div class="grid auto-rows-[260px] gap-4 md:grid-cols-4">
+      <div class="grid auto-rows-[260px] gap-4 md:grid-flow-dense md:grid-cols-4">
         <div
           v-for="tile in featured"
           :key="tile.example"
           :class="['group relative flex flex-col overflow-hidden rounded-2xl border bg-card transition-shadow hover:shadow-xl', tile.span]"
         >
-          <div class="flex min-h-0 flex-1 items-center justify-center overflow-hidden p-4 [&>*]:max-h-full [&>*]:max-w-full">
-            <component :is="tile.view" />
+          <div class="flex min-h-0 flex-1 items-center justify-center overflow-hidden p-4">
+            <div class="flex w-full items-center justify-center" :style="{ zoom: tile.zoom }">
+              <component :is="tile.view" />
+            </div>
           </div>
           <RouterLink
             :to="`/docs/components/${tile.component?.name}`"
