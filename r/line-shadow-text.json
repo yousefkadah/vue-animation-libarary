@@ -1,0 +1,43 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "line-shadow-text",
+  "title": "Line Shadow Text",
+  "description": "A text component with a moving line shadow.",
+  "dependencies": [
+    "motion-v"
+  ],
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "src/registry/ui/line-shadow-text/LineShadowText.vue",
+      "content": "<script setup lang=\"ts\">\nimport type { HTMLAttributes, VNode } from 'vue'\nimport { Comment, computed } from 'vue'\nimport { motion } from 'motion-v'\nimport { cn } from '@/lib/utils'\n\nexport interface LineShadowTextProps {\n  /** The text to render. Falls back to the text content of the default slot. */\n  text?: string\n  class?: HTMLAttributes['class']\n  /** Colour of the moving line shadow. */\n  shadowColor?: string\n  /** Element to render. Motion props (`initial`, `animate`, …) fall through to it. */\n  as?: 'article' | 'div' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'li' | 'p' | 'section' | 'span'\n}\n\nconst props = withDefaults(defineProps<LineShadowTextProps>(), {\n  shadowColor: 'black',\n  as: 'span',\n})\n\nconst slots = defineSlots<{ default?: () => unknown }>()\n\n/** Plain text of the slot's vnodes; the shadow copy is drawn from it via `attr(data-text)`. */\nfunction textFromVNodes(nodes: unknown): string {\n  if (!Array.isArray(nodes)) return ''\n  return nodes\n    .map((node: VNode) => {\n      if (node.type === Comment) return ''\n      if (typeof node.children === 'string') return node.children\n      return textFromVNodes(node.children)\n    })\n    .join('')\n}\n\nconst content = computed(() => props.text ?? textFromVNodes(slots.default?.()).trim())\n</script>\n\n<template>\n  <motion.span\n    :as=\"props.as\"\n    :style=\"{ '--shadow-color': props.shadowColor }\"\n    :class=\"\n      cn(\n        'relative z-0 inline-flex',\n        'after:absolute after:top-[0.04em] after:left-[0.04em] after:content-[attr(data-text)]',\n        'after:bg-[linear-gradient(45deg,transparent_45%,var(--shadow-color)_45%,var(--shadow-color)_55%,transparent_0)]',\n        'after:-z-10 after:bg-size-[0.06em_0.06em] after:bg-clip-text after:text-transparent',\n        'after:animate-line-shadow motion-reduce:after:animate-none',\n        props.class,\n      )\n    \"\n    :data-text=\"content\"\n  >{{ content }}</motion.span>\n</template>\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "src/registry/ui/line-shadow-text/index.ts",
+      "content": "export { default as LineShadowText } from './LineShadowText.vue'\nexport type { LineShadowTextProps } from './LineShadowText.vue'\n",
+      "type": "registry:ui"
+    }
+  ],
+  "cssVars": {
+    "theme": {
+      "animate-line-shadow": "line-shadow 15s linear infinite"
+    }
+  },
+  "css": {
+    "@keyframes line-shadow": {
+      "0%": {
+        "background-position": "0 0"
+      },
+      "100%": {
+        "background-position": "100% -100%"
+      }
+    }
+  },
+  "categories": [
+    "text-animations"
+  ],
+  "type": "registry:ui"
+}

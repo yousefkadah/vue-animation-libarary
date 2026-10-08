@@ -1,0 +1,1 @@
+import{l as e}from"./runtime-core.esm-bundler-De2lc3Ib.js";import{n as t}from"./dist-DaUdHELn.js";function n(n={}){let r=t(`(prefers-reduced-motion: reduce)`,n);return e(()=>r.value)}export{n as t};

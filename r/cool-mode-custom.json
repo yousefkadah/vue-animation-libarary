@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "cool-mode-custom",
+  "title": "Cool Mode — Image particle",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/cool-mode.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/cool-mode-custom.vue",
+      "content": "<script setup lang=\"ts\">\nimport { CoolMode } from '@/components/ui/cool-mode'\n</script>\n\n<template>\n  <div class=\"relative justify-center\">\n    <CoolMode :options=\"{ particle: 'https://avatar.vercel.sh/vue' }\">\n      <button type=\"button\" class=\"inline-flex h-9 items-center justify-center rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground shadow-xs transition-colors hover:bg-primary/90\">Click Me!</button>\n    </CoolMode>\n  </div>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "dotted-map-small-dots",
+  "title": "Dotted Map — Smaller dots",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/dotted-map.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/dotted-map-small-dots.vue",
+      "content": "<script setup lang=\"ts\">\nimport { DottedMap } from '@/components/ui/dotted-map'\n</script>\n\n<template>\n  <div class=\"relative h-[320px] w-full overflow-hidden rounded-lg border\">\n    <DottedMap :dot-radius=\"0.1\" />\n  </div>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

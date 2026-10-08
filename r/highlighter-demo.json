@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "highlighter-demo",
+  "title": "Highlighter — Default",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/highlighter.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/highlighter-demo.vue",
+      "content": "<script setup lang=\"ts\">\nimport { Highlighter } from '@/components/ui/highlighter'\n</script>\n\n<template>\n  <div class=\"text-center\">\n    <p class=\"leading-relaxed\">\n      The\n      <Highlighter action=\"underline\" color=\"#FF9800\">Magic UI Highlighter</Highlighter>\n      makes important\n      <Highlighter action=\"highlight\" color=\"#87CEFA\" class=\"dark:text-black\">text stand out</Highlighter>\n      effortlessly.\n    </p>\n  </div>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

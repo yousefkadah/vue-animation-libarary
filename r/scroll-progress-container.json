@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "scroll-progress-container",
+  "title": "Scroll Progress — Scroll container",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/scroll-progress.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/scroll-progress-container.vue",
+      "content": "<script setup lang=\"ts\">\nimport { useTemplateRef } from 'vue'\nimport { ScrollProgress } from '@/components/ui/scroll-progress'\n\nconst scroller = useTemplateRef<HTMLElement>('scroller')\n\nconst sections = [\n  {\n    title: 'Why motion matters',\n    body: 'Animation guides attention. A well-timed transition tells people where something came from and where it went, so the interface feels continuous instead of jumping between states.',\n  },\n  {\n    title: 'Keep it short',\n    body: 'Most interface transitions should land between 150 and 400 milliseconds. Longer than that and people start waiting for the UI instead of using it.',\n  },\n  {\n    title: 'Respect preferences',\n    body: 'Some people get dizzy from large movements. Honour prefers-reduced-motion by swapping slides and zooms for simple fades, or turning looping effects off.',\n  },\n  {\n    title: 'Animate the cheap properties',\n    body: 'Transforms and opacity can be composited on the GPU. Animating width, height or top forces layout on every frame and quickly drops below 60fps.',\n  },\n  {\n    title: 'Ship it',\n    body: 'Copy the component, tweak the classes, and you are done. The progress bar above tracks how far you have read through this card.',\n  },\n]\n</script>\n\n<template>\n  <div ref=\"scroller\" class=\"relative h-[300px] w-full max-w-md overflow-y-auto rounded-xl border bg-card text-card-foreground\">\n    <ScrollProgress :container=\"scroller\" class=\"sticky h-1\" />\n    <article class=\"space-y-6 p-6\">\n      <h3 class=\"text-lg font-semibold\">Motion design, in five minutes</h3>\n      <section v-for=\"section in sections\" :key=\"section.title\" class=\"space-y-2\">\n        <h4 class=\"font-medium\">{{ section.title }}</h4>\n        <p class=\"text-sm leading-relaxed text-muted-foreground\">{{ section.body }}</p>\n      </section>\n    </article>\n  </div>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "code-comparison-demo",
+  "title": "Code Comparison — Highlight, diff and focus",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/code-comparison.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/code-comparison-demo.vue",
+      "content": "<script setup lang=\"ts\">\nimport { CodeComparison } from '@/components/ui/code-comparison'\n\nconst beforeCode = `<script>\nexport default {\n  data() {\n    return { count: 0 } // [!code highlight]\n  },\n  computed: {\n    double() { // [!code highlight]\n      return this.count * 2 // [!code highlight]\n    }, // [!code highlight]\n  },\n  methods: {\n    increment() {\n      this.count++\n    },\n  },\n  mounted() {\n    console.log(\\`count is \\${this.count}\\`)\n  },\n}\n<\\/script>\n\n<template>\n  <button @click=\"increment\">{{ count }} × 2 = {{ double }}</button>\n</template>`\n\nconst afterCode = `<script setup>\nimport { computed, onMounted, ref } from 'vue' // [!code ++]\nimport { useCounter } from './useCounter' // [!code --]\n\nconst count = ref(0) // [!code focus]\nconst double = computed(() => count.value * 2) // [!code focus]\nconst increment = () => count.value++\n\nonMounted(() => {\n  console.log(\\`count is \\${count.value}\\`)\n})\n<\\/script>\n\n<template>\n  <button @click=\"increment\">{{ count }} × 2 = {{ double }}</button>\n</template>`\n</script>\n\n<template>\n  <CodeComparison\n    :before-code=\"beforeCode\"\n    :after-code=\"afterCode\"\n    language=\"vue\"\n    filename=\"Counter.vue\"\n    light-theme=\"github-light\"\n    dark-theme=\"github-dark\"\n    highlight-color=\"rgba(101, 117, 133, 0.16)\"\n  />\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "dia-text-reveal-repeat",
+  "title": "Dia Text Reveal — Rotating phrases",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/dia-text-reveal.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/dia-text-reveal-repeat.vue",
+      "content": "<script setup lang=\"ts\">\nimport { DiaTextReveal } from '@/components/ui/dia-text-reveal'\n</script>\n\n<template>\n  <div class=\"flex min-h-64 items-center justify-center p-8 text-foreground\">\n    <h1 class=\"text-center text-3xl font-semibold tracking-tight md:text-4xl\">\n      Learn to\n      <DiaTextReveal repeat :repeat-delay=\"1.2\" :text=\"['build faster', 'ship smarter', 'scale easier']\" />\n    </h1>\n  </div>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

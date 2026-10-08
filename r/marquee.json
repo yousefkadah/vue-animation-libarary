@@ -1,0 +1,49 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "marquee",
+  "title": "Marquee",
+  "description": "An infinite scrolling component that can be used to display text, images, or videos.",
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "src/registry/ui/marquee/Marquee.vue",
+      "content": "<script setup lang=\"ts\">\nimport type { HTMLAttributes } from 'vue'\nimport { cn } from '@/lib/utils'\n\nexport interface MarqueeProps {\n  class?: HTMLAttributes['class']\n  /** Scroll right-to-left (or bottom-to-top when vertical) instead. */\n  reverse?: boolean\n  /** Pause the animation while the pointer is over the marquee. */\n  pauseOnHover?: boolean\n  /** Scroll vertically instead of horizontally. */\n  vertical?: boolean\n  /** How many copies of the content to render so the loop never shows a gap. */\n  repeat?: number\n  /** Duration of one loop, e.g. `20s`. Defaults to `40s`. */\n  duration?: string\n  /** Gap between items, e.g. `2rem`. Defaults to `1rem`. */\n  gap?: string\n}\n\nconst props = withDefaults(defineProps<MarqueeProps>(), {\n  reverse: false,\n  pauseOnHover: false,\n  vertical: false,\n  repeat: 4,\n})\n</script>\n\n<template>\n  <div\n    :class=\"\n      cn(\n        'group flex overflow-hidden p-2 [--duration:40s] [--gap:1rem] [gap:var(--gap)]',\n        props.vertical ? 'flex-col' : 'flex-row',\n        props.class,\n      )\n    \"\n    :style=\"{ '--duration': props.duration, '--gap': props.gap }\"\n  >\n    <div\n      v-for=\"index in props.repeat\"\n      :key=\"index\"\n      :aria-hidden=\"index > 1 ? 'true' : undefined\"\n      :class=\"\n        cn(\n          'flex shrink-0 justify-around [gap:var(--gap)] motion-reduce:[animation-play-state:paused]',\n          props.vertical ? 'animate-marquee-vertical flex-col' : 'animate-marquee flex-row',\n          props.pauseOnHover && 'group-hover:[animation-play-state:paused]',\n          props.reverse && '[animation-direction:reverse]',\n        )\n      \"\n    >\n      <slot />\n    </div>\n  </div>\n</template>\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "src/registry/ui/marquee/index.ts",
+      "content": "export { default as Marquee } from './Marquee.vue'\nexport type { MarqueeProps } from './Marquee.vue'\n",
+      "type": "registry:ui"
+    }
+  ],
+  "cssVars": {
+    "theme": {
+      "animate-marquee": "marquee var(--duration) infinite linear",
+      "animate-marquee-vertical": "marquee-vertical var(--duration) linear infinite"
+    }
+  },
+  "css": {
+    "@keyframes marquee": {
+      "from": {
+        "transform": "translateX(0)"
+      },
+      "to": {
+        "transform": "translateX(calc(-100% - var(--gap)))"
+      }
+    },
+    "@keyframes marquee-vertical": {
+      "from": {
+        "transform": "translateY(0)"
+      },
+      "to": {
+        "transform": "translateY(calc(-100% - var(--gap)))"
+      }
+    }
+  },
+  "categories": [
+    "components"
+  ],
+  "type": "registry:ui"
+}

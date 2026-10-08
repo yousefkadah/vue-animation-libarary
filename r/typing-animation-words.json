@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "typing-animation-words",
+  "title": "Typing Animation — Multiple words with loop",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/typing-animation.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/typing-animation-words.vue",
+      "content": "<script setup lang=\"ts\">\nimport { TypingAnimation } from '@/components/ui/typing-animation'\n</script>\n\n<template>\n  <h2 class=\"text-center text-4xl font-bold tracking-tight sm:text-5xl\">\n    <span class=\"text-muted-foreground\">We </span>\n    <TypingAnimation :words=\"['Design 🎨', 'Build 🔨', 'Ship 🚀']\" loop class=\"leading-tight\" />\n  </h2>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

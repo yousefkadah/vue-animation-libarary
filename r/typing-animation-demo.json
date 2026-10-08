@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "typing-animation-demo",
+  "title": "Typing Animation — Basic usage",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/typing-animation.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/typing-animation-demo.vue",
+      "content": "<script setup lang=\"ts\">\nimport { TypingAnimation } from '@/components/ui/typing-animation'\n</script>\n\n<template>\n  <TypingAnimation text=\"Hello World! 👋\" class=\"text-4xl font-bold sm:text-5xl\" />\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

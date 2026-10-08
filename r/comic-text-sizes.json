@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "comic-text-sizes",
+  "title": "Comic Text — Sizes",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/comic-text.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/comic-text-sizes.vue",
+      "content": "<script setup lang=\"ts\">\nimport { ComicText } from '@/components/ui/comic-text'\n</script>\n\n<template>\n  <div class=\"flex flex-wrap items-end justify-center gap-x-10 gap-y-6\">\n    <ComicText :font-size=\"2.5\">Zap!</ComicText>\n    <ComicText :font-size=\"4\">Pow!</ComicText>\n    <ComicText :font-size=\"3\">Wham!</ComicText>\n  </div>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

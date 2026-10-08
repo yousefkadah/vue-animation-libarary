@@ -1,0 +1,19 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "confetti-side-cannons",
+  "title": "Confetti — Side cannons",
+  "dependencies": [
+    "canvas-confetti"
+  ],
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/confetti.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/confetti-side-cannons.vue",
+      "content": "<script setup lang=\"ts\">\nimport { onBeforeUnmount } from 'vue'\nimport confetti from 'canvas-confetti'\n\nlet frameId = 0\n\nfunction handleClick() {\n  const end = Date.now() + 3 * 1000\n  const colors = ['#a786ff', '#fd8bbc', '#eca184', '#f8deb1']\n\n  const frame = () => {\n    if (Date.now() > end) return\n    confetti({ particleCount: 2, angle: 60, spread: 55, startVelocity: 60, origin: { x: 0, y: 0.5 }, colors })\n    confetti({ particleCount: 2, angle: 120, spread: 55, startVelocity: 60, origin: { x: 1, y: 0.5 }, colors })\n    frameId = requestAnimationFrame(frame)\n  }\n\n  cancelAnimationFrame(frameId)\n  frame()\n}\n\nonBeforeUnmount(() => cancelAnimationFrame(frameId))\n</script>\n\n<template>\n  <div class=\"relative\">\n    <button type=\"button\" class=\"inline-flex h-9 items-center justify-center rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground shadow-xs transition-colors hover:bg-primary/90\" @click=\"handleClick\">Trigger Side Cannons</button>\n  </div>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

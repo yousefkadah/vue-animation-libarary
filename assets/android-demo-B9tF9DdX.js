@@ -1,0 +1,1 @@
+import{L as e,d as t,ut as n,y as r}from"./runtime-core.esm-bundler-De2lc3Ib.js";import{t as i}from"./Android-BbPgKugn.js";var a=r({__name:`android-demo`,setup(r){return(r,a)=>(e(),t(n(i),{width:200,height:437}))}});export{a as default};

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "retro-grid-demo",
+  "title": "Retro Grid — Default",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/retro-grid.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/retro-grid-demo.vue",
+      "content": "<script setup lang=\"ts\">\nimport { RetroGrid } from '@/components/ui/retro-grid'\n</script>\n\n<template>\n  <div class=\"relative flex h-[400px] w-full flex-col items-center justify-center overflow-hidden rounded-lg border bg-background\">\n    <span\n      class=\"pointer-events-none z-10 bg-linear-to-b from-[#ffd319] via-[#ff2975] to-[#8c1eff] bg-clip-text text-center text-6xl leading-none font-bold tracking-tighter whitespace-pre-wrap text-transparent sm:text-7xl\"\n    >\n      Retro Grid\n    </span>\n    <RetroGrid />\n  </div>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

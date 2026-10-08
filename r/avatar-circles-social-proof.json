@@ -1,0 +1,19 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "avatar-circles-social-proof",
+  "title": "Avatar Circles — Social proof",
+  "dependencies": [
+    "@lucide/vue"
+  ],
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/avatar-circles.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/avatar-circles-social-proof.vue",
+      "content": "<script setup lang=\"ts\">\nimport { Star } from '@lucide/vue'\nimport { AvatarCircles } from '@/components/ui/avatar-circles'\n\nconst avatars = ['ava', 'liam', 'noah', 'emma', 'mia'].map((name) => ({\n  imageUrl: `https://avatar.vercel.sh/${name}`,\n  profileUrl: '#',\n}))\n</script>\n\n<template>\n  <div class=\"flex flex-col items-center gap-3 sm:flex-row sm:gap-4\">\n    <AvatarCircles :num-people=\"2400\" :avatar-urls=\"avatars\" class=\"[&_span]:w-auto [&_span]:px-2\" />\n    <div class=\"flex flex-col items-center sm:items-start\">\n      <div class=\"flex gap-0.5 text-amber-500\" aria-label=\"Rated 5 out of 5\">\n        <Star v-for=\"star in 5\" :key=\"star\" class=\"size-4 fill-current\" aria-hidden=\"true\" />\n      </div>\n      <p class=\"text-sm text-muted-foreground\">\n        Loved by <span class=\"font-semibold text-foreground\">2,400+</span> developers\n      </p>\n    </div>\n  </div>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

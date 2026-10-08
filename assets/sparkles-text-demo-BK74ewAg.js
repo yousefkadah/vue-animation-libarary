@@ -1,0 +1,1 @@
+import{$ as e,L as t,d as n,g as r,ut as i,y as a}from"./runtime-core.esm-bundler-De2lc3Ib.js";import{t as o}from"./SparklesText-CT1RoOIS.js";var s=a({__name:`sparkles-text-demo`,setup(a){return(a,s)=>(t(),n(i(o),null,{default:e(()=>[...s[0]||=[r(`Magic UI`,-1)]]),_:1}))}});export{s as default};

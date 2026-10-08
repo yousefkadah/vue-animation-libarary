@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "noise-texture-input",
+  "title": "Noise Texture — Input",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/noise-texture.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/noise-texture-input.vue",
+      "content": "<script setup lang=\"ts\">\nimport { NoiseTexture } from '@/components/ui/noise-texture'\n</script>\n\n<template>\n  <div class=\"flex w-full max-w-sm flex-col gap-3\">\n    <label for=\"noise-input-demo\" class=\"text-sm font-medium text-muted-foreground\">Search with texture</label>\n    <div class=\"relative overflow-hidden rounded-lg border bg-muted/30\">\n      <NoiseTexture :noise-opacity=\"0.45\" />\n      <input\n        id=\"noise-input-demo\"\n        type=\"search\"\n        placeholder=\"Try typing…\"\n        class=\"relative z-10 h-10 w-full bg-transparent px-3 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring/50\"\n      />\n    </div>\n  </div>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

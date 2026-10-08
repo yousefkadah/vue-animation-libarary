@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "android-video",
+  "title": "Android — With video",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/android.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/android-video.vue",
+      "content": "<script setup lang=\"ts\">\nimport { Android } from '@/components/ui/android'\n</script>\n\n<template>\n  <Android :width=\"200\" :height=\"437\" video-src=\"https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.webm\" />\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "terminal-demo",
+  "title": "Terminal — Sequenced",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/terminal.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/terminal-demo.vue",
+      "content": "<script setup lang=\"ts\">\nimport { AnimatedSpan, Terminal, TerminalTypingAnimation } from '@/components/ui/terminal'\n</script>\n\n<template>\n  <Terminal>\n    <TerminalTypingAnimation>&gt; npx shadcn-vue@latest init</TerminalTypingAnimation>\n\n    <AnimatedSpan class=\"text-green-500\">✔ Preflight checks.</AnimatedSpan>\n    <AnimatedSpan class=\"text-green-500\">✔ Verifying framework. Found Vite.</AnimatedSpan>\n    <AnimatedSpan class=\"text-green-500\">✔ Validating Tailwind CSS.</AnimatedSpan>\n    <AnimatedSpan class=\"text-green-500\">✔ Validating import alias.</AnimatedSpan>\n    <AnimatedSpan class=\"text-green-500\">✔ Writing components.json.</AnimatedSpan>\n    <AnimatedSpan class=\"text-green-500\">✔ Checking registry.</AnimatedSpan>\n    <AnimatedSpan class=\"text-green-500\">✔ Updating src/assets/index.css</AnimatedSpan>\n    <AnimatedSpan class=\"text-green-500\">✔ Installing dependencies.</AnimatedSpan>\n\n    <AnimatedSpan class=\"text-blue-500\">\n      <span>ℹ Updated 1 file:</span>\n      <span class=\"pl-2\">- src/lib/utils.ts</span>\n    </AnimatedSpan>\n\n    <TerminalTypingAnimation class=\"text-muted-foreground\">Success! Project initialization completed.</TerminalTypingAnimation>\n    <TerminalTypingAnimation class=\"text-muted-foreground\">You may now add components.</TerminalTypingAnimation>\n  </Terminal>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "backlight-demo",
+  "title": "Backlight — Image",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/backlight.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/backlight-demo.vue",
+      "content": "<script setup lang=\"ts\">\nimport { Backlight } from '@/components/ui/backlight'\n</script>\n\n<template>\n  <Backlight class=\"w-full py-8\">\n    <img\n      class=\"mx-auto aspect-[16/10] w-full max-w-sm rounded-xl object-cover\"\n      src=\"https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&h=500&q=80&auto=format&fit=crop\"\n      alt=\"Flowing purple and blue gradient waves\"\n    />\n  </Backlight>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

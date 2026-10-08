@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "text-animate-custom-variants",
+  "title": "Text Animate — Custom motion variants",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/text-animate.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/text-animate-custom-variants.vue",
+      "content": "<script setup lang=\"ts\">\nimport { TextAnimate, type TextAnimateProps } from '@/components/ui/text-animate'\n\nconst variants: TextAnimateProps['variants'] = {\n  hidden: { opacity: 0, y: 30, rotate: 45, scale: 0.5 },\n  show: (i: number) => ({\n    opacity: 1,\n    y: 0,\n    rotate: 0,\n    scale: 1,\n    transition: {\n      delay: i * 0.1,\n      duration: 0.4,\n      y: { type: 'spring', damping: 12, stiffness: 200, mass: 0.8 },\n      rotate: { type: 'spring', damping: 8, stiffness: 150 },\n      scale: { type: 'spring', damping: 10, stiffness: 300 },\n    },\n  }),\n  exit: (i: number) => ({\n    opacity: 0,\n    y: 30,\n    rotate: 45,\n    scale: 0.5,\n    transition: { delay: i * 0.1, duration: 0.4 },\n  }),\n}\n</script>\n\n<template>\n  <TextAnimate text=\"Wavy Motion!\" :variants=\"variants\" by=\"character\" class=\"text-5xl font-bold tracking-tight\" />\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

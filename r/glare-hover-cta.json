@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "glare-hover-cta",
+  "title": "Glare Hover — Call to action",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/glare-hover.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/glare-hover-cta.vue",
+      "content": "<script setup lang=\"ts\">\nimport { GlareHover } from '@/components/ui/glare-hover'\n</script>\n\n<template>\n  <GlareHover class=\"w-full max-w-md rounded-xl\" background=\"transparent\" color=\"#505050\" :duration=\"700\">\n    <div class=\"flex w-full flex-col gap-6 rounded-xl border bg-card py-6 text-center text-card-foreground shadow-sm\">\n      <div class=\"space-y-2 px-6\">\n        <p class=\"text-xs font-medium tracking-widest text-muted-foreground uppercase\">14-day free trial · No card required</p>\n        <h3 class=\"text-2xl font-semibold tracking-tight\">Ready to get started?</h3>\n        <p class=\"mx-auto max-w-sm text-sm text-muted-foreground\">\n          Join 4,000+ teams already using our platform to ship faster.\n        </p>\n      </div>\n      <div class=\"flex justify-center gap-2 px-6\">\n        <button class=\"h-9 rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground hover:bg-primary/90\">\n          Start free trial\n        </button>\n        <button class=\"h-9 rounded-md border bg-background px-4 text-sm font-medium hover:bg-accent\">View demo</button>\n      </div>\n    </div>\n  </GlareHover>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

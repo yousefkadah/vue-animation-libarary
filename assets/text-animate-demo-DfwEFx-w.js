@@ -1,0 +1,1 @@
+import{L as e,d as t,ut as n,y as r}from"./runtime-core.esm-bundler-De2lc3Ib.js";import{t as i}from"./TextAnimate-1NASJ8ZO.js";var a=r({__name:`text-animate-demo`,setup(r){return(r,a)=>(e(),t(n(i),{text:`Blur in by character`,animation:`blurInUp`,by:`character`,once:``,class:`text-4xl font-semibold tracking-tight sm:text-5xl`}))}});export{a as default};

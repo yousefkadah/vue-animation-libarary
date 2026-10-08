@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "hero-video-dialog-demo",
+  "title": "Hero Video Dialog — From center",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/hero-video-dialog.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/hero-video-dialog-demo.vue",
+      "content": "<script setup lang=\"ts\">\nimport { HeroVideoDialog } from '@/components/ui/hero-video-dialog'\n</script>\n\n<template>\n  <div class=\"relative w-full max-w-xl\">\n    <HeroVideoDialog\n      animation-style=\"from-center\"\n      video-src=\"https://www.youtube.com/embed/OrxmtDw4pVI\"\n      thumbnail-src=\"https://i.ytimg.com/vi/OrxmtDw4pVI/maxresdefault.jpg\"\n      thumbnail-alt=\"Vue.js: The Documentary\"\n    />\n  </div>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "progressive-blur-demo",
+  "title": "Progressive Blur — Scroll fade",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/progressive-blur.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/progressive-blur-demo.vue",
+      "content": "<script setup lang=\"ts\">\nimport { ProgressiveBlur } from '@/components/ui/progressive-blur'\n</script>\n\n<template>\n  <div class=\"relative h-[320px] w-full max-w-md overflow-hidden rounded-xl border\">\n    <div class=\"h-full overflow-y-auto\">\n      <div class=\"flex flex-col gap-2 p-4\">\n        <div\n          v-for=\"index in 20\"\n          :key=\"index\"\n          class=\"flex h-20 w-full shrink-0 items-center justify-center rounded-xl border bg-card text-card-foreground\"\n        >\n          {{ index - 1 }}\n        </div>\n      </div>\n    </div>\n    <ProgressiveBlur position=\"bottom\" height=\"40%\" />\n  </div>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

@@ -1,0 +1,25 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "kinetic-text",
+  "title": "Kinetic Text",
+  "description": "Letters that swell in weight and spacing as the pointer passes over them, with a ripple into their neighbours.",
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "src/registry/ui/kinetic-text/KineticText.vue",
+      "content": "<script setup lang=\"ts\">\nimport type { HTMLAttributes } from 'vue'\nimport { computed } from 'vue'\nimport { cn } from '@/lib/utils'\n\nexport interface KineticTextProps {\n  class?: HTMLAttributes['class']\n  /** The text to render with the kinetic hover effect. */\n  text: string\n  /** Element to render. */\n  as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'span'\n}\n\nconst props = withDefaults(defineProps<KineticTextProps>(), {\n  as: 'h1',\n})\n\nconst letters = computed(() => props.text.split('').map((letter) => (letter === ' ' ? ' ' : letter)))\n</script>\n\n<template>\n  <component\n    :is=\"props.as\"\n    :class=\"cn('flex flex-wrap font-[300]', props.class)\"\n    :style=\"{ '--hover-padding': 'calc(1em / 12)', '--text-stroke-width': 'calc(1em * 125 / 6000)' }\"\n  >\n    <span\n      v-for=\"(letter, index) in letters\"\n      :key=\"index\"\n      aria-hidden=\"true\"\n      class=\"[will-change:font-weight,-webkit-text-stroke-width,padding] [-webkit-text-stroke-color:transparent] [-webkit-text-stroke-width:var(--text-stroke-width)] [transition:font-weight_0.4s,_-webkit-text-stroke-color_0.4s,_padding_0.4s] hover:[padding-inline:var(--hover-padding)] hover:font-[900] hover:[-webkit-text-stroke-color:currentcolor] hover:[-webkit-text-stroke-width:calc(var(--text-stroke-width)*2)] has-[+span+span:hover]:font-[400] has-[+span:hover]:[padding-inline:var(--hover-padding)] has-[+span:hover]:font-[600] motion-reduce:transition-none [:hover+&]:[padding-inline:var(--hover-padding)] [:hover+&]:font-[600] [:hover+span+&]:font-[400]\"\n    >{{ letter }}</span>\n    <span class=\"sr-only\">{{ props.text }}</span>\n  </component>\n</template>\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "src/registry/ui/kinetic-text/index.ts",
+      "content": "export { default as KineticText } from './KineticText.vue'\nexport type { KineticTextProps } from './KineticText.vue'\n",
+      "type": "registry:ui"
+    }
+  ],
+  "categories": [
+    "text-animations"
+  ],
+  "type": "registry:ui"
+}

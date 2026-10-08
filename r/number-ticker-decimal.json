@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "number-ticker-decimal",
+  "title": "Number Ticker — Decimal",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/number-ticker.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/number-ticker-decimal.vue",
+      "content": "<script setup lang=\"ts\">\nimport { NumberTicker } from '@/components/ui/number-ticker'\n</script>\n\n<template>\n  <NumberTicker :value=\"5.67\" :decimal-places=\"2\" class=\"text-8xl font-medium tracking-tighter whitespace-pre-wrap\" />\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

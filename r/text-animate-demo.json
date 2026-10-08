@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "text-animate-demo",
+  "title": "Text Animate — Blur in by character",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/text-animate.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/text-animate-demo.vue",
+      "content": "<script setup lang=\"ts\">\nimport { TextAnimate } from '@/components/ui/text-animate'\n</script>\n\n<template>\n  <TextAnimate\n    text=\"Blur in by character\"\n    animation=\"blurInUp\"\n    by=\"character\"\n    once\n    class=\"text-4xl font-semibold tracking-tight sm:text-5xl\"\n  />\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

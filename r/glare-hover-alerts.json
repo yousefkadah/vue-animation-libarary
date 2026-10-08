@@ -1,0 +1,19 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "glare-hover-alerts",
+  "title": "Glare Hover — Alerts",
+  "dependencies": [
+    "@lucide/vue"
+  ],
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/glare-hover.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/glare-hover-alerts.vue",
+      "content": "<script setup lang=\"ts\">\nimport { CircleCheck, Info, TriangleAlert } from '@lucide/vue'\nimport { GlareHover } from '@/components/ui/glare-hover'\n\nconst alert = 'grid w-full grid-cols-[1rem_1fr] items-start gap-x-3 gap-y-0.5 rounded-lg border bg-background px-4 py-3 text-sm'\n</script>\n\n<template>\n  <div class=\"flex w-full max-w-md flex-col gap-3\">\n    <GlareHover class=\"w-full rounded-lg\" background=\"transparent\" color=\"#60a5fa\" :opacity=\"0.25\" :duration=\"550\">\n      <div role=\"alert\" :class=\"alert\">\n        <Info class=\"mt-0.5 size-4\" aria-hidden=\"true\" />\n        <p class=\"font-medium\">Action required</p>\n        <p class=\"col-start-2 text-muted-foreground\">Your plan expires in 3 days. Renew to keep access.</p>\n      </div>\n    </GlareHover>\n\n    <GlareHover class=\"w-full rounded-lg\" background=\"transparent\" color=\"#ff6070\" :opacity=\"0.25\" :duration=\"550\">\n      <div role=\"alert\" :class=\"[alert, 'text-red-600 dark:text-red-400']\">\n        <TriangleAlert class=\"mt-0.5 size-4\" aria-hidden=\"true\" />\n        <p class=\"font-medium\">Payment declined</p>\n        <p class=\"col-start-2 opacity-90\">Check your card details and try again.</p>\n      </div>\n    </GlareHover>\n\n    <GlareHover class=\"w-full rounded-lg\" background=\"transparent\" color=\"#60ff70\" :opacity=\"0.25\" :duration=\"550\">\n      <div role=\"alert\" :class=\"[alert, 'text-emerald-600 dark:text-emerald-400']\">\n        <CircleCheck class=\"mt-0.5 size-4\" aria-hidden=\"true\" />\n        <p class=\"font-medium\">Subscription confirmed</p>\n        <p class=\"col-start-2 opacity-90\">You have full Pro access until April 5, 2027.</p>\n      </div>\n    </GlareHover>\n  </div>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

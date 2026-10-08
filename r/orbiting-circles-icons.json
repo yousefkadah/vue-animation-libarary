@@ -1,0 +1,19 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "orbiting-circles-icons",
+  "title": "Orbiting Circles — Icons",
+  "dependencies": [
+    "@lucide/vue"
+  ],
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/orbiting-circles.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/orbiting-circles-icons.vue",
+      "content": "<script setup lang=\"ts\">\nimport { Cloud, Database, FileText, Search, Settings, Sparkles, Terminal } from '@lucide/vue'\nimport { OrbitingCircles } from '@/components/ui/orbiting-circles'\n</script>\n\n<template>\n  <div class=\"relative flex h-[400px] w-full flex-col items-center justify-center overflow-hidden\">\n    <span\n      class=\"pointer-events-none bg-linear-to-b from-black to-gray-300/80 bg-clip-text text-center text-6xl leading-none font-semibold whitespace-pre-wrap text-transparent dark:from-white dark:to-slate-900/10\"\n    >\n      Circles\n    </span>\n    <OrbitingCircles :icon-size=\"36\" :radius=\"150\" class=\"border bg-background text-foreground shadow-sm\">\n      <FileText class=\"size-4\" />\n      <Settings class=\"size-4\" />\n      <Cloud class=\"size-4\" />\n      <Database class=\"size-4\" />\n    </OrbitingCircles>\n    <OrbitingCircles :icon-size=\"32\" :radius=\"90\" reverse :duration=\"15\" class=\"border bg-background text-muted-foreground\">\n      <Search class=\"size-4\" />\n      <Terminal class=\"size-4\" />\n      <Sparkles class=\"size-4\" />\n    </OrbitingCircles>\n  </div>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

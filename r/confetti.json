@@ -1,0 +1,39 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "confetti",
+  "title": "Confetti",
+  "description": "Confetti animations are best used to delight your users when something special happens.",
+  "dependencies": [
+    "canvas-confetti",
+    "@types/canvas-confetti"
+  ],
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "src/registry/ui/confetti/Confetti.vue",
+      "content": "<script setup lang=\"ts\">\nimport type { HTMLAttributes } from 'vue'\nimport { onBeforeUnmount, onMounted, provide, ref } from 'vue'\nimport confetti from 'canvas-confetti'\nimport type { CreateTypes, GlobalOptions as ConfettiGlobalOptions, Options as ConfettiOptions } from 'canvas-confetti'\nimport { CONFETTI_INJECTION_KEY, type ConfettiRef } from './context'\n\nexport interface ConfettiProps {\n  /** Classes for the canvas. Size it yourself, e.g. `absolute inset-0 size-full`. */\n  class?: HTMLAttributes['class']\n  /** Default options for every burst. */\n  options?: ConfettiOptions\n  /** Options for `confetti.create()`: `resize`, `useWorker`, `disableForReducedMotion`. */\n  globalOptions?: ConfettiGlobalOptions\n  /** Don't fire a burst on mount; call `fire()` yourself. */\n  manualstart?: boolean\n}\n\ndefineOptions({ inheritAttrs: false })\n\nconst props = withDefaults(defineProps<ConfettiProps>(), {\n  globalOptions: () => ({ resize: true, useWorker: true }),\n  manualstart: false,\n})\n\nconst canvasRef = ref<HTMLCanvasElement>()\nlet instance: CreateTypes | null = null\n\nasync function fire(options: ConfettiOptions = {}) {\n  try {\n    await instance?.({ ...props.options, ...options })\n  } catch (error) {\n    console.error('Confetti error:', error)\n  }\n}\n\nconst api: ConfettiRef = { fire }\nprovide(CONFETTI_INJECTION_KEY, api)\ndefineExpose(api)\n\nonMounted(() => {\n  if (!canvasRef.value) return\n  instance = confetti.create(canvasRef.value, { resize: true, useWorker: true, ...props.globalOptions })\n  if (!props.manualstart) void fire()\n})\n\nonBeforeUnmount(() => {\n  instance?.reset()\n  instance = null\n})\n</script>\n\n<template>\n  <canvas ref=\"canvasRef\" :class=\"props.class\" v-bind=\"$attrs\" />\n  <slot />\n</template>\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "src/registry/ui/confetti/ConfettiButton.vue",
+      "content": "<script setup lang=\"ts\">\nimport type { HTMLAttributes } from 'vue'\nimport confetti from 'canvas-confetti'\nimport type { GlobalOptions as ConfettiGlobalOptions, Options as ConfettiOptions } from 'canvas-confetti'\nimport { cn } from '@/lib/utils'\n\nexport interface ConfettiButtonProps {\n  class?: HTMLAttributes['class']\n  /** Burst options. The origin is always the centre of the button. */\n  options?: ConfettiOptions & ConfettiGlobalOptions & { canvas?: HTMLCanvasElement }\n}\n\nconst props = defineProps<ConfettiButtonProps>()\n\nconst emit = defineEmits<{\n  /** Native click. Call `event.preventDefault()` to skip the confetti. */\n  click: [event: MouseEvent]\n}>()\n\nasync function onClick(event: MouseEvent) {\n  try {\n    emit('click', event)\n    if (event.defaultPrevented) return\n    const target = event.currentTarget as HTMLElement | null\n    if (!target) return\n    const rect = target.getBoundingClientRect()\n    await confetti({\n      zIndex: 9999,\n      ...props.options,\n      origin: {\n        x: (rect.left + rect.width / 2) / window.innerWidth,\n        y: (rect.top + rect.height / 2) / window.innerHeight,\n      },\n    })\n  } catch (error) {\n    console.error('Confetti button error:', error)\n  }\n}\n</script>\n\n<template>\n  <button\n    type=\"button\"\n    :class=\"\n      cn(\n        'inline-flex h-9 shrink-0 items-center justify-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-medium whitespace-nowrap text-primary-foreground shadow-xs transition-colors outline-none hover:bg-primary/90 focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50',\n        props.class,\n      )\n    \"\n    @click=\"onClick\"\n  >\n    <slot />\n  </button>\n</template>\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "src/registry/ui/confetti/context.ts",
+      "content": "import type { InjectionKey } from 'vue'\nimport { inject } from 'vue'\nimport type { Options as ConfettiOptions } from 'canvas-confetti'\n\n/** What `<Confetti>` exposes through its template ref and to its slot content. */\nexport interface ConfettiRef {\n  /** Fires a burst on the component's canvas. Per-call options override the `options` prop. */\n  fire: (options?: ConfettiOptions) => Promise<void>\n}\n\nexport const CONFETTI_INJECTION_KEY: InjectionKey<ConfettiRef> = Symbol('confetti')\n\n/** Access the nearest `<Confetti>` from inside its default slot. Returns `null` outside one. */\nexport function useConfetti(): ConfettiRef | null {\n  return inject(CONFETTI_INJECTION_KEY, null)\n}\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "src/registry/ui/confetti/index.ts",
+      "content": "export { default as Confetti } from './Confetti.vue'\nexport type { ConfettiProps } from './Confetti.vue'\nexport { default as ConfettiButton } from './ConfettiButton.vue'\nexport type { ConfettiButtonProps } from './ConfettiButton.vue'\nexport { useConfetti } from './context'\nexport type { ConfettiRef } from './context'\n",
+      "type": "registry:ui"
+    }
+  ],
+  "categories": [
+    "special-effects"
+  ],
+  "type": "registry:ui"
+}

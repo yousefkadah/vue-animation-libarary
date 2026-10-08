@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "highlighter-in-view",
+  "title": "Highlighter — Draw when in view",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/highlighter.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/highlighter-in-view.vue",
+      "content": "<script setup lang=\"ts\">\nimport { Highlighter } from '@/components/ui/highlighter'\n</script>\n\n<template>\n  <article class=\"max-w-md space-y-3 text-left\">\n    <h3 class=\"text-xl font-semibold tracking-tight\">Release notes</h3>\n    <p class=\"leading-relaxed text-muted-foreground\">\n      This release makes the editor\n      <Highlighter is-view action=\"highlight\" color=\"#FDE68A\" :animation-duration=\"900\" class=\"text-foreground dark:text-black\">\n        twice as fast on large documents\n      </Highlighter>\n      and adds\n      <Highlighter is-view action=\"underline\" color=\"#22C55E\" :iterations=\"3\">offline support</Highlighter>\n      for every workspace. Annotations with <code class=\"rounded bg-muted px-1 text-sm\">is-view</code> wait until they\n      scroll into view.\n    </p>\n  </article>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

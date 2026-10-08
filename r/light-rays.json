@@ -1,0 +1,28 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "light-rays",
+  "title": "Light Rays",
+  "description": "A component with animated light rays which shine down from above.",
+  "dependencies": [
+    "motion-v"
+  ],
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "src/registry/ui/light-rays/LightRays.vue",
+      "content": "<script setup lang=\"ts\">\nimport type { HTMLAttributes } from 'vue'\nimport { computed, onMounted, shallowRef, watch } from 'vue'\nimport { motion, useReducedMotion } from 'motion-v'\nimport { cn } from '@/lib/utils'\n\nexport interface LightRaysProps {\n  class?: HTMLAttributes['class']\n  /** Number of rays. */\n  count?: number\n  /** Colour of the rays and the ambient glow (any CSS colour; include some transparency). */\n  color?: string\n  /** Blur of each ray in pixels. */\n  blur?: number\n  /** Seconds for one swing of a ray. Lower is faster. */\n  speed?: number\n  /** Length of each ray, e.g. `70vh` or `500px`. */\n  length?: string\n}\n\ninterface LightRay {\n  id: string\n  style: Record<string, string>\n  rotate: number\n  intensity: number\n  animate: { opacity: number[]; rotate: number[] }\n  transition: { duration: number; repeat: number; ease: 'easeInOut'; delay: number; repeatDelay: number }\n}\n\nconst props = withDefaults(defineProps<LightRaysProps>(), {\n  count: 7,\n  color: 'rgba(160, 210, 255, 0.2)',\n  blur: 36,\n  speed: 14,\n  length: '70vh',\n})\n\nconst reducedMotion = useReducedMotion()\nconst rays = shallowRef<LightRay[]>([])\nconst cycle = computed(() => Math.max(props.speed, 0.1))\n\nfunction createRays(count: number, cycle: number): LightRay[] {\n  return Array.from({ length: Math.max(count, 0) }, (_, index) => {\n    const left = 8 + Math.random() * 84\n    const rotate = -28 + Math.random() * 56\n    const width = 160 + Math.random() * 160\n    const swing = 0.8 + Math.random() * 1.8\n    const duration = cycle * (0.75 + Math.random() * 0.5)\n    const intensity = 0.6 + Math.random() * 0.5\n    return {\n      id: `${index}-${Math.round(left * 10)}`,\n      style: { '--ray-left': `${left}%`, '--ray-width': `${width}px` },\n      rotate,\n      intensity,\n      animate: {\n        opacity: [0, intensity, 0],\n        rotate: [rotate - swing, rotate + swing, rotate - swing],\n      },\n      transition: {\n        duration,\n        repeat: Infinity,\n        ease: 'easeInOut',\n        delay: Math.random() * cycle,\n        repeatDelay: duration * 0.1,\n      },\n    }\n  })\n}\n\n// Random layout is generated after mount so server and client renders match.\nonMounted(() => {\n  rays.value = createRays(props.count, cycle.value)\n})\nwatch([() => props.count, cycle], ([count, seconds]) => {\n  rays.value = createRays(count, seconds)\n})\n</script>\n\n<template>\n  <div\n    aria-hidden=\"true\"\n    :class=\"cn('pointer-events-none absolute inset-0 isolate overflow-hidden rounded-[inherit]', props.class)\"\n    :style=\"{\n      '--light-rays-color': props.color,\n      '--light-rays-blur': `${props.blur}px`,\n      '--light-rays-length': props.length,\n    }\"\n  >\n    <div class=\"absolute inset-0 overflow-hidden\">\n      <div\n        class=\"absolute inset-0 bg-[radial-gradient(circle_at_20%_15%,color-mix(in_srgb,var(--light-rays-color)_45%,transparent),transparent_70%)] opacity-60\"\n      />\n      <div\n        class=\"absolute inset-0 bg-[radial-gradient(circle_at_80%_10%,color-mix(in_srgb,var(--light-rays-color)_35%,transparent),transparent_75%)] opacity-60\"\n      />\n      <motion.div\n        v-for=\"ray in rays\"\n        :key=\"ray.id\"\n        class=\"pointer-events-none absolute -top-[12%] left-[var(--ray-left)] h-[var(--light-rays-length)] w-[var(--ray-width)] origin-top -translate-x-1/2 rounded-full bg-linear-to-b from-[color-mix(in_srgb,var(--light-rays-color)_70%,transparent)] to-transparent opacity-0 blur-[var(--light-rays-blur)] dark:mix-blend-screen\"\n        :style=\"ray.style\"\n        :initial=\"reducedMotion ? { rotate: ray.rotate, opacity: ray.intensity * 0.6 } : { rotate: ray.rotate }\"\n        :animate=\"reducedMotion ? undefined : ray.animate\"\n        :transition=\"ray.transition\"\n      />\n    </div>\n  </div>\n</template>\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "src/registry/ui/light-rays/index.ts",
+      "content": "export { default as LightRays } from './LightRays.vue'\nexport type { LightRaysProps } from './LightRays.vue'\n",
+      "type": "registry:ui"
+    }
+  ],
+  "categories": [
+    "backgrounds"
+  ],
+  "type": "registry:ui"
+}

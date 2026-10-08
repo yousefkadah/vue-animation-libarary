@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "android-image",
+  "title": "Android — With image",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/android.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/android-image.vue",
+      "content": "<script setup lang=\"ts\">\nimport { Android } from '@/components/ui/android'\n</script>\n\n<template>\n  <Android\n    :width=\"200\"\n    :height=\"437\"\n    src=\"https://picsum.photos/seed/android/720/1600\"\n  />\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

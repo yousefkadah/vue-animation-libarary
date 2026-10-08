@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "hexagon-pattern-demo",
+  "title": "Hexagon Pattern — Highlighted hexagons",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/hexagon-pattern.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/hexagon-pattern-demo.vue",
+      "content": "<script setup lang=\"ts\">\nimport { HexagonPattern } from '@/components/ui/hexagon-pattern'\n\nconst hexagons: Array<[number, number]> = [\n  [1, 1],\n  [4, 4],\n  [2, 2],\n  [3, 4],\n  [5, 4],\n  [8, 2],\n  [6, 3],\n  [8, 5],\n  [10, 10],\n]\n</script>\n\n<template>\n  <div class=\"relative flex h-[400px] w-full flex-col items-center justify-center overflow-hidden rounded-lg border bg-background\">\n    <HexagonPattern :hexagons=\"hexagons\" class=\"inset-0 skew-y-6 [mask-image:radial-gradient(420px_circle_at_center,white,transparent)]\" />\n  </div>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

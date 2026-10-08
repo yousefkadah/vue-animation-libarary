@@ -1,0 +1,19 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "glare-hover-demo",
+  "title": "Glare Hover — Pricing card",
+  "dependencies": [
+    "@lucide/vue"
+  ],
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/glare-hover.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/glare-hover-demo.vue",
+      "content": "<script setup lang=\"ts\">\nimport { Check } from '@lucide/vue'\nimport { GlareHover } from '@/components/ui/glare-hover'\n\nconst features = ['Unlimited projects', 'Team collaboration', 'Advanced analytics']\n</script>\n\n<template>\n  <GlareHover class=\"rounded-xl\" background=\"transparent\" color=\"#a78bfa\" :opacity=\"0.4\" :duration=\"600\">\n    <div class=\"flex w-[340px] flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm\">\n      <div class=\"space-y-1.5 px-6\">\n        <div class=\"flex items-center justify-between\">\n          <h3 class=\"leading-none font-semibold\">Pro</h3>\n          <span class=\"rounded-md bg-primary px-2 py-0.5 text-xs font-medium text-primary-foreground\">Popular</span>\n        </div>\n        <p class=\"text-sm text-muted-foreground\">For teams that need more.</p>\n        <div class=\"flex items-baseline gap-1 pt-2\">\n          <span class=\"text-4xl font-semibold tracking-tight\">$49</span>\n          <span class=\"text-sm text-muted-foreground\">/mo</span>\n        </div>\n      </div>\n      <ul class=\"flex flex-col gap-2.5 px-6\">\n        <li v-for=\"feature in features\" :key=\"feature\" class=\"flex items-center gap-2 text-sm\">\n          <Check class=\"size-4\" aria-hidden=\"true\" />\n          {{ feature }}\n        </li>\n        <li class=\"flex items-center gap-2 text-sm text-muted-foreground\">\n          <span class=\"mx-1.5 size-1 rounded-full bg-current opacity-40\" aria-hidden=\"true\" />\n          SSO (coming soon)\n        </li>\n      </ul>\n      <div class=\"px-6\">\n        <button class=\"h-9 w-full rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground hover:bg-primary/90\">\n          Get started\n        </button>\n      </div>\n    </div>\n  </GlareHover>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

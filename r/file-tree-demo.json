@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "file-tree-demo",
+  "title": "File Tree — From data",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/file-tree.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/file-tree-demo.vue",
+      "content": "<script setup lang=\"ts\">\nimport { Tree, type TreeViewElement } from '@/components/ui/file-tree'\n\nconst elements: TreeViewElement[] = [\n  {\n    id: 'src',\n    type: 'folder',\n    name: 'src',\n    children: [\n      {\n        id: 'lib',\n        type: 'folder',\n        name: 'lib',\n        children: [{ id: 'utils', name: 'utils.ts' }],\n      },\n      {\n        id: 'pages',\n        type: 'folder',\n        name: 'pages',\n        children: [\n          { id: 'index', name: 'Index.vue' },\n          { id: 'about', name: 'About.vue' },\n        ],\n      },\n      {\n        id: 'components',\n        type: 'folder',\n        name: 'components',\n        children: [\n          { id: 'header', name: 'SiteHeader.vue' },\n          {\n            id: 'ui',\n            type: 'folder',\n            name: 'ui',\n            children: [{ id: 'button', name: 'Button.vue' }],\n          },\n          { id: 'footer', name: 'SiteFooter.vue' },\n        ],\n      },\n      { id: 'app', name: 'App.vue' },\n      { id: 'main', name: 'main.ts' },\n    ],\n  },\n]\n</script>\n\n<template>\n  <div class=\"relative flex h-[300px] w-full max-w-sm flex-col items-center justify-center overflow-hidden rounded-lg border bg-background\">\n    <Tree\n      class=\"overflow-hidden rounded-md bg-background p-2\"\n      initial-selected-id=\"button\"\n      :initial-expanded-items=\"['src', 'pages', 'components', 'ui', 'lib']\"\n      :elements=\"elements\"\n    />\n  </div>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

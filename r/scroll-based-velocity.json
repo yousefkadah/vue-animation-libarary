@@ -1,0 +1,38 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "scroll-based-velocity",
+  "title": "Scroll Based Velocity",
+  "description": "Scrolling rows of content whose speed and direction follow the page scroll velocity.",
+  "dependencies": [
+    "motion-v"
+  ],
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "src/registry/ui/scroll-based-velocity/ScrollVelocityContainer.vue",
+      "content": "<script setup lang=\"ts\">\nimport type { HTMLAttributes } from 'vue'\nimport { provide } from 'vue'\nimport { cn } from '@/lib/utils'\nimport { scrollVelocityKey, useScrollVelocityFactor } from './context'\n\nexport interface ScrollVelocityContainerProps {\n  class?: HTMLAttributes['class']\n}\n\nconst props = defineProps<ScrollVelocityContainerProps>()\n\nprovide(scrollVelocityKey, useScrollVelocityFactor())\n</script>\n\n<template>\n  <div :class=\"cn('relative w-full', props.class)\">\n    <slot />\n  </div>\n</template>\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "src/registry/ui/scroll-based-velocity/ScrollVelocityRow.vue",
+      "content": "<script setup lang=\"ts\">\nimport type { HTMLAttributes } from 'vue'\nimport { inject, onBeforeUnmount, onMounted, ref, watch } from 'vue'\nimport { motion, useAnimationFrame, useMotionValue, useTransform } from 'motion-v'\nimport { cn } from '@/lib/utils'\nimport { scrollVelocityKey, useScrollVelocityFactor, wrap } from './context'\n\nexport interface ScrollVelocityRowProps {\n  class?: HTMLAttributes['class']\n  /** Base speed, as a percentage of the content width per second. */\n  baseVelocity?: number\n  /** `1` scrolls the content to the left, `-1` to the right. Scrolling the page up flips it. */\n  direction?: 1 | -1\n  /** Speed up (and flip direction) with the page's scroll velocity. */\n  scrollReactivity?: boolean\n}\n\nconst props = withDefaults(defineProps<ScrollVelocityRowProps>(), {\n  baseVelocity: 5,\n  direction: 1,\n  scrollReactivity: true,\n})\n\n/** Rows inside a `ScrollVelocityContainer` share its velocity; standalone rows track their own. */\nconst velocityFactor = inject(scrollVelocityKey, null) ?? useScrollVelocityFactor()\n\nconst container = ref<HTMLElement | null>(null)\nconst block = ref<HTMLElement | null>(null)\nconst numCopies = ref(1)\n\nconst baseX = useMotionValue(0)\nconst unitWidth = useMotionValue(0)\nlet baseDirection = props.direction >= 0 ? 1 : -1\nlet currentDirection = baseDirection\n\nwatch(\n  () => props.direction,\n  (direction) => {\n    baseDirection = direction >= 0 ? 1 : -1\n    currentDirection = baseDirection\n  },\n)\n\nlet isInView = true\nlet isPageVisible = true\nlet prefersReducedMotion = false\n\nconst x = useTransform([baseX, unitWidth], ([offset, width]: number[]) => `${-wrap(0, Number(width) || 1, Number(offset) || 0)}px`)\n\nuseAnimationFrame((_time, delta) => {\n  if (!isInView || !isPageVisible || prefersReducedMotion) return\n  const width = unitWidth.get() || 0\n  if (width <= 0) return\n  const factor = props.scrollReactivity ? velocityFactor.get() : 0\n  const boost = Math.min(5, Math.abs(factor))\n  if (boost > 0.1) currentDirection = baseDirection * (factor >= 0 ? 1 : -1)\n  const pixelsPerSecond = (width * props.baseVelocity) / 100\n  baseX.set(baseX.get() + currentDirection * pixelsPerSecond * (1 + boost) * (delta / 1000))\n})\n\nlet resizeObserver: ResizeObserver | null = null\nlet intersectionObserver: IntersectionObserver | null = null\nlet reducedMotionQuery: MediaQueryList | null = null\n\nconst onVisibilityChange = () => {\n  isPageVisible = document.visibilityState === 'visible'\n}\nconst onReducedMotionChange = () => {\n  prefersReducedMotion = reducedMotionQuery?.matches ?? false\n}\n\nfunction updateSizes() {\n  if (!container.value || !block.value) return\n  const containerWidth = container.value.offsetWidth || 0\n  const blockWidth = block.value.scrollWidth || 0\n  unitWidth.set(blockWidth)\n  numCopies.value = blockWidth > 0 ? Math.max(3, Math.ceil(containerWidth / blockWidth) + 2) : 1\n}\n\nonMounted(() => {\n  if (!container.value || !block.value) return\n  updateSizes()\n  resizeObserver = new ResizeObserver(updateSizes)\n  resizeObserver.observe(container.value)\n  resizeObserver.observe(block.value)\n\n  intersectionObserver = new IntersectionObserver(([entry]) => {\n    isInView = entry?.isIntersecting ?? true\n  })\n  intersectionObserver.observe(container.value)\n\n  document.addEventListener('visibilitychange', onVisibilityChange, { passive: true })\n  onVisibilityChange()\n\n  reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)')\n  reducedMotionQuery.addEventListener('change', onReducedMotionChange)\n  onReducedMotionChange()\n})\n\nonBeforeUnmount(() => {\n  resizeObserver?.disconnect()\n  intersectionObserver?.disconnect()\n  document.removeEventListener('visibilitychange', onVisibilityChange)\n  reducedMotionQuery?.removeEventListener('change', onReducedMotionChange)\n})\n</script>\n\n<template>\n  <div ref=\"container\" :class=\"cn('w-full overflow-hidden whitespace-nowrap', props.class)\">\n    <motion.div class=\"inline-flex transform-gpu items-center will-change-transform select-none\" :style=\"{ x }\">\n      <div ref=\"block\" class=\"inline-flex shrink-0 items-center\">\n        <slot />\n      </div>\n      <div v-for=\"copy in numCopies - 1\" :key=\"copy\" aria-hidden=\"true\" class=\"inline-flex shrink-0 items-center\">\n        <slot />\n      </div>\n    </motion.div>\n  </div>\n</template>\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "src/registry/ui/scroll-based-velocity/context.ts",
+      "content": "import type { InjectionKey } from 'vue'\nimport { useScroll, useSpring, useTransform, useVelocity, type MotionValue } from 'motion-v'\n\n/** Shared scroll-velocity factor (-5…5) provided by `ScrollVelocityContainer`. */\nexport const scrollVelocityKey: InjectionKey<MotionValue<number>> = Symbol('ScrollVelocity')\n\n/** Wraps `v` into the range [min, max). */\nexport function wrap(min: number, max: number, v: number) {\n  const rangeSize = max - min\n  return ((((v - min) % rangeSize) + rangeSize) % rangeSize) + min\n}\n\n/** Page scroll velocity, smoothed and mapped to a -5…5 speed boost. Call from `setup`. */\nexport function useScrollVelocityFactor(): MotionValue<number> {\n  const { scrollY } = useScroll()\n  const scrollVelocity = useVelocity(scrollY)\n  const smoothVelocity = useSpring(scrollVelocity, { damping: 50, stiffness: 400 })\n  return useTransform(smoothVelocity, (v: number) => {\n    const sign = v < 0 ? -1 : 1\n    const magnitude = Math.min(5, (Math.abs(v) / 1000) * 5)\n    return sign * magnitude\n  })\n}\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "src/registry/ui/scroll-based-velocity/index.ts",
+      "content": "export { default as ScrollVelocityContainer } from './ScrollVelocityContainer.vue'\nexport type { ScrollVelocityContainerProps } from './ScrollVelocityContainer.vue'\nexport { default as ScrollVelocityRow } from './ScrollVelocityRow.vue'\nexport type { ScrollVelocityRowProps } from './ScrollVelocityRow.vue'\n",
+      "type": "registry:ui"
+    }
+  ],
+  "categories": [
+    "text-animations"
+  ],
+  "type": "registry:ui"
+}

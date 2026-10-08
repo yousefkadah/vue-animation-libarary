@@ -1,0 +1,40 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "neon-gradient-card",
+  "title": "Neon Gradient Card",
+  "description": "A beautiful neon card effect.",
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "src/registry/ui/neon-gradient-card/NeonGradientCard.vue",
+      "content": "<script setup lang=\"ts\">\nimport type { HTMLAttributes } from 'vue'\nimport { computed, onBeforeUnmount, onMounted, ref } from 'vue'\nimport { cn } from '@/lib/utils'\n\nexport interface NeonColorsProps {\n  firstColor: string\n  secondColor: string\n}\n\nexport interface NeonGradientCardProps {\n  class?: HTMLAttributes['class']\n  /** Element to render the card as. */\n  as?: string\n  /** Width of the neon border in pixels. */\n  borderSize?: number\n  /** Corner radius in pixels. */\n  borderRadius?: number\n  /** The two colours of the neon gradient. */\n  neonColors?: NeonColorsProps\n}\n\nconst props = withDefaults(defineProps<NeonGradientCardProps>(), {\n  as: 'div',\n  borderSize: 2,\n  borderRadius: 20,\n  neonColors: () => ({ firstColor: '#ff00aa', secondColor: '#00FFF1' }),\n})\n\nconst container = ref<HTMLElement | null>(null)\nconst dimensions = ref({ width: 0, height: 0 })\n\nfunction updateDimensions() {\n  if (!container.value) return\n  const { offsetWidth, offsetHeight } = container.value\n  dimensions.value = { width: offsetWidth, height: offsetHeight }\n}\n\nlet resizeObserver: ResizeObserver | undefined\n\nonMounted(() => {\n  updateDimensions()\n  resizeObserver = new ResizeObserver(updateDimensions)\n  if (container.value) resizeObserver.observe(container.value)\n})\n\nonBeforeUnmount(() => resizeObserver?.disconnect())\n\nconst style = computed(() => {\n  const { width, height } = dimensions.value\n  const { firstColor, secondColor } = props.neonColors\n  return {\n    '--border-size': `${props.borderSize}px`,\n    '--border-radius': `${props.borderRadius}px`,\n    '--neon-first-color': firstColor,\n    '--neon-second-color': secondColor,\n    '--card-width': `${width}px`,\n    '--card-height': `${height}px`,\n    '--card-content-radius': `${props.borderRadius - props.borderSize}px`,\n    '--pseudo-element-background-image': `linear-gradient(0deg, ${firstColor}, ${secondColor})`,\n    '--pseudo-element-width': `${width + props.borderSize * 2}px`,\n    '--pseudo-element-height': `${height + props.borderSize * 2}px`,\n    '--after-blur': `${width / 3}px`,\n  }\n})\n\n/** Static classes for the inner surface and its two neon layers (`before` = border, `after` = glow). */\nconst innerClass = [\n  'relative size-full min-h-[inherit] rounded-(--card-content-radius) bg-gray-100 p-6',\n  'before:absolute before:-top-(--border-size) before:-left-(--border-size) before:-z-10 before:block',\n  'before:h-(--pseudo-element-height) before:w-(--pseudo-element-width) before:rounded-(--border-radius)',\n  'before:bg-[linear-gradient(0deg,var(--neon-first-color),var(--neon-second-color))] before:bg-size-[100%_200%]',\n  'before:animate-background-position-spin motion-reduce:before:animate-none',\n  'after:absolute after:-top-(--border-size) after:-left-(--border-size) after:-z-10 after:block',\n  'after:h-(--pseudo-element-height) after:w-(--pseudo-element-width) after:rounded-(--border-radius) after:blur-(--after-blur)',\n  'after:bg-[linear-gradient(0deg,var(--neon-first-color),var(--neon-second-color))] after:bg-size-[100%_200%] after:opacity-80',\n  'after:animate-background-position-spin motion-reduce:after:animate-none',\n  'dark:bg-neutral-900',\n  'wrap-break-word',\n].join(' ')\n</script>\n\n<template>\n  <component\n    :is=\"props.as\"\n    ref=\"container\"\n    :style=\"style\"\n    :class=\"cn('relative z-10 size-full rounded-(--border-radius)', props.class)\"\n  >\n    <div :class=\"innerClass\">\n      <slot />\n    </div>\n  </component>\n</template>\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "src/registry/ui/neon-gradient-card/index.ts",
+      "content": "export { default as NeonGradientCard } from './NeonGradientCard.vue'\nexport type { NeonColorsProps, NeonGradientCardProps } from './NeonGradientCard.vue'\n",
+      "type": "registry:ui"
+    }
+  ],
+  "cssVars": {
+    "theme": {
+      "animate-background-position-spin": "background-position-spin 3000ms infinite alternate"
+    }
+  },
+  "css": {
+    "@keyframes background-position-spin": {
+      "0%": {
+        "background-position": "top center"
+      },
+      "100%": {
+        "background-position": "bottom center"
+      }
+    }
+  },
+  "categories": [
+    "special-effects"
+  ],
+  "type": "registry:ui"
+}

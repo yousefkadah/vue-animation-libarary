@@ -1,0 +1,28 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "number-ticker",
+  "title": "Number Ticker",
+  "description": "Animate numbers to count up or down to a target number.",
+  "dependencies": [
+    "motion-v"
+  ],
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "src/registry/ui/number-ticker/NumberTicker.vue",
+      "content": "<script setup lang=\"ts\">\nimport type { HTMLAttributes } from 'vue'\nimport { computed, onBeforeUnmount, ref, watch } from 'vue'\nimport { useInView, useMotionValue, useSpring } from 'motion-v'\nimport { cn } from '@/lib/utils'\n\nexport interface NumberTickerProps {\n  /** The value to count to (or from, when counting down). */\n  value: number\n  /** The value to count from (or to, when counting down). */\n  startValue?: number\n  /** Count up from `startValue` to `value`, or down from `value` to `startValue`. */\n  direction?: 'up' | 'down'\n  /** Seconds to wait after the number scrolls into view. */\n  delay?: number\n  /** Number of decimal places to show. */\n  decimalPlaces?: number\n  /** BCP 47 locale passed to `Intl.NumberFormat` (grouping and decimal separators). */\n  locale?: string\n  class?: HTMLAttributes['class']\n}\n\nconst props = withDefaults(defineProps<NumberTickerProps>(), {\n  startValue: 0,\n  direction: 'up',\n  delay: 0,\n  decimalPlaces: 0,\n  locale: 'en-US',\n})\n\nconst el = ref<HTMLSpanElement>()\nconst motionValue = useMotionValue(props.direction === 'down' ? props.value : props.startValue)\nconst springValue = useSpring(motionValue, { damping: 60, stiffness: 100 })\nconst isInView = useInView(el, { once: true, margin: '0px' })\n\nconst formatter = computed(\n  () =>\n    new Intl.NumberFormat(props.locale, {\n      minimumFractionDigits: props.decimalPlaces,\n      maximumFractionDigits: props.decimalPlaces,\n    }),\n)\nconst format = (latest: number) => formatter.value.format(Number(latest.toFixed(props.decimalPlaces)))\n\nconst display = ref(format(motionValue.get()))\n\nwatch(\n  [isInView, () => props.value, () => props.direction, () => props.startValue, () => props.delay],\n  (_value, _oldValue, onCleanup) => {\n    if (!isInView.value) return\n    const timer = setTimeout(() => {\n      motionValue.set(props.direction === 'down' ? props.startValue : props.value)\n    }, props.delay * 1000)\n    onCleanup(() => clearTimeout(timer))\n  },\n  { immediate: true },\n)\n\nwatch(formatter, () => {\n  display.value = format(springValue.get())\n})\n\nconst unsubscribe = springValue.on('change', (latest) => {\n  display.value = format(latest)\n})\nonBeforeUnmount(unsubscribe)\n</script>\n\n<template>\n  <span ref=\"el\" :class=\"cn('inline-block tracking-wider text-foreground tabular-nums', props.class)\">{{ display }}</span>\n</template>\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "src/registry/ui/number-ticker/index.ts",
+      "content": "export { default as NumberTicker } from './NumberTicker.vue'\nexport type { NumberTickerProps } from './NumberTicker.vue'\n",
+      "type": "registry:ui"
+    }
+  ],
+  "categories": [
+    "text-animations"
+  ],
+  "type": "registry:ui"
+}

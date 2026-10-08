@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "animated-circular-progress-bar-stats",
+  "title": "Animated Circular Progress Bar — Stats",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/animated-circular-progress-bar.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/animated-circular-progress-bar-stats.vue",
+      "content": "<script setup lang=\"ts\">\nimport { onBeforeUnmount, onMounted, ref } from 'vue'\nimport { AnimatedCircularProgressBar } from '@/components/ui/animated-circular-progress-bar'\n\nconst stats = [\n  { label: 'CPU', value: 72, color: '#f43f5e' },\n  { label: 'Memory', value: 4.6, max: 8, color: '#f59e0b' },\n  { label: 'Disk', value: 31, color: '#0ea5e9' },\n]\n\n// Start empty, then fill once mounted so the arcs animate in.\nconst ready = ref(false)\nlet timeout: ReturnType<typeof setTimeout> | undefined\nonMounted(() => {\n  timeout = setTimeout(() => {\n    ready.value = true\n  }, 150)\n})\nonBeforeUnmount(() => clearTimeout(timeout))\n</script>\n\n<template>\n  <div class=\"grid grid-cols-3 gap-6 [--track:rgba(0,0,0,0.08)] dark:[--track:rgba(255,255,255,0.12)]\">\n    <div v-for=\"stat in stats\" :key=\"stat.label\" class=\"flex flex-col items-center gap-2\">\n      <AnimatedCircularProgressBar\n        :value=\"ready ? stat.value : 0\"\n        :max=\"stat.max\"\n        :gauge-primary-color=\"stat.color\"\n        gauge-secondary-color=\"var(--track)\"\n        class=\"size-24 text-lg\"\n      />\n      <span class=\"text-sm text-muted-foreground\">{{ stat.label }}</span>\n    </div>\n  </div>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

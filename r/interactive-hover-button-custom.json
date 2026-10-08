@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "interactive-hover-button-custom",
+  "title": "Interactive Hover Button — Custom styles",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/interactive-hover-button.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/interactive-hover-button-custom.vue",
+      "content": "<script setup lang=\"ts\">\nimport { InteractiveHoverButton } from '@/components/ui/interactive-hover-button'\n</script>\n\n<template>\n  <div class=\"flex flex-wrap items-center justify-center gap-4\">\n    <InteractiveHoverButton class=\"px-8 py-3 text-lg\">Get started</InteractiveHoverButton>\n    <!-- The fill and its text follow --primary / --primary-foreground, so a scoped override recolours them. -->\n    <InteractiveHoverButton class=\"border-emerald-500/40 [--primary-foreground:#ffffff] [--primary:#10b981]\">\n      Book a demo\n    </InteractiveHoverButton>\n  </div>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

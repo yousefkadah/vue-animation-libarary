@@ -1,0 +1,28 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "warp-background",
+  "title": "Warp Background",
+  "description": "A card with a time warping background effect.",
+  "dependencies": [
+    "motion-v"
+  ],
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "src/registry/ui/warp-background/WarpBackground.vue",
+      "content": "<script setup lang=\"ts\">\nimport type { HTMLAttributes } from 'vue'\nimport { onMounted, ref, watch } from 'vue'\nimport { motion, useReducedMotion } from 'motion-v'\nimport { cn } from '@/lib/utils'\n\nexport interface WarpBackgroundProps {\n  class?: HTMLAttributes['class']\n  /** CSS perspective of the tunnel in pixels. */\n  perspective?: number\n  /** Number of beams on each of the four walls. */\n  beamsPerSide?: number\n  /** Size of a beam (and of a grid cell) as a percentage of the wall. */\n  beamSize?: number\n  /** Maximum random delay in seconds before a beam starts. */\n  beamDelayMax?: number\n  /** Minimum random delay in seconds before a beam starts. */\n  beamDelayMin?: number\n  /** Seconds a beam takes to travel the length of a wall. */\n  beamDuration?: number\n  /** Colour of the grid lines. */\n  gridColor?: string\n}\n\nconst props = withDefaults(defineProps<WarpBackgroundProps>(), {\n  perspective: 100,\n  beamsPerSide: 3,\n  beamSize: 5,\n  beamDelayMax: 3,\n  beamDelayMin: 0,\n  beamDuration: 3,\n  gridColor: 'var(--border)',\n})\n\ninterface Beam {\n  x: number\n  delay: number\n  hue: number\n  aspectRatio: number\n}\n\ntype Side = 'top' | 'bottom' | 'left' | 'right'\n\nconst grid =\n  'bg-size-[var(--beam-size)_var(--beam-size)] [background:linear-gradient(var(--grid-color)_0_1px,transparent_1px_var(--beam-size))_50%_-0.5px_/var(--beam-size)_var(--beam-size),linear-gradient(90deg,var(--grid-color)_0_1px,transparent_1px_var(--beam-size))_50%_50%_/var(--beam-size)_var(--beam-size)] transform-3d'\n\n/** The four walls of the tunnel, each folded 90° into the screen. */\nconst sides: { name: Side; class: string }[] = [\n  { name: 'top', class: `@container absolute z-20 h-[100cqmax] w-[100cqi] origin-[50%_0%] transform-[rotateX(-90deg)] ${grid}` },\n  { name: 'bottom', class: `@container absolute top-full h-[100cqmax] w-[100cqi] origin-[50%_0%] transform-[rotateX(-90deg)] ${grid}` },\n  {\n    name: 'left',\n    class: `@container absolute top-0 left-0 h-[100cqmax] w-[100cqh] origin-[0%_0%] transform-[rotate(90deg)_rotateX(-90deg)] ${grid}`,\n  },\n  {\n    name: 'right',\n    class: `@container absolute top-0 right-0 h-[100cqmax] w-[100cqh] origin-[100%_0%] transform-[rotate(-90deg)_rotateX(-90deg)] ${grid}`,\n  },\n]\n\nconst reducedMotion = useReducedMotion()\n\n// Beams are random, so they are generated on the client only.\nconst beams = ref<Record<Side, Beam[]>>({ top: [], bottom: [], left: [], right: [] })\n\nfunction generateBeams(): Beam[] {\n  const cellsPerSide = Math.floor(100 / props.beamSize)\n  const step = cellsPerSide / props.beamsPerSide\n  return Array.from({ length: props.beamsPerSide }, (_, index) => ({\n    x: Math.floor(index * step),\n    delay: Math.random() * (props.beamDelayMax - props.beamDelayMin) + props.beamDelayMin,\n    hue: Math.floor(Math.random() * 360),\n    aspectRatio: Math.floor(Math.random() * 10) + 1,\n  }))\n}\n\nfunction generate() {\n  beams.value = { top: generateBeams(), bottom: generateBeams(), left: generateBeams(), right: generateBeams() }\n}\n\nonMounted(generate)\nwatch(() => [props.beamsPerSide, props.beamSize, props.beamDelayMax, props.beamDelayMin], generate)\n</script>\n\n<template>\n  <div :class=\"cn('relative rounded border p-20', props.class)\">\n    <div\n      aria-hidden=\"true\"\n      :style=\"{\n        '--perspective': `${props.perspective}px`,\n        '--grid-color': props.gridColor,\n        '--beam-size': `${props.beamSize}%`,\n      }\"\n      class=\"pointer-events-none absolute top-0 left-0 size-full overflow-hidden [clip-path:inset(0)] perspective-(--perspective) transform-3d @container-[size]\"\n    >\n      <div v-for=\"side in sides\" :key=\"side.name\" :class=\"side.class\">\n        <template v-if=\"!reducedMotion\">\n          <motion.div\n            v-for=\"(beam, index) in beams[side.name]\"\n            :key=\"`${side.name}-${index}`\"\n            :style=\"{\n              '--x': `${beam.x * props.beamSize}%`,\n              '--width': `${props.beamSize}%`,\n              '--aspect-ratio': `${beam.aspectRatio}`,\n              '--background': `linear-gradient(hsl(${beam.hue} 80% 60%), transparent)`,\n            }\"\n            class=\"absolute top-0 left-(--x) aspect-[1/var(--aspect-ratio)] w-(--width) [background:var(--background)]\"\n            :initial=\"{ y: '100cqmax', x: '-50%' }\"\n            :animate=\"{ y: '-100%', x: '-50%' }\"\n            :transition=\"{ duration: props.beamDuration, delay: beam.delay, repeat: Infinity, ease: 'linear' }\"\n          />\n        </template>\n      </div>\n    </div>\n    <div class=\"relative\">\n      <slot />\n    </div>\n  </div>\n</template>\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "src/registry/ui/warp-background/index.ts",
+      "content": "export { default as WarpBackground } from './WarpBackground.vue'\nexport type { WarpBackgroundProps } from './WarpBackground.vue'\n",
+      "type": "registry:ui"
+    }
+  ],
+  "categories": [
+    "special-effects"
+  ],
+  "type": "registry:ui"
+}

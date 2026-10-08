@@ -1,0 +1,1 @@
+import{$ as e,L as t,d as n,g as r,ut as i,y as a}from"./runtime-core.esm-bundler-De2lc3Ib.js";import{t as o}from"./RainbowButton-BYurOg9W.js";var s=a({__name:`rainbow-button-outline`,setup(a){return(a,s)=>(t(),n(i(o),{variant:`outline`},{default:e(()=>[...s[0]||=[r(`Get Unlimited Access`,-1)]]),_:1}))}});export{s as default};

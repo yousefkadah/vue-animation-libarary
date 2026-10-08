@@ -1,0 +1,28 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "hyper-text",
+  "title": "Hyper Text",
+  "description": "A text animation that scrambles letters before revealing the final text.",
+  "dependencies": [
+    "motion-v"
+  ],
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "src/registry/ui/hyper-text/HyperText.vue",
+      "content": "<script setup lang=\"ts\">\nimport type { HTMLAttributes, VNodeArrayChildren } from 'vue'\nimport { Comment, isVNode, onBeforeUnmount, onMounted, ref, useSlots, watch } from 'vue'\nimport { motion } from 'motion-v'\nimport { cn } from '@/lib/utils'\n\nexport interface HyperTextProps {\n  class?: HTMLAttributes['class']\n  /** The text to scramble. Falls back to the text of the default slot. */\n  text?: string\n  /** Duration of the scramble in milliseconds. */\n  duration?: number\n  /** Delay before the first scramble in milliseconds. */\n  delay?: number\n  /** Element to render. */\n  as?: 'article' | 'div' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'li' | 'p' | 'section' | 'span'\n  /** Wait until the element scrolls into view before the first scramble. */\n  startOnView?: boolean\n  /** Scramble again whenever the pointer enters the element. */\n  animateOnHover?: boolean\n  /** Characters used while scrambling. */\n  characterSet?: string[] | readonly string[]\n}\n\nconst props = withDefaults(defineProps<HyperTextProps>(), {\n  duration: 800,\n  delay: 0,\n  as: 'div',\n  startOnView: false,\n  animateOnHover: true,\n  characterSet: () => 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split(''),\n})\n\nconst slots = useSlots()\nconst root = ref<{ $el: Element } | null>(null)\n\n/** 0 → 1 while scrambling; letters left of `progress * length` are already resolved. */\nconst progress = ref(1)\nconst isAnimating = ref(false)\n\nlet frame: number | null = null\nlet startTimer: ReturnType<typeof setTimeout> | undefined\nlet observer: IntersectionObserver | null = null\n\nfunction textFromNodes(nodes: VNodeArrayChildren | undefined): string {\n  let text = ''\n  for (const node of nodes ?? []) {\n    if (typeof node === 'string' || typeof node === 'number') text += node\n    else if (Array.isArray(node)) text += textFromNodes(node)\n    else if (isVNode(node) && node.type !== Comment) {\n      if (typeof node.children === 'string') text += node.children\n      else if (Array.isArray(node.children)) text += textFromNodes(node.children)\n    }\n  }\n  return text\n}\n\n/** Called during render, so slot content stays reactive. */\nfunction resolveText(): string {\n  return props.text ?? textFromNodes(slots.default?.()).trim()\n}\n\nfunction displayLetters(text: string): string[] {\n  const letters = text.split('')\n  const revealed = progress.value * letters.length\n  return letters.map((letter, index) =>\n    letter === ' ' || !isAnimating.value || index <= revealed\n      ? letter\n      : props.characterSet[Math.floor(Math.random() * props.characterSet.length)],\n  )\n}\n\nfunction stopFrame() {\n  if (frame !== null) cancelAnimationFrame(frame)\n  frame = null\n}\n\nfunction scramble() {\n  stopFrame()\n  isAnimating.value = true\n  progress.value = 0\n  const startTime = performance.now()\n  const tick = (now: number) => {\n    progress.value = Math.min((now - startTime) / props.duration, 1)\n    if (progress.value < 1) {\n      frame = requestAnimationFrame(tick)\n    } else {\n      frame = null\n      isAnimating.value = false\n    }\n  }\n  frame = requestAnimationFrame(tick)\n}\n\nfunction scheduleScramble() {\n  clearTimeout(startTimer)\n  startTimer = setTimeout(scramble, props.delay)\n}\n\nfunction onPointerEnter() {\n  if (props.animateOnHover && !isAnimating.value) scramble()\n}\n\nfunction setup() {\n  observer?.disconnect()\n  observer = null\n  clearTimeout(startTimer)\n  if (!props.startOnView) {\n    scheduleScramble()\n    return\n  }\n  const element = root.value?.$el\n  if (!(element instanceof Element)) return\n  observer = new IntersectionObserver(\n    ([entry]) => {\n      if (entry?.isIntersecting) {\n        scheduleScramble()\n        observer?.disconnect()\n      }\n    },\n    { threshold: 0.1, rootMargin: '-30% 0px -30% 0px' },\n  )\n  observer.observe(element)\n}\n\nonMounted(() => {\n  setup()\n  watch(() => [props.delay, props.startOnView], setup)\n})\n\nonBeforeUnmount(() => {\n  stopFrame()\n  clearTimeout(startTimer)\n  observer?.disconnect()\n})\n</script>\n\n<template>\n  <motion.div\n    ref=\"root\"\n    :as=\"props.as\"\n    :class=\"cn('overflow-hidden py-2 text-4xl font-bold', props.class)\"\n    @mouseenter=\"onPointerEnter\"\n  >\n    <span class=\"sr-only\">{{ resolveText() }}</span>\n    <span aria-hidden=\"true\">\n      <span\n        v-for=\"(letter, index) in displayLetters(resolveText())\"\n        :key=\"index\"\n        :class=\"cn('font-mono', letter === ' ' && 'w-3')\"\n      >{{ letter.toUpperCase() }}</span>\n    </span>\n  </motion.div>\n</template>\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "src/registry/ui/hyper-text/index.ts",
+      "content": "export { default as HyperText } from './HyperText.vue'\nexport type { HyperTextProps } from './HyperText.vue'\n",
+      "type": "registry:ui"
+    }
+  ],
+  "categories": [
+    "text-animations"
+  ],
+  "type": "registry:ui"
+}

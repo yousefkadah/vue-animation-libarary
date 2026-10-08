@@ -1,0 +1,28 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "lens",
+  "title": "Lens",
+  "description": "A lens that magnifies whatever is under the pointer, or sits at a fixed position.",
+  "dependencies": [
+    "motion-v"
+  ],
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "src/registry/ui/lens/Lens.vue",
+      "content": "<script setup lang=\"ts\">\nimport type { HTMLAttributes } from 'vue'\nimport { computed, ref, watchEffect } from 'vue'\nimport { AnimatePresence, motion } from 'motion-v'\nimport { cn } from '@/lib/utils'\n\nexport interface LensPosition {\n  /** Distance from the left edge of the lens container, in pixels. */\n  x: number\n  /** Distance from the top edge of the lens container, in pixels. */\n  y: number\n}\n\nexport interface LensProps {\n  class?: HTMLAttributes['class']\n  /** Magnification inside the lens. Must be at least 1. */\n  zoomFactor?: number\n  /** Diameter of the lens in pixels. */\n  lensSize?: number\n  /** Where the lens sits when `isStatic` is set. */\n  position?: LensPosition\n  /** Where the lens rests while the pointer is outside. Keeps the lens always visible. */\n  defaultPosition?: LensPosition\n  /** Keep the lens at `position` instead of following the pointer. */\n  isStatic?: boolean\n  /** Seconds the lens takes to appear and disappear. */\n  duration?: number\n  /** Colour of the mask that shapes the lens. Any opaque colour behaves the same. */\n  lensColor?: string\n  /** Accessible name of the zoomable region. */\n  ariaLabel?: string\n}\n\nconst props = withDefaults(defineProps<LensProps>(), {\n  zoomFactor: 1.3,\n  lensSize: 170,\n  position: () => ({ x: 0, y: 0 }),\n  isStatic: false,\n  duration: 0.1,\n  lensColor: 'black',\n  ariaLabel: 'Zoom Area',\n})\n\nwatchEffect(() => {\n  if (props.zoomFactor < 1) throw new Error('Lens: zoomFactor must be greater than 1')\n  if (props.lensSize < 0) throw new Error('Lens: lensSize must be greater than 0')\n})\n\nconst isHovering = ref(false)\nconst mousePosition = ref<LensPosition>({ ...props.position })\n\nconst currentPosition = computed(() => {\n  if (props.isStatic) return props.position\n  if (props.defaultPosition && !isHovering.value) return props.defaultPosition\n  return mousePosition.value\n})\n\nconst alwaysVisible = computed(() => props.isStatic || Boolean(props.defaultPosition))\n\nconst maskImage = computed(() => {\n  const { x, y } = currentPosition.value\n  return `radial-gradient(circle ${props.lensSize / 2}px at ${x}px ${y}px, ${props.lensColor} 100%, transparent 100%)`\n})\n\nconst origin = computed(() => `${currentPosition.value.x}px ${currentPosition.value.y}px`)\n\nfunction onMouseMove(event: MouseEvent) {\n  const rect = (event.currentTarget as HTMLElement).getBoundingClientRect()\n  mousePosition.value = { x: event.clientX - rect.left, y: event.clientY - rect.top }\n}\n\nfunction onKeyDown(event: KeyboardEvent) {\n  if (event.key === 'Escape') isHovering.value = false\n}\n</script>\n\n<template>\n  <div\n    :class=\"cn('relative z-20 overflow-hidden rounded-xl', props.class)\"\n    role=\"region\"\n    :aria-label=\"props.ariaLabel\"\n    tabindex=\"0\"\n    @mouseenter=\"isHovering = true\"\n    @mouseleave=\"isHovering = false\"\n    @mousemove=\"onMouseMove\"\n    @keydown=\"onKeyDown\"\n  >\n    <slot />\n    <!-- A static / resting lens is visible from the start; only hover-triggered lenses animate in. -->\n    <AnimatePresence :initial=\"false\">\n      <motion.div\n        v-if=\"alwaysVisible || isHovering\"\n        aria-hidden=\"true\"\n        class=\"pointer-events-none absolute inset-0 z-50 overflow-hidden\"\n        :style=\"{ transformOrigin: origin }\"\n        :initial=\"{ opacity: 0, scale: 0.58 }\"\n        :animate=\"{ opacity: 1, scale: 1 }\"\n        :exit=\"{ opacity: 0, scale: 0.8 }\"\n        :transition=\"{ duration: props.duration }\"\n      >\n        <div class=\"absolute inset-0\" :style=\"{ maskImage, WebkitMaskImage: maskImage }\">\n          <div class=\"absolute inset-0\" :style=\"{ transform: `scale(${props.zoomFactor})`, transformOrigin: origin }\">\n            <slot />\n          </div>\n        </div>\n      </motion.div>\n    </AnimatePresence>\n  </div>\n</template>\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "src/registry/ui/lens/index.ts",
+      "content": "export { default as Lens } from './Lens.vue'\nexport type { LensPosition, LensProps } from './Lens.vue'\n",
+      "type": "registry:ui"
+    }
+  ],
+  "categories": [
+    "components"
+  ],
+  "type": "registry:ui"
+}

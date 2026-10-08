@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "text-3d-flip-center",
+  "title": "Text 3D Flip — Stagger from center",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/text-3d-flip.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/text-3d-flip-center.vue",
+      "content": "<script setup lang=\"ts\">\nimport { Text3DFlip } from '@/components/ui/text-3d-flip'\n</script>\n\n<template>\n  <Text3DFlip\n    class=\"bg-background font-serif text-2xl sm:text-5xl md:text-[56px]\"\n    text-class=\"bg-background text-foreground\"\n    flip-text-class=\"bg-background text-foreground\"\n    rotate-direction=\"top\"\n    :stagger-duration=\"0.03\"\n    stagger-from=\"center\"\n  >\n    Design for failure\n  </Text3DFlip>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

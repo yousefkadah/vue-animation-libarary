@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "animated-theme-toggler-from-center",
+  "title": "Theme Toggler — From the centre",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/animated-theme-toggler.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/animated-theme-toggler-from-center.vue",
+      "content": "<script setup lang=\"ts\">\nimport { AnimatedThemeToggler } from '@/components/ui/animated-theme-toggler'\n</script>\n\n<template>\n  <div class=\"flex flex-col items-center gap-3 p-6\">\n    <AnimatedThemeToggler\n      from-center\n      variant=\"star\"\n      :duration=\"700\"\n      class=\"inline-flex h-10 items-center justify-center gap-2 rounded-full bg-primary px-5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 [&_svg]:size-4\"\n    />\n    <p class=\"text-sm text-muted-foreground\">A slower star reveal that grows from the centre of the screen.</p>\n  </div>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

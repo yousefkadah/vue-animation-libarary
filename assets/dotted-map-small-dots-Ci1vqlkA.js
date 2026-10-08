@@ -1,0 +1,1 @@
+import{L as e,_ as t,p as n,ut as r,y as i}from"./runtime-core.esm-bundler-De2lc3Ib.js";import{t as a}from"./DottedMap-C69RlXYn.js";var o={class:`relative h-[320px] w-full overflow-hidden rounded-lg border`},s=i({__name:`dotted-map-small-dots`,setup(i){return(i,s)=>(e(),n(`div`,o,[t(r(a),{"dot-radius":.1})]))}});export{s as default};

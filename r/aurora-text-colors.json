@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "aurora-text-colors",
+  "title": "Aurora Text — Custom colours and speed",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/aurora-text.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/aurora-text-colors.vue",
+      "content": "<script setup lang=\"ts\">\nimport { AuroraText } from '@/components/ui/aurora-text'\n</script>\n\n<template>\n  <div class=\"flex flex-col items-center gap-4 text-center\">\n    <h2 class=\"text-4xl font-bold tracking-tighter sm:text-6xl\">\n      <AuroraText :colors=\"['#22c55e', '#14b8a6', '#06b6d4', '#a3e635']\" :speed=\"2\">Northern lights</AuroraText>\n    </h2>\n    <p class=\"max-w-sm text-balance text-muted-foreground\">\n      Pick your own palette with <code class=\"font-mono text-foreground\">colors</code> and double the pace with\n      <code class=\"font-mono text-foreground\">speed</code>.\n    </p>\n  </div>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

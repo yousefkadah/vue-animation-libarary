@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "avatar-circles-sizes",
+  "title": "Avatar Circles — Sizes",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/avatar-circles.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/avatar-circles-sizes.vue",
+      "content": "<script setup lang=\"ts\">\nimport { AvatarCircles } from '@/components/ui/avatar-circles'\n\nconst avatars = ['sarah', 'evan', 'anthony', 'daniel'].map((name) => ({\n  imageUrl: `https://avatar.vercel.sh/${name}`,\n  profileUrl: '#',\n}))\n</script>\n\n<template>\n  <div class=\"flex flex-col items-center gap-6\">\n    <AvatarCircles :num-people=\"8\" :avatar-urls=\"avatars\" class=\"-space-x-2 [&_img]:size-7 [&_span]:size-7 [&_span]:text-[10px]\" />\n    <AvatarCircles :num-people=\"12\" :avatar-urls=\"avatars\" />\n    <AvatarCircles :num-people=\"36\" :avatar-urls=\"avatars\" class=\"-space-x-6 [&_img]:size-14 [&_span]:size-14 [&_span]:text-sm\" />\n  </div>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

@@ -1,0 +1,19 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "spinning-text-badge",
+  "title": "Spinning Text — Badge",
+  "dependencies": [
+    "@lucide/vue"
+  ],
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/spinning-text.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/spinning-text-badge.vue",
+      "content": "<script setup lang=\"ts\">\nimport { ArrowUpRight } from '@lucide/vue'\nimport { SpinningText } from '@/components/ui/spinning-text'\n</script>\n\n<template>\n  <a\n    href=\"#\"\n    class=\"group relative flex size-36 items-center justify-center rounded-full border bg-card text-card-foreground shadow-sm transition-colors hover:bg-accent\"\n    @click.prevent\n  >\n    <SpinningText\n      text=\"get in touch • get in touch •\"\n      :duration=\"14\"\n      :radius=\"8\"\n      class=\"absolute inset-0 text-xs font-semibold tracking-[0.2em] uppercase\"\n    />\n    <span class=\"flex size-12 items-center justify-center rounded-full bg-primary text-primary-foreground transition-transform group-hover:rotate-45\">\n      <ArrowUpRight class=\"size-5\" />\n    </span>\n  </a>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "scroll-progress-demo",
+  "title": "Scroll Progress — Page",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/scroll-progress.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/scroll-progress-demo.vue",
+      "content": "<script setup lang=\"ts\">\nimport { ScrollProgress } from '@/components/ui/scroll-progress'\n</script>\n\n<template>\n  <div class=\"z-10 rounded-lg p-4\">\n    <ScrollProgress class=\"top-14\" />\n    <h2 class=\"pb-4 text-center font-bold\">Note: The scroll progress is shown below the navbar of the page.</h2>\n    <p class=\"text-center text-sm text-muted-foreground\">Scroll this page to see it fill up.</p>\n  </div>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

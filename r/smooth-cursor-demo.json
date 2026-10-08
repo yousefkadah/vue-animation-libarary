@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "smooth-cursor-demo",
+  "title": "Smooth Cursor — Default",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/smooth-cursor.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/smooth-cursor-demo.vue",
+      "content": "<script setup lang=\"ts\">\nimport { SmoothCursor } from '@/components/ui/smooth-cursor'\n</script>\n\n<template>\n  <div class=\"text-center\">\n    <span class=\"hidden md:block\">Move your mouse around</span>\n    <span class=\"block md:hidden\">SmoothCursor is disabled on touch devices</span>\n    <SmoothCursor />\n  </div>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

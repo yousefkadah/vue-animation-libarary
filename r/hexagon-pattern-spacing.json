@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "hexagon-pattern-spacing",
+  "title": "Hexagon Pattern — Spacing",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/hexagon-pattern.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/hexagon-pattern-spacing.vue",
+      "content": "<script setup lang=\"ts\">\nimport { HexagonPattern } from '@/components/ui/hexagon-pattern'\n</script>\n\n<template>\n  <div class=\"relative flex h-[400px] w-full items-center justify-center overflow-hidden rounded-lg border bg-background p-20\">\n    <HexagonPattern :gap=\"20\" :radius=\"40\" :x=\"-1\" :y=\"-1\" />\n  </div>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

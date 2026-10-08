@@ -1,0 +1,25 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "interactive-grid-pattern",
+  "title": "Interactive Grid Pattern",
+  "description": "An interactive background grid pattern made with SVGs, fully customizable using Tailwind CSS.",
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "src/registry/ui/interactive-grid-pattern/InteractiveGridPattern.vue",
+      "content": "<script setup lang=\"ts\">\nimport type { HTMLAttributes } from 'vue'\nimport { computed, ref } from 'vue'\nimport { cn } from '@/lib/utils'\n\nexport interface InteractiveGridPatternProps {\n  class?: HTMLAttributes['class']\n  /** Width of one square in pixels. */\n  width?: number\n  /** Height of one square in pixels. */\n  height?: number\n  /** Number of squares as `[horizontal, vertical]`. */\n  squares?: [horizontal: number, vertical: number]\n  /** Classes for every square, e.g. `hover:fill-blue-500`. */\n  squaresClassName?: HTMLAttributes['class']\n}\n\nconst props = withDefaults(defineProps<InteractiveGridPatternProps>(), {\n  width: 40,\n  height: 40,\n  squares: () => [24, 24],\n})\n\nconst hoveredSquare = ref<number | null>(null)\n\nconst cells = computed(() => {\n  const [horizontal, vertical] = props.squares\n  return Array.from({ length: horizontal * vertical }, (_, index) => ({\n    x: (index % horizontal) * props.width,\n    y: Math.floor(index / horizontal) * props.height,\n  }))\n})\n\n/** Resolved once, not per square, so hovering stays cheap on large grids. */\nconst squareBaseClass = 'stroke-gray-400/30 transition-all duration-100 ease-in-out not-[&:hover]:duration-1000'\nconst idleSquareClass = computed(() => cn(squareBaseClass, 'fill-transparent', props.squaresClassName))\nconst hoveredSquareClass = computed(() => cn(squareBaseClass, 'fill-gray-300/30', props.squaresClassName))\n</script>\n\n<template>\n  <svg\n    aria-hidden=\"true\"\n    :width=\"props.width * props.squares[0]\"\n    :height=\"props.height * props.squares[1]\"\n    :class=\"cn('absolute inset-0 h-full w-full border border-gray-400/30', props.class)\"\n  >\n    <rect\n      v-for=\"(cell, index) in cells\"\n      :key=\"index\"\n      :x=\"cell.x\"\n      :y=\"cell.y\"\n      :width=\"props.width\"\n      :height=\"props.height\"\n      :class=\"hoveredSquare === index ? hoveredSquareClass : idleSquareClass\"\n      @mouseenter=\"hoveredSquare = index\"\n      @mouseleave=\"hoveredSquare = null\"\n    />\n  </svg>\n</template>\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "src/registry/ui/interactive-grid-pattern/index.ts",
+      "content": "export { default as InteractiveGridPattern } from './InteractiveGridPattern.vue'\nexport type { InteractiveGridPatternProps } from './InteractiveGridPattern.vue'\n",
+      "type": "registry:ui"
+    }
+  ],
+  "categories": [
+    "backgrounds"
+  ],
+  "type": "registry:ui"
+}

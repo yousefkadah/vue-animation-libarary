@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "animated-theme-toggler-demo",
+  "title": "Theme Toggler — Circle",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/animated-theme-toggler.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/animated-theme-toggler-demo.vue",
+      "content": "<script setup lang=\"ts\">\nimport { AnimatedThemeToggler } from '@/components/ui/animated-theme-toggler'\n</script>\n\n<template>\n  <div class=\"flex justify-center p-6\">\n    <AnimatedThemeToggler />\n  </div>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

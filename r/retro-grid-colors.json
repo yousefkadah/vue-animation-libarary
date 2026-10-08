@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "retro-grid-colors",
+  "title": "Retro Grid — Custom colours",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/retro-grid.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/retro-grid-colors.vue",
+      "content": "<script setup lang=\"ts\">\nimport { RetroGrid } from '@/components/ui/retro-grid'\n</script>\n\n<template>\n  <div class=\"relative flex h-[400px] w-full flex-col items-center justify-center gap-2 overflow-hidden rounded-lg border bg-background\">\n    <p class=\"z-10 text-sm font-medium tracking-[0.3em] text-muted-foreground uppercase\">Now playing</p>\n    <p class=\"z-10 text-5xl font-bold tracking-tighter text-fuchsia-600 dark:text-fuchsia-400\">Neon Nights</p>\n    <RetroGrid :angle=\"75\" :cell-size=\"40\" :opacity=\"0.7\" light-line-color=\"#c026d3\" dark-line-color=\"#e879f9\" />\n  </div>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

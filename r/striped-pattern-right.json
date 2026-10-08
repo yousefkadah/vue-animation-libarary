@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "striped-pattern-right",
+  "title": "Striped Pattern — Slanted right",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/striped-pattern.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/striped-pattern-right.vue",
+      "content": "<script setup lang=\"ts\">\nimport { StripedPattern } from '@/components/ui/striped-pattern'\n</script>\n\n<template>\n  <div class=\"relative flex h-[300px] w-full flex-col items-center justify-center overflow-hidden rounded-lg border bg-background\">\n    <StripedPattern direction=\"right\" class=\"text-muted-foreground\" />\n  </div>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

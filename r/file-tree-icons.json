@@ -1,0 +1,19 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "file-tree-icons",
+  "title": "File Tree — Custom icons",
+  "dependencies": [
+    "@lucide/vue"
+  ],
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/file-tree.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/file-tree-icons.vue",
+      "content": "<script setup lang=\"ts\">\nimport { ref } from 'vue'\nimport { FileCode2, FileJson, FolderClosed, FolderGit2 } from '@lucide/vue'\nimport { File, Folder, Tree } from '@/components/ui/file-tree'\n\nconst selected = ref('app')\n</script>\n\n<template>\n  <div class=\"flex w-full max-w-sm flex-col gap-2\">\n    <div class=\"h-[260px] overflow-hidden rounded-lg border bg-background\">\n      <Tree\n        class=\"p-2\"\n        initial-selected-id=\"app\"\n        :initial-expanded-items=\"['root', 'src']\"\n        :open-icon=\"FolderGit2\"\n        :close-icon=\"FolderClosed\"\n        :indicator=\"false\"\n        @select=\"selected = $event\"\n      >\n        <Folder element=\"vue-magic-ui\" value=\"root\">\n          <Folder element=\"src\" value=\"src\">\n            <File value=\"app\" :file-icon=\"FileCode2\"><span>App.vue</span></File>\n            <File value=\"main\" :file-icon=\"FileCode2\"><span>main.ts</span></File>\n          </Folder>\n          <Folder element=\"public\" value=\"public\">\n            <File value=\"favicon\"><span>favicon.svg</span></File>\n          </Folder>\n          <File value=\"package\" :file-icon=\"FileJson\"><span>package.json</span></File>\n          <File value=\"tsconfig\" :file-icon=\"FileJson\"><span>tsconfig.json</span></File>\n        </Folder>\n      </Tree>\n    </div>\n    <p class=\"text-center text-xs text-muted-foreground\">\n      Selected: <code class=\"rounded bg-muted px-1 py-0.5 font-mono\">{{ selected }}</code>\n    </p>\n  </div>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

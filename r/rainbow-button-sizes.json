@@ -1,0 +1,19 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "rainbow-button-sizes",
+  "title": "Rainbow Button — Sizes",
+  "dependencies": [
+    "@lucide/vue"
+  ],
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/rainbow-button.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/rainbow-button-sizes.vue",
+      "content": "<script setup lang=\"ts\">\nimport { Sparkles } from '@lucide/vue'\nimport { RainbowButton } from '@/components/ui/rainbow-button'\n</script>\n\n<template>\n  <div class=\"flex flex-wrap items-center justify-center gap-4\">\n    <RainbowButton size=\"sm\">Small</RainbowButton>\n    <RainbowButton>Default</RainbowButton>\n    <RainbowButton size=\"lg\">Large</RainbowButton>\n    <RainbowButton size=\"icon\" aria-label=\"Sparkles\">\n      <Sparkles />\n    </RainbowButton>\n    <RainbowButton as=\"a\" href=\"#\" variant=\"outline\" class=\"[--speed:4s]\">Link, slower</RainbowButton>\n  </div>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

@@ -1,0 +1,40 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "ripple",
+  "title": "Ripple",
+  "description": "An animated ripple effect typically used behind elements to emphasize them.",
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "src/registry/ui/ripple/Ripple.vue",
+      "content": "<script setup lang=\"ts\">\nimport type { HTMLAttributes } from 'vue'\nimport { computed } from 'vue'\nimport { cn } from '@/lib/utils'\n\nexport interface RippleProps {\n  class?: HTMLAttributes['class']\n  /** Diameter of the innermost circle in pixels. Each further circle is 70px wider. */\n  mainCircleSize?: number\n  /** Opacity of the innermost circle. Each further circle is 0.03 more transparent. */\n  mainCircleOpacity?: number\n  /** Number of circles. */\n  numCircles?: number\n}\n\nconst props = withDefaults(defineProps<RippleProps>(), {\n  mainCircleSize: 210,\n  mainCircleOpacity: 0.24,\n  numCircles: 8,\n})\n\nconst circles = computed(() =>\n  Array.from({ length: props.numCircles }, (_, index) => ({\n    '--i': index,\n    width: `${props.mainCircleSize + index * 70}px`,\n    height: `${props.mainCircleSize + index * 70}px`,\n    opacity: props.mainCircleOpacity - index * 0.03,\n    animationDelay: `${index * 0.06}s`,\n    borderStyle: 'solid',\n    borderWidth: '1px',\n    borderColor: 'var(--foreground)',\n    top: '50%',\n    left: '50%',\n    transform: 'translate(-50%, -50%) scale(1)',\n  })),\n)\n</script>\n\n<template>\n  <div\n    aria-hidden=\"true\"\n    :class=\"cn('pointer-events-none absolute inset-0 [mask-image:linear-gradient(to_bottom,white,transparent)] select-none', props.class)\"\n  >\n    <div\n      v-for=\"(style, index) in circles\"\n      :key=\"index\"\n      class=\"animate-ripple absolute rounded-full border bg-foreground/25 shadow-xl motion-reduce:animate-none\"\n      :style=\"style\"\n    />\n  </div>\n</template>\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "src/registry/ui/ripple/index.ts",
+      "content": "export { default as Ripple } from './Ripple.vue'\nexport type { RippleProps } from './Ripple.vue'\n",
+      "type": "registry:ui"
+    }
+  ],
+  "cssVars": {
+    "theme": {
+      "animate-ripple": "ripple var(--duration,2s) ease calc(var(--i, 0)*.2s) infinite"
+    }
+  },
+  "css": {
+    "@keyframes ripple": {
+      "0%, 100%": {
+        "transform": "translate(-50%, -50%) scale(1)"
+      },
+      "50%": {
+        "transform": "translate(-50%, -50%) scale(0.9)"
+      }
+    }
+  },
+  "categories": [
+    "backgrounds"
+  ],
+  "type": "registry:ui"
+}

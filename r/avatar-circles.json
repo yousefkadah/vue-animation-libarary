@@ -1,0 +1,25 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "avatar-circles",
+  "title": "Avatar Circles",
+  "description": "Overlapping circles of avatars.",
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "src/registry/ui/avatar-circles/AvatarCircles.vue",
+      "content": "<script setup lang=\"ts\">\nimport type { HTMLAttributes } from 'vue'\nimport { cn } from '@/lib/utils'\n\nexport interface AvatarCircleItem {\n  imageUrl: string\n  profileUrl: string\n}\n\nexport interface AvatarCirclesProps {\n  class?: HTMLAttributes['class']\n  /** Number shown in the last circle, e.g. `99` renders “+99”. Hidden when 0 or omitted. */\n  numPeople?: number\n  avatarUrls: AvatarCircleItem[]\n}\n\nconst props = defineProps<AvatarCirclesProps>()\n</script>\n\n<template>\n  <div :class=\"cn('z-10 flex -space-x-4 rtl:space-x-reverse', props.class)\">\n    <a\n      v-for=\"(avatar, index) in props.avatarUrls\"\n      :key=\"index\"\n      :href=\"avatar.profileUrl\"\n      target=\"_blank\"\n      rel=\"noopener noreferrer\"\n      class=\"rounded-full transition-transform hover:z-10 hover:-translate-y-0.5 focus-visible:z-10 focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none\"\n    >\n      <img\n        class=\"size-10 rounded-full border-2 border-background bg-muted\"\n        :src=\"avatar.imageUrl\"\n        width=\"40\"\n        height=\"40\"\n        :alt=\"`Avatar ${index + 1}`\"\n      />\n    </a>\n    <span\n      v-if=\"(props.numPeople ?? 0) > 0\"\n      class=\"flex size-10 items-center justify-center rounded-full border-2 border-background bg-foreground text-center text-xs font-medium text-background\"\n      :aria-label=\"`${props.numPeople} more`\"\n    >\n      +{{ props.numPeople }}\n    </span>\n  </div>\n</template>\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "src/registry/ui/avatar-circles/index.ts",
+      "content": "export { default as AvatarCircles } from './AvatarCircles.vue'\nexport type { AvatarCirclesProps, AvatarCircleItem } from './AvatarCircles.vue'\n",
+      "type": "registry:ui"
+    }
+  ],
+  "categories": [
+    "components"
+  ],
+  "type": "registry:ui"
+}

@@ -1,0 +1,25 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "backlight",
+  "title": "Backlight",
+  "description": "A backlight glow effect for videos, images, and SVGs.",
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "src/registry/ui/backlight/Backlight.vue",
+      "content": "<script setup lang=\"ts\">\nimport type { HTMLAttributes } from 'vue'\nimport { useId } from 'vue'\nimport { cn } from '@/lib/utils'\n\nexport interface BacklightProps {\n  class?: HTMLAttributes['class']\n  /** Blur radius (SVG `stdDeviation`) of the glow. */\n  blur?: number\n}\n\nconst props = withDefaults(defineProps<BacklightProps>(), {\n  blur: 20,\n})\n\nconst id = `backlight-${useId()}`\n</script>\n\n<template>\n  <div :class=\"cn(props.class)\">\n    <svg width=\"0\" height=\"0\" aria-hidden=\"true\" class=\"pointer-events-none absolute\">\n      <filter :id=\"id\" y=\"-50%\" x=\"-50%\" width=\"200%\" height=\"200%\">\n        <feGaussianBlur in=\"SourceGraphic\" :stdDeviation=\"props.blur\" result=\"blurred\" />\n        <feColorMatrix type=\"saturate\" in=\"blurred\" values=\"4\" />\n        <feComposite in=\"SourceGraphic\" operator=\"over\" />\n      </filter>\n    </svg>\n\n    <div :style=\"{ filter: `url(#${id})` }\">\n      <slot />\n    </div>\n  </div>\n</template>\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "src/registry/ui/backlight/index.ts",
+      "content": "export { default as Backlight } from './Backlight.vue'\nexport type { BacklightProps } from './Backlight.vue'\n",
+      "type": "registry:ui"
+    }
+  ],
+  "categories": [
+    "special-effects"
+  ],
+  "type": "registry:ui"
+}

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "animated-gradient-text-speed",
+  "title": "Animated Gradient Text — Custom colours and speed",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/animated-gradient-text.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/animated-gradient-text-speed.vue",
+      "content": "<script setup lang=\"ts\">\nimport { AnimatedGradientText } from '@/components/ui/animated-gradient-text'\n</script>\n\n<template>\n  <AnimatedGradientText :speed=\"2\" color-from=\"#4ade80\" color-to=\"#06b6d4\" class=\"text-4xl font-semibold tracking-tight\">\n    Fast Gradient\n  </AnimatedGradientText>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

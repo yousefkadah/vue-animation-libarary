@@ -1,0 +1,1 @@
+import{L as e,d as t,ut as n,y as r}from"./runtime-core.esm-bundler-De2lc3Ib.js";import{t as i}from"./MorphingText-eVpgphiJ.js";var a=r({__name:`morphing-text-demo`,setup(r){let a=[`Hello`,`Morphing`,`Text`,`Animation`,`Vue`,`Component`,`Smooth`,`Transition`,`Engaging`];return(r,o)=>(e(),t(n(i),{texts:a}))}});export{a as default};

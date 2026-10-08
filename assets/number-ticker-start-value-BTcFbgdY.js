@@ -1,0 +1,1 @@
+import{L as e,d as t,ut as n,y as r}from"./runtime-core.esm-bundler-De2lc3Ib.js";import{t as i}from"./NumberTicker-Bcuuiktu.js";var a=r({__name:`number-ticker-start-value`,setup(r){return(r,a)=>(e(),t(n(i),{value:100,"start-value":80,class:`text-8xl font-medium tracking-tighter whitespace-pre-wrap`}))}});export{a as default};

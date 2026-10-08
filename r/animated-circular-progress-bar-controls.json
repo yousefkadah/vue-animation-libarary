@@ -1,0 +1,19 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "animated-circular-progress-bar-controls",
+  "title": "Animated Circular Progress Bar — Controlled",
+  "dependencies": [
+    "@lucide/vue"
+  ],
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/animated-circular-progress-bar.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/animated-circular-progress-bar-controls.vue",
+      "content": "<script setup lang=\"ts\">\nimport { ref } from 'vue'\nimport { Minus, Plus } from '@lucide/vue'\nimport { AnimatedCircularProgressBar } from '@/components/ui/animated-circular-progress-bar'\n\nconst value = ref(40)\nconst step = (delta: number) => {\n  value.value = Math.min(100, Math.max(0, value.value + delta))\n}\n</script>\n\n<template>\n  <div class=\"flex items-center gap-6\">\n    <button\n      type=\"button\"\n      aria-label=\"Decrease\"\n      class=\"inline-flex size-9 items-center justify-center rounded-full border transition-colors hover:bg-accent disabled:opacity-50\"\n      :disabled=\"value <= 0\"\n      @click=\"step(-10)\"\n    >\n      <Minus class=\"size-4\" />\n    </button>\n    <AnimatedCircularProgressBar\n      :value=\"value\"\n      gauge-primary-color=\"#10b981\"\n      gauge-secondary-color=\"var(--track)\"\n      class=\"[--track:rgba(0,0,0,0.08)] dark:[--track:rgba(255,255,255,0.12)]\"\n    />\n    <button\n      type=\"button\"\n      aria-label=\"Increase\"\n      class=\"inline-flex size-9 items-center justify-center rounded-full border transition-colors hover:bg-accent disabled:opacity-50\"\n      :disabled=\"value >= 100\"\n      @click=\"step(10)\"\n    >\n      <Plus class=\"size-4\" />\n    </button>\n  </div>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

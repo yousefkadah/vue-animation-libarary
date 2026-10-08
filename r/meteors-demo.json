@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "meteors-demo",
+  "title": "Meteors — Meteor shower",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/meteors.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/meteors-demo.vue",
+      "content": "<script setup lang=\"ts\">\nimport { Meteors } from '@/components/ui/meteors'\n</script>\n\n<template>\n  <div class=\"relative flex h-[350px] w-full flex-col items-center justify-center overflow-hidden rounded-lg border\">\n    <Meteors :number=\"30\" />\n    <span\n      class=\"pointer-events-none bg-linear-to-b from-black to-gray-300/80 bg-clip-text text-center text-7xl leading-none font-semibold whitespace-pre-wrap text-transparent sm:text-8xl dark:from-white dark:to-slate-900/10\"\n    >\n      Meteors\n    </span>\n  </div>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

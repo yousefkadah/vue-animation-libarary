@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "sparkles-text-colors",
+  "title": "Sparkles Text — Custom colours",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/sparkles-text.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/sparkles-text-colors.vue",
+      "content": "<script setup lang=\"ts\">\nimport { SparklesText } from '@/components/ui/sparkles-text'\n</script>\n\n<template>\n  <div class=\"flex flex-col items-center gap-3 text-center\">\n    <p class=\"text-sm font-medium tracking-wide text-muted-foreground uppercase\">Limited release</p>\n    <SparklesText as=\"h2\" :sparkles-count=\"16\" :colors=\"{ first: '#FBBF24', second: '#F97316' }\" class=\"text-5xl sm:text-6xl\">\n      Golden Hour\n    </SparklesText>\n  </div>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

@@ -1,0 +1,28 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "scroll-progress",
+  "title": "Scroll Progress",
+  "description": "Animated scroll progress bar for your pages.",
+  "dependencies": [
+    "motion-v"
+  ],
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "src/registry/ui/scroll-progress/ScrollProgress.vue",
+      "content": "<script setup lang=\"ts\">\nimport type { HTMLAttributes } from 'vue'\nimport { motion, useScroll } from 'motion-v'\nimport { cn } from '@/lib/utils'\n\nexport interface ScrollProgressProps {\n  class?: HTMLAttributes['class']\n  /** Scrollable element to track instead of the page. */\n  container?: HTMLElement | null\n}\n\nconst props = defineProps<ScrollProgressProps>()\n\nconst { scrollYProgress } = useScroll(() => ({ container: props.container ?? undefined }))\n</script>\n\n<template>\n  <motion.div\n    aria-hidden=\"true\"\n    :class=\"\n      cn(\n        'pointer-events-none fixed inset-x-0 top-0 z-50 h-px origin-left bg-linear-to-r from-[#A97CF8] via-[#F38CB8] to-[#FDCC92] rtl:origin-right',\n        props.class,\n      )\n    \"\n    :style=\"{ scaleX: scrollYProgress }\"\n  />\n</template>\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "src/registry/ui/scroll-progress/index.ts",
+      "content": "export { default as ScrollProgress } from './ScrollProgress.vue'\nexport type { ScrollProgressProps } from './ScrollProgress.vue'\n",
+      "type": "registry:ui"
+    }
+  ],
+  "categories": [
+    "components"
+  ],
+  "type": "registry:ui"
+}

@@ -1,0 +1,1 @@
+import{$ as e,L as t,d as n,g as r,ut as i,y as a}from"./runtime-core.esm-bundler-De2lc3Ib.js";import{t as o}from"./SpinningText-DPhAFCoe.js";var s=a({__name:`spinning-text-demo`,setup(a){return(a,s)=>(t(),n(i(o),null,{default:e(()=>[...s[0]||=[r(`learn more • earn more • grow more •`,-1)]]),_:1}))}});export{s as default};

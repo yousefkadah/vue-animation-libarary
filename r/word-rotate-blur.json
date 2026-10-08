@@ -1,0 +1,19 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "word-rotate-blur",
+  "title": "Word Rotate — Custom motion",
+  "dependencies": [
+    "motion-v"
+  ],
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/word-rotate.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/word-rotate-blur.vue",
+      "content": "<script setup lang=\"ts\">\nimport { WordRotate } from '@/components/ui/word-rotate'\nimport type { MotionProps } from 'motion-v'\n\nconst blurIn: MotionProps = {\n  initial: { opacity: 0, filter: 'blur(10px)', scale: 0.92 },\n  animate: { opacity: 1, filter: 'blur(0px)', scale: 1 },\n  exit: { opacity: 0, filter: 'blur(10px)', scale: 1.08 },\n  transition: { duration: 0.4, ease: 'easeInOut' },\n}\n</script>\n\n<template>\n  <WordRotate\n    class=\"text-5xl font-semibold tracking-tighter text-foreground\"\n    :words=\"['Design', 'Prototype', 'Ship', 'Repeat']\"\n    :motion-props=\"blurIn\"\n  />\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

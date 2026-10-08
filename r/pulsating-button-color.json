@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "pulsating-button-color",
+  "title": "Pulsating Button — Custom pulse colour",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/pulsating-button.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/pulsating-button-color.vue",
+      "content": "<script setup lang=\"ts\">\nimport { PulsatingButton } from '@/components/ui/pulsating-button'\n</script>\n\n<template>\n  <PulsatingButton pulse-color=\"#f43f5e80\" duration=\"2s\" distance=\"12px\" class=\"rounded-full bg-rose-500 px-6 text-white\">\n    Go live\n  </PulsatingButton>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

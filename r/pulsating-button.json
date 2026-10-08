@@ -1,0 +1,49 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "pulsating-button",
+  "title": "Pulsating Button",
+  "description": "An animated pulsating button useful for capturing attention of users.",
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "src/registry/ui/pulsating-button/PulsatingButton.vue",
+      "content": "<script setup lang=\"ts\">\nimport type { HTMLAttributes } from 'vue'\nimport { onBeforeUnmount, onMounted, ref, watch } from 'vue'\nimport { cn } from '@/lib/utils'\n\nexport interface PulsatingButtonProps {\n  class?: HTMLAttributes['class']\n  /** Colour of the pulse. Defaults to the button's own background colour. */\n  pulseColor?: string\n  /** Duration of one pulse, e.g. `1.5s`. */\n  duration?: string\n  /** How far the pulse spreads, e.g. `8px`. */\n  distance?: string\n  /** `pulse` breathes in and out; `ripple` radiates outward and fades. */\n  variant?: 'pulse' | 'ripple'\n}\n\nconst props = withDefaults(defineProps<PulsatingButtonProps>(), {\n  duration: '1.5s',\n  distance: '8px',\n  variant: 'pulse',\n})\n\nconst button = ref<HTMLButtonElement | null>(null)\nlet stopSyncing: (() => void) | undefined\n\n/**\n * Without a `pulseColor`, the pulse uses the button's computed background (exposed as `--bg`),\n * kept in sync when the theme class, the button's attributes or its hover/focus state change.\n */\nfunction syncBackground() {\n  stopSyncing?.()\n  stopSyncing = undefined\n\n  const element = button.value\n  if (!element) return\n\n  if (props.pulseColor) {\n    element.style.removeProperty('--bg')\n    return\n  }\n\n  let animationFrameId = 0\n  let currentBackground = ''\n\n  const updateBackground = () => {\n    animationFrameId = 0\n    const nextBackground = getComputedStyle(element).backgroundColor\n    if (nextBackground === currentBackground) return\n    currentBackground = nextBackground\n    element.style.setProperty('--bg', nextBackground)\n  }\n\n  const scheduleUpdate = () => {\n    if (animationFrameId) return\n    animationFrameId = window.requestAnimationFrame(updateBackground)\n  }\n\n  updateBackground()\n\n  const themeObserver = new MutationObserver(scheduleUpdate)\n  themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] })\n\n  const buttonObserver = new MutationObserver(scheduleUpdate)\n  buttonObserver.observe(element, { attributes: true })\n\n  const syncEvents = ['blur', 'focus', 'pointerenter', 'pointerleave'] as const\n  for (const eventName of syncEvents) element.addEventListener(eventName, scheduleUpdate)\n\n  stopSyncing = () => {\n    if (animationFrameId) window.cancelAnimationFrame(animationFrameId)\n    themeObserver.disconnect()\n    buttonObserver.disconnect()\n    for (const eventName of syncEvents) element.removeEventListener(eventName, scheduleUpdate)\n  }\n}\n\nonMounted(syncBackground)\nwatch(() => props.pulseColor, syncBackground)\nonBeforeUnmount(() => stopSyncing?.())\n</script>\n\n<template>\n  <button\n    ref=\"button\"\n    :class=\"\n      cn(\n        'relative flex cursor-pointer items-center justify-center rounded-lg bg-primary px-4 py-2 text-center text-primary-foreground',\n        props.class,\n      )\n    \"\n    :style=\"{ '--pulse-color': props.pulseColor, '--duration': props.duration, '--distance': props.distance }\"\n  >\n    <span class=\"relative z-10\">\n      <slot />\n    </span>\n    <span\n      aria-hidden=\"true\"\n      :class=\"\n        cn(\n          'pointer-events-none absolute inset-0 rounded-[inherit] bg-inherit motion-reduce:animate-none',\n          props.variant === 'pulse' ? 'animate-pulsating' : 'animate-pulsating-ripple',\n        )\n      \"\n    />\n  </button>\n</template>\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "src/registry/ui/pulsating-button/index.ts",
+      "content": "export { default as PulsatingButton } from './PulsatingButton.vue'\nexport type { PulsatingButtonProps } from './PulsatingButton.vue'\n",
+      "type": "registry:ui"
+    }
+  ],
+  "cssVars": {
+    "theme": {
+      "animate-pulsating": "pulsating var(--duration) ease-out infinite",
+      "animate-pulsating-ripple": "pulsating-ripple var(--duration) cubic-bezier(0.16, 1, 0.3, 1) infinite"
+    }
+  },
+  "css": {
+    "@keyframes pulsating": {
+      "0%, 100%": {
+        "box-shadow": "0 0 0 0 var(--pulse-color, oklch(from var(--bg) l c h / 0.5))"
+      },
+      "50%": {
+        "box-shadow": "0 0 0 var(--distance) var(--pulse-color, oklch(from var(--bg) l c h / 0.5))"
+      }
+    },
+    "@keyframes pulsating-ripple": {
+      "0%": {
+        "box-shadow": "0 0 0 0 oklch(from var(--pulse-color, var(--bg)) l c h / 1)"
+      },
+      "100%": {
+        "box-shadow": "0 0 0 var(--distance) oklch(from var(--pulse-color, var(--bg)) l c h / 0)"
+      }
+    }
+  },
+  "categories": [
+    "buttons"
+  ],
+  "type": "registry:ui"
+}

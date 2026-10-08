@@ -1,0 +1,1 @@
+import{$ as e,L as t,_ as n,g as r,p as i,ut as a,y as o}from"./runtime-core.esm-bundler-De2lc3Ib.js";import{t as s}from"./ComicText-DFXv2gMq.js";var c={class:`space-y-8 text-center`},l=o({__name:`comic-text-demo`,setup(o){return(o,l)=>(t(),i(`div`,c,[n(a(s),{"font-size":5},{default:e(()=>[...l[0]||=[r(`BOOM!`,-1)]]),_:1})]))}});export{l as default};

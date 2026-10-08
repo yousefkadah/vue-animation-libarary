@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "ripple-avatar",
+  "title": "Ripple — Incoming call",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/ripple.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/ripple-avatar.vue",
+      "content": "<script setup lang=\"ts\">\nimport { Ripple } from '@/components/ui/ripple'\n</script>\n\n<template>\n  <div class=\"relative flex h-[400px] w-full flex-col items-center justify-center gap-6 overflow-hidden rounded-lg border bg-background\">\n    <div class=\"relative size-24\">\n      <Ripple :main-circle-size=\"130\" :main-circle-opacity=\"0.2\" :num-circles=\"6\" class=\"[mask-image:none]\" />\n      <img\n        src=\"https://avatar.vercel.sh/jane\"\n        alt=\"Jane Cooper\"\n        width=\"96\"\n        height=\"96\"\n        class=\"relative z-10 size-24 rounded-full border-4 border-background shadow-lg\"\n      />\n    </div>\n    <div class=\"z-10 text-center\">\n      <p class=\"text-lg font-semibold\">Jane Cooper</p>\n      <p class=\"text-sm text-muted-foreground\">Calling…</p>\n    </div>\n  </div>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

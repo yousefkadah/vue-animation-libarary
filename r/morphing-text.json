@@ -1,0 +1,25 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "morphing-text",
+  "title": "Morphing Text",
+  "description": "A dynamic text morphing component that blends smoothly from one string to the next.",
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "src/registry/ui/morphing-text/MorphingText.vue",
+      "content": "<script setup lang=\"ts\">\nimport type { HTMLAttributes } from 'vue'\nimport { onBeforeUnmount, onMounted, ref, useId } from 'vue'\nimport { cn } from '@/lib/utils'\n\nexport interface MorphingTextProps {\n  class?: HTMLAttributes['class']\n  /** The texts to morph between, in order. */\n  texts: string[]\n}\n\nconst props = defineProps<MorphingTextProps>()\n\n/** Seconds a morph takes. */\nconst MORPH_TIME = 1.5\n/** Seconds each text rests before the next morph. */\nconst COOLDOWN_TIME = 0.5\n\n/** Unique per instance so several MorphingTexts on one page don't share a filter. */\nconst filterId = `morphing-text-threshold-${useId().replace(/[^\\w-]/g, '')}`\n\nconst text1 = ref<HTMLSpanElement | null>(null)\nconst text2 = ref<HTMLSpanElement | null>(null)\n\nlet textIndex = 0\nlet morph = 0\nlet cooldown = 0\nlet lastTime = 0\nlet frame: number | null = null\nlet reducedMotionQuery: MediaQueryList | null = null\n\nfunction textAt(index: number) {\n  return props.texts.length ? props.texts[index % props.texts.length] : ''\n}\n\nfunction setStyles(fraction: number) {\n  const [current1, current2] = [text1.value, text2.value]\n  if (!current1 || !current2) return\n\n  current2.style.filter = `blur(${Math.min(8 / fraction - 8, 100)}px)`\n  current2.style.opacity = `${Math.pow(fraction, 0.4) * 100}%`\n\n  const invertedFraction = 1 - fraction\n  current1.style.filter = `blur(${Math.min(8 / invertedFraction - 8, 100)}px)`\n  current1.style.opacity = `${Math.pow(invertedFraction, 0.4) * 100}%`\n\n  current1.textContent = textAt(textIndex)\n  current2.textContent = textAt(textIndex + 1)\n}\n\nfunction doMorph() {\n  morph -= cooldown\n  cooldown = 0\n\n  let fraction = morph / MORPH_TIME\n  if (fraction > 1) {\n    cooldown = COOLDOWN_TIME\n    fraction = 1\n  }\n  // Reduced motion: keep the timing but swap texts in one step, without the blur.\n  if (fraction < 1 && reducedMotionQuery?.matches) fraction = 0\n\n  setStyles(fraction)\n\n  if (fraction === 1) textIndex++\n}\n\nfunction doCooldown() {\n  morph = 0\n  const [current1, current2] = [text1.value, text2.value]\n  if (current1 && current2) {\n    current2.style.filter = 'none'\n    current2.style.opacity = '100%'\n    current1.style.filter = 'none'\n    current1.style.opacity = '0%'\n  }\n}\n\nfunction animate(now: number) {\n  frame = requestAnimationFrame(animate)\n  const dt = lastTime ? (now - lastTime) / 1000 : 0\n  lastTime = now\n  cooldown -= dt\n  if (cooldown <= 0) doMorph()\n  else doCooldown()\n}\n\nonMounted(() => {\n  reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)')\n  frame = requestAnimationFrame(animate)\n})\n\nonBeforeUnmount(() => {\n  if (frame !== null) cancelAnimationFrame(frame)\n})\n</script>\n\n<template>\n  <div\n    :class=\"\n      cn(\n        'relative mx-auto h-16 w-full max-w-3xl text-center font-sans text-[40pt] leading-none font-bold md:h-24 lg:text-[6rem]',\n        props.class,\n      )\n    \"\n    :style=\"{ filter: `url(#${filterId}) blur(0.6px)` }\"\n  >\n    <span class=\"sr-only\">{{ props.texts.join(', ') }}</span>\n    <span ref=\"text1\" aria-hidden=\"true\" class=\"absolute inset-x-0 top-0 m-auto inline-block w-full\" />\n    <span ref=\"text2\" aria-hidden=\"true\" class=\"absolute inset-x-0 top-0 m-auto inline-block w-full\" />\n    <svg aria-hidden=\"true\" class=\"fixed h-0 w-0\" preserveAspectRatio=\"xMidYMid slice\">\n      <defs>\n        <filter :id=\"filterId\">\n          <feColorMatrix\n            in=\"SourceGraphic\"\n            type=\"matrix\"\n            values=\"1 0 0 0 0\n                    0 1 0 0 0\n                    0 0 1 0 0\n                    0 0 0 255 -140\"\n          />\n        </filter>\n      </defs>\n    </svg>\n  </div>\n</template>\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "src/registry/ui/morphing-text/index.ts",
+      "content": "export { default as MorphingText } from './MorphingText.vue'\nexport type { MorphingTextProps } from './MorphingText.vue'\n",
+      "type": "registry:ui"
+    }
+  ],
+  "categories": [
+    "text-animations"
+  ],
+  "type": "registry:ui"
+}

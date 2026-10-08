@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "interactive-grid-pattern-demo",
+  "title": "Interactive Grid Pattern — Skewed",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/interactive-grid-pattern.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/interactive-grid-pattern-demo.vue",
+      "content": "<script setup lang=\"ts\">\nimport { InteractiveGridPattern } from '@/components/ui/interactive-grid-pattern'\n</script>\n\n<template>\n  <div class=\"relative flex h-[400px] w-full flex-col items-center justify-center overflow-hidden rounded-lg border bg-background\">\n    <InteractiveGridPattern\n      class=\"inset-x-0 inset-y-[-30%] h-[200%] skew-y-12 [mask-image:radial-gradient(400px_circle_at_center,white,transparent)]\"\n    />\n  </div>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

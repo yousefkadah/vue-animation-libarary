@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "grid-pattern-linear-gradient",
+  "title": "Grid Pattern — Linear gradient",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/grid-pattern.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/grid-pattern-linear-gradient.vue",
+      "content": "<script setup lang=\"ts\">\nimport { GridPattern } from '@/components/ui/grid-pattern'\n</script>\n\n<template>\n  <div class=\"relative flex h-[400px] w-full items-center justify-center overflow-hidden rounded-lg border bg-background p-20\">\n    <GridPattern\n      :width=\"20\"\n      :height=\"20\"\n      :x=\"-1\"\n      :y=\"-1\"\n      class=\"[mask-image:linear-gradient(to_bottom_right,white,transparent,transparent)]\"\n    />\n  </div>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

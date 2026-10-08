@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "marquee-3d",
+  "title": "Marquee — 3D",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/marquee.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/marquee-3d.vue",
+      "content": "<script setup lang=\"ts\">\nimport { Marquee } from '@/components/ui/marquee'\n\nconst reviews = ['jack', 'jill', 'john', 'jane', 'jenny', 'james', 'jade', 'jules'].map((name) => ({\n  name: name[0].toUpperCase() + name.slice(1),\n  username: `@${name}`,\n  body: 'This library made our product feel alive.',\n  img: `https://avatar.vercel.sh/${name}`,\n}))\n\nconst rows = [reviews.slice(0, 4), reviews.slice(4), reviews.slice(2, 6), reviews.slice(1, 5)]\n</script>\n\n<template>\n  <div class=\"relative flex h-96 w-full flex-row items-center justify-center gap-4 overflow-hidden [perspective:300px]\">\n    <div\n      class=\"flex flex-row items-center gap-4\"\n      style=\"transform: translateX(-100px) translateY(0px) translateZ(-100px) rotateX(20deg) rotateY(-10deg) rotateZ(20deg)\"\n    >\n      <Marquee\n        v-for=\"(row, index) in rows\"\n        :key=\"index\"\n        vertical\n        pause-on-hover\n        :reverse=\"index % 2 === 1\"\n        duration=\"20s\"\n      >\n        <figure\n          v-for=\"review in row\"\n          :key=\"review.username\"\n          class=\"relative h-full w-fit cursor-pointer overflow-hidden rounded-xl border border-gray-950/[.1] bg-gray-950/[.01] p-4 sm:w-36 dark:border-gray-50/[.1] dark:bg-gray-50/[.10]\"\n        >\n          <div class=\"flex flex-row items-center gap-2\">\n            <img class=\"rounded-full\" width=\"32\" height=\"32\" alt=\"\" :src=\"review.img\" />\n            <div class=\"flex flex-col\">\n              <p class=\"text-sm font-medium\">{{ review.name }}</p>\n              <p class=\"text-xs font-medium text-muted-foreground\">{{ review.username }}</p>\n            </div>\n          </div>\n          <blockquote class=\"mt-2 text-sm\">{{ review.body }}</blockquote>\n        </figure>\n      </Marquee>\n    </div>\n    <div class=\"pointer-events-none absolute inset-x-0 top-0 h-1/4 bg-linear-to-b from-background\" />\n    <div class=\"pointer-events-none absolute inset-x-0 bottom-0 h-1/4 bg-linear-to-t from-background\" />\n    <div class=\"pointer-events-none absolute inset-y-0 left-0 w-1/4 bg-linear-to-r from-background\" />\n    <div class=\"pointer-events-none absolute inset-y-0 right-0 w-1/4 bg-linear-to-l from-background\" />\n  </div>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

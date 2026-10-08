@@ -1,0 +1,1 @@
+import{L as e,_ as t,p as n,ut as r,y as i}from"./runtime-core.esm-bundler-De2lc3Ib.js";import{t as a}from"./KineticText-8yq2QkF8.js";var o={class:`relative justify-center`},s=i({__name:`kinetic-text-demo`,setup(i){return(i,s)=>(e(),n(`div`,o,[t(r(a),{text:`Nostalgia`,class:`text-[6rem] tracking-[-0.05em] [font-optical-sizing:auto]`})]))}});export{s as default};

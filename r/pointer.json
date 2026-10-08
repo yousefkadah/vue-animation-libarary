@@ -1,0 +1,28 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "pointer",
+  "title": "Pointer",
+  "description": "Replaces the cursor with a custom animated pointer while hovering a container.",
+  "dependencies": [
+    "motion-v"
+  ],
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "src/registry/ui/pointer/Pointer.vue",
+      "content": "<script setup lang=\"ts\">\nimport type { CSSProperties, HTMLAttributes } from 'vue'\nimport { onBeforeUnmount, onMounted, ref } from 'vue'\nimport { AnimatePresence, motion, useMotionValue } from 'motion-v'\nimport { cn } from '@/lib/utils'\n\n/**\n * Replaces the cursor with a custom, animated pointer while it is over this component's parent\n * element. Drop it inside any `relative` container; pass your own pointer in the default slot.\n * Extra attributes (`:animate`, `:transition`, …) are forwarded to the motion element.\n */\nexport interface PointerProps {\n  /** Classes for the default arrow (e.g. `fill-blue-500`). */\n  class?: HTMLAttributes['class']\n  /** Extra styles for the floating pointer element. */\n  style?: CSSProperties\n}\n\ndefineOptions({ inheritAttrs: false })\n\nconst props = defineProps<PointerProps>()\n\nconst anchorRef = ref<HTMLElement>()\nconst isActive = ref(false)\nconst x = useMotionValue(0)\nconst y = useMotionValue(0)\n\nlet parent: HTMLElement | null = null\nlet previousCursor = ''\n\nfunction onMove(event: MouseEvent) {\n  x.set(event.clientX)\n  y.set(event.clientY)\n  isActive.value = true\n}\n\nfunction onLeave() {\n  isActive.value = false\n}\n\nonMounted(() => {\n  parent = anchorRef.value?.parentElement ?? null\n  if (!parent) return\n  previousCursor = parent.style.cursor\n  parent.style.cursor = 'none'\n  parent.addEventListener('mousemove', onMove)\n  parent.addEventListener('mouseenter', onMove)\n  parent.addEventListener('mouseleave', onLeave)\n})\n\nonBeforeUnmount(() => {\n  if (!parent) return\n  parent.style.cursor = previousCursor\n  parent.removeEventListener('mousemove', onMove)\n  parent.removeEventListener('mouseenter', onMove)\n  parent.removeEventListener('mouseleave', onLeave)\n  parent = null\n})\n</script>\n\n<template>\n  <div ref=\"anchorRef\" class=\"contents\">\n    <AnimatePresence>\n      <motion.div\n        v-if=\"isActive\"\n        aria-hidden=\"true\"\n        class=\"pointer-events-none fixed z-50\"\n        :style=\"{ ...props.style, top: y, left: x }\"\n        :initial=\"{ scale: 0, opacity: 0 }\"\n        :animate=\"{ scale: 1, opacity: 1 }\"\n        :exit=\"{ scale: 0, opacity: 0 }\"\n        v-bind=\"$attrs\"\n      >\n        <slot>\n          <svg\n            stroke=\"currentColor\"\n            fill=\"currentColor\"\n            stroke-width=\"1\"\n            viewBox=\"0 0 16 16\"\n            height=\"24\"\n            width=\"24\"\n            xmlns=\"http://www.w3.org/2000/svg\"\n            :class=\"cn('rotate-[-70deg] stroke-white text-black', props.class)\"\n          >\n            <path\n              d=\"M14.082 2.182a.5.5 0 0 1 .103.557L8.528 15.467a.5.5 0 0 1-.917-.007L5.57 10.694.803 8.652a.5.5 0 0 1-.006-.916l12.728-5.657a.5.5 0 0 1 .556.103z\"\n            />\n          </svg>\n        </slot>\n      </motion.div>\n    </AnimatePresence>\n  </div>\n</template>\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "src/registry/ui/pointer/index.ts",
+      "content": "export { default as Pointer } from './Pointer.vue'\nexport type { PointerProps } from './Pointer.vue'\n",
+      "type": "registry:ui"
+    }
+  ],
+  "categories": [
+    "components"
+  ],
+  "type": "registry:ui"
+}

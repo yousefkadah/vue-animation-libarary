@@ -1,0 +1,19 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "text-reveal-demo",
+  "title": "Text Reveal — Inside a scroll area",
+  "dependencies": [
+    "@lucide/vue"
+  ],
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/text-reveal.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/text-reveal-demo.vue",
+      "content": "<script setup lang=\"ts\">\nimport { useTemplateRef } from 'vue'\nimport { ChevronsDown } from '@lucide/vue'\nimport { TextReveal } from '@/components/ui/text-reveal'\n\nconst scroller = useTemplateRef<HTMLElement>('scroller')\n</script>\n\n<template>\n  <div class=\"relative w-full\">\n    <!-- The preview box is short, so TextReveal tracks this scroll area instead of the page. -->\n    <div ref=\"scroller\" class=\"h-[350px] w-full overflow-y-auto\">\n      <TextReveal :container=\"scroller\" text=\"Vue Magic UI will change the way you design.\" class=\"h-[700px]\" />\n    </div>\n    <div class=\"pointer-events-none absolute inset-x-0 bottom-2 flex items-center justify-center gap-1 text-xs text-muted-foreground\">\n      Scroll\n      <ChevronsDown class=\"size-3.5 animate-bounce motion-reduce:animate-none\" />\n    </div>\n  </div>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

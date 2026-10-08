@@ -1,0 +1,1 @@
+import{$ as e,L as t,d as n,g as r,ut as i,y as a}from"./runtime-core.esm-bundler-De2lc3Ib.js";import{t as o}from"./InteractiveHoverButton-BaTXXha7.js";var s=a({__name:`interactive-hover-button-demo`,setup(a){return(a,s)=>(t(),n(i(o),null,{default:e(()=>[...s[0]||=[r(`Hover Me`,-1)]]),_:1}))}});export{s as default};

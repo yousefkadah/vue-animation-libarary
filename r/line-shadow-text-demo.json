@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "line-shadow-text-demo",
+  "title": "Line Shadow Text — Ship fast",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/line-shadow-text.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/line-shadow-text-demo.vue",
+      "content": "<script setup lang=\"ts\">\nimport { LineShadowText } from '@/components/ui/line-shadow-text'\n</script>\n\n<template>\n  <h1 class=\"text-5xl leading-none font-semibold tracking-tighter text-balance sm:text-6xl md:text-7xl lg:text-8xl\">\n    Ship\n    <LineShadowText class=\"italic\" shadow-color=\"var(--foreground)\">Fast</LineShadowText>\n  </h1>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

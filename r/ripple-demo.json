@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "ripple-demo",
+  "title": "Ripple — Default",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/ripple.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/ripple-demo.vue",
+      "content": "<script setup lang=\"ts\">\nimport { Ripple } from '@/components/ui/ripple'\n</script>\n\n<template>\n  <div class=\"relative flex h-[400px] w-full flex-col items-center justify-center overflow-hidden rounded-lg border bg-background\">\n    <p class=\"z-10 text-center text-5xl font-medium tracking-tighter whitespace-pre-wrap\">Ripple</p>\n    <Ripple />\n  </div>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

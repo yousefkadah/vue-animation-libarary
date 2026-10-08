@@ -1,0 +1,1 @@
+import{L as e,d as t,ut as n,y as r}from"./runtime-core.esm-bundler-De2lc3Ib.js";import{t as i}from"./TypingAnimation-Df61JYWv.js";var a=r({__name:`typing-animation-demo`,setup(r){return(r,a)=>(e(),t(n(i),{text:`Hello World! 👋`,class:`text-4xl font-bold sm:text-5xl`}))}});export{a as default};

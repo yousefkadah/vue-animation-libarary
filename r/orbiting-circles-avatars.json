@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "orbiting-circles-avatars",
+  "title": "Orbiting Circles — Avatars",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/orbiting-circles.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/orbiting-circles-avatars.vue",
+      "content": "<script setup lang=\"ts\">\nimport { OrbitingCircles } from '@/components/ui/orbiting-circles'\n\nconst outer = ['jack', 'jill', 'john', 'jane', 'jenny', 'james']\nconst inner = ['jade', 'jules', 'joe']\n</script>\n\n<template>\n  <div class=\"relative flex h-[400px] w-full items-center justify-center overflow-hidden\">\n    <div class=\"z-10 flex size-16 items-center justify-center rounded-full bg-primary text-sm font-semibold text-primary-foreground shadow-lg\">\n      Team\n    </div>\n    <OrbitingCircles :icon-size=\"44\" :radius=\"150\" :duration=\"30\">\n      <img\n        v-for=\"name in outer\"\n        :key=\"name\"\n        :src=\"`https://avatar.vercel.sh/${name}`\"\n        :alt=\"name\"\n        class=\"size-full rounded-full border-2 border-background shadow-md\"\n      />\n    </OrbitingCircles>\n    <OrbitingCircles :icon-size=\"36\" :radius=\"85\" :duration=\"20\" reverse>\n      <img\n        v-for=\"name in inner\"\n        :key=\"name\"\n        :src=\"`https://avatar.vercel.sh/${name}`\"\n        :alt=\"name\"\n        class=\"size-full rounded-full border-2 border-background shadow-md\"\n      />\n    </OrbitingCircles>\n  </div>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

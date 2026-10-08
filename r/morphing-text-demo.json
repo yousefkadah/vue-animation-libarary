@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "morphing-text-demo",
+  "title": "Morphing Text — Default",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/morphing-text.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/morphing-text-demo.vue",
+      "content": "<script setup lang=\"ts\">\nimport { MorphingText } from '@/components/ui/morphing-text'\n\nconst texts = ['Hello', 'Morphing', 'Text', 'Animation', 'Vue', 'Component', 'Smooth', 'Transition', 'Engaging']\n</script>\n\n<template>\n  <MorphingText :texts=\"texts\" />\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

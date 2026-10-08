@@ -1,0 +1,1 @@
+import{L as e,d as t,ut as n,y as r}from"./runtime-core.esm-bundler-De2lc3Ib.js";import{t as i}from"./Android-BbPgKugn.js";var a=r({__name:`android-video`,setup(r){return(r,a)=>(e(),t(n(i),{width:200,height:437,"video-src":`https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.webm`}))}});export{a as default};

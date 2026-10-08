@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "marquee-logos",
+  "title": "Marquee — Logo cloud",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/marquee.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/marquee-logos.vue",
+      "content": "<script setup lang=\"ts\">\nimport { Marquee } from '@/components/ui/marquee'\n\nconst logos = ['Vue', 'Nuxt', 'Vite', 'Pinia', 'Vitest', 'VueUse', 'Tailwind', 'Motion']\n</script>\n\n<template>\n  <div class=\"relative w-full overflow-hidden py-6\">\n    <p class=\"mb-6 text-center text-sm font-medium text-muted-foreground\">Trusted by teams building with</p>\n    <Marquee pause-on-hover gap=\"3rem\" duration=\"25s\" class=\"[--gap:3rem]\">\n      <span\n        v-for=\"logo in logos\"\n        :key=\"logo\"\n        class=\"text-2xl font-semibold tracking-tight text-foreground/60 transition-colors hover:text-foreground\"\n      >\n        {{ logo }}\n      </span>\n    </Marquee>\n    <div class=\"pointer-events-none absolute inset-y-0 left-0 w-1/5 bg-linear-to-r from-background\" />\n    <div class=\"pointer-events-none absolute inset-y-0 right-0 w-1/5 bg-linear-to-l from-background\" />\n  </div>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

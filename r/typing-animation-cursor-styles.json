@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "typing-animation-cursor-styles",
+  "title": "Typing Animation — Cursor styles",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/typing-animation.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/typing-animation-cursor-styles.vue",
+      "content": "<script setup lang=\"ts\">\nimport { TypingAnimation } from '@/components/ui/typing-animation'\n\nconst cursors = [\n  { style: 'line', label: 'Line cursor (default)' },\n  { style: 'block', label: 'Block cursor (VS Code style)' },\n  { style: 'underscore', label: 'Underscore cursor' },\n] as const\n</script>\n\n<template>\n  <div class=\"flex w-full max-w-md flex-col gap-4\">\n    <div v-for=\"cursor in cursors\" :key=\"cursor.style\">\n      <p class=\"text-sm text-muted-foreground\">{{ cursor.label }}</p>\n      <TypingAnimation\n        :words=\"[cursor.label.split(' (')[0]]\"\n        :cursor-style=\"cursor.style\"\n        loop\n        class=\"text-3xl leading-tight font-bold\"\n      />\n    </div>\n  </div>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

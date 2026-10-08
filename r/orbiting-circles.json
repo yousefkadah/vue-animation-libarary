@@ -1,0 +1,40 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "orbiting-circles",
+  "title": "Orbiting Circles",
+  "description": "A collection of circles which move in orbit along a circular path.",
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "src/registry/ui/orbiting-circles/OrbitingCircles.vue",
+      "content": "<script setup lang=\"ts\">\nimport type { HTMLAttributes, VNode } from 'vue'\nimport { Comment, Fragment, computed, useSlots } from 'vue'\nimport { cn } from '@/lib/utils'\n\ndefineOptions({ inheritAttrs: false })\n\nexport interface OrbitingCirclesProps {\n  class?: HTMLAttributes['class']\n  /** Orbit counter-clockwise. */\n  reverse?: boolean\n  /** Seconds for one full orbit (divided by `speed`). */\n  duration?: number\n  /** Seconds to offset the starting position along the orbit. */\n  delay?: number\n  /** Radius of the orbit in pixels. */\n  radius?: number\n  /** Draw the circular path. */\n  path?: boolean\n  /** Size of each orbiting item in pixels. */\n  iconSize?: number\n  /** Speed multiplier. */\n  speed?: number\n}\n\nconst props = withDefaults(defineProps<OrbitingCirclesProps>(), {\n  reverse: false,\n  duration: 20,\n  delay: 0,\n  radius: 160,\n  path: true,\n  iconSize: 30,\n  speed: 1,\n})\n\nconst slots = useSlots()\nconst calculatedDuration = computed(() => props.duration / props.speed)\n\nfunction flatten(nodes: VNode[]): VNode[] {\n  return nodes.flatMap((node) => {\n    if (node.type === Fragment && Array.isArray(node.children)) return flatten(node.children as VNode[])\n    if (node.type === Comment) return []\n    return [node]\n  })\n}\n\n/** Every slot child, spread evenly around the circle. */\nfunction orbitItems() {\n  const children = flatten(slots.default?.() ?? [])\n  return children.map((vnode, index) => ({ vnode, angle: (360 / children.length) * index }))\n}\n</script>\n\n<template>\n  <svg\n    v-if=\"props.path\"\n    xmlns=\"http://www.w3.org/2000/svg\"\n    version=\"1.1\"\n    class=\"pointer-events-none absolute inset-0 size-full\"\n    aria-hidden=\"true\"\n  >\n    <circle class=\"stroke-black/10 stroke-1 dark:stroke-white/10\" cx=\"50%\" cy=\"50%\" :r=\"props.radius\" fill=\"none\" />\n  </svg>\n  <div\n    v-for=\"(item, index) in orbitItems()\"\n    :key=\"index\"\n    v-bind=\"$attrs\"\n    :style=\"{\n      '--duration': calculatedDuration,\n      '--radius': props.radius,\n      '--angle': item.angle,\n      '--icon-size': `${props.iconSize}px`,\n      animationDelay: props.delay ? `${-props.delay}s` : undefined,\n    }\"\n    :class=\"\n      cn(\n        'animate-orbit absolute flex size-(--icon-size) transform-gpu items-center justify-center rounded-full motion-reduce:[animation-play-state:paused]',\n        props.reverse && '[animation-direction:reverse]',\n        props.class,\n      )\n    \"\n  >\n    <component :is=\"item.vnode\" />\n  </div>\n</template>\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "src/registry/ui/orbiting-circles/index.ts",
+      "content": "export { default as OrbitingCircles } from './OrbitingCircles.vue'\nexport type { OrbitingCirclesProps } from './OrbitingCircles.vue'\n",
+      "type": "registry:ui"
+    }
+  ],
+  "cssVars": {
+    "theme": {
+      "animate-orbit": "orbit calc(var(--duration) * 1s) linear infinite"
+    }
+  },
+  "css": {
+    "@keyframes orbit": {
+      "0%": {
+        "transform": "rotate(calc(var(--angle) * 1deg)) translateY(calc(var(--radius) * 1px)) rotate(calc(var(--angle) * -1deg))"
+      },
+      "100%": {
+        "transform": "rotate(calc(var(--angle) * 1deg + 360deg)) translateY(calc(var(--radius) * 1px)) rotate(calc((var(--angle) * -1deg) - 360deg))"
+      }
+    }
+  },
+  "categories": [
+    "components"
+  ],
+  "type": "registry:ui"
+}

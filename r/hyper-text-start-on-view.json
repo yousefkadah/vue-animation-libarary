@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "hyper-text-start-on-view",
+  "title": "Hyper Text — Start on view",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/hyper-text.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/hyper-text-start-on-view.vue",
+      "content": "<script setup lang=\"ts\">\nimport { HyperText } from '@/components/ui/hyper-text'\n\nconst stats = [\n  { label: 'Uptime', value: '99.99%' },\n  { label: 'Regions', value: '32' },\n  { label: 'Latency', value: '14 ms' },\n]\n</script>\n\n<template>\n  <div class=\"grid w-full max-w-md grid-cols-3 gap-3\">\n    <div v-for=\"(stat, index) in stats\" :key=\"stat.label\" class=\"rounded-xl border bg-card p-4 text-card-foreground shadow-sm\">\n      <p class=\"text-xs font-medium text-muted-foreground\">{{ stat.label }}</p>\n      <HyperText\n        :text=\"stat.value\"\n        start-on-view\n        :delay=\"index * 200\"\n        :character-set=\"'0123456789'.split('')\"\n        class=\"py-1 text-xl sm:text-2xl\"\n      />\n    </div>\n  </div>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

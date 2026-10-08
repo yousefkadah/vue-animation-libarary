@@ -1,0 +1,1 @@
+import{$ as e,L as t,_ as n,g as r,p as i,ut as a,y as o}from"./runtime-core.esm-bundler-De2lc3Ib.js";import{t as s}from"./ConfettiButton-CVgbsXWh.js";var c={class:`relative`},l=o({__name:`confetti-button`,setup(o){return(o,l)=>(t(),i(`div`,c,[n(a(s),null,{default:e(()=>[...l[0]||=[r(`Confetti 🎉`,-1)]]),_:1})]))}});export{l as default};

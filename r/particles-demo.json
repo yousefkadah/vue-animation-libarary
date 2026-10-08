@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "particles-demo",
+  "title": "Particles — Theme-aware",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/particles.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/particles-demo.vue",
+      "content": "<script setup lang=\"ts\">\nimport { onBeforeUnmount, onMounted, ref } from 'vue'\nimport { Particles } from '@/components/ui/particles'\n\n// White particles in dark mode, black in light mode.\nconst color = ref('#ffffff')\nlet observer: MutationObserver | undefined\n\nfunction syncColor() {\n  color.value = document.documentElement.classList.contains('dark') ? '#ffffff' : '#000000'\n}\n\nonMounted(() => {\n  syncColor()\n  observer = new MutationObserver(syncColor)\n  observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] })\n})\nonBeforeUnmount(() => observer?.disconnect())\n</script>\n\n<template>\n  <div class=\"relative flex h-[320px] w-full flex-col items-center justify-center overflow-hidden rounded-lg border bg-background\">\n    <span class=\"pointer-events-none z-10 text-center text-8xl leading-none font-semibold whitespace-pre-wrap\">Particles</span>\n    <Particles class=\"absolute inset-0 z-0\" :quantity=\"100\" :ease=\"80\" :color=\"color\" refresh />\n  </div>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

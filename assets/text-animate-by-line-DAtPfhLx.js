@@ -1,0 +1,3 @@
+import{L as e,d as t,ut as n,y as r}from"./runtime-core.esm-bundler-De2lc3Ib.js";import{t as i}from"./TextAnimate-1NASJ8ZO.js";var a=`Fade in by line, one at a time.
+Each line is its own segment,
+so long copy reads like a story.`,o=r({__name:`text-animate-by-line`,setup(r){return(r,o)=>(e(),t(n(i),{text:a,animation:`fadeIn`,by:`line`,duration:.9,class:`text-center text-2xl leading-relaxed font-medium`}))}});export{o as default};

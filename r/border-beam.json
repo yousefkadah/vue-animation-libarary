@@ -1,0 +1,28 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "border-beam",
+  "title": "Border Beam",
+  "description": "An animated beam of light which travels along the border of its container.",
+  "dependencies": [
+    "motion-v"
+  ],
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "src/registry/ui/border-beam/BorderBeam.vue",
+      "content": "<script setup lang=\"ts\">\nimport type { HTMLAttributes } from 'vue'\nimport { computed } from 'vue'\nimport { motion, type Transition } from 'motion-v'\nimport { cn } from '@/lib/utils'\n\nexport interface BorderBeamProps {\n  class?: HTMLAttributes['class']\n  /** Size of the beam in pixels. */\n  size?: number\n  /** Seconds for one full lap. */\n  duration?: number\n  /** Seconds to offset the start of the animation. */\n  delay?: number\n  colorFrom?: string\n  colorTo?: string\n  /** Override the Motion transition. */\n  transition?: Transition\n  /** Travel counter-clockwise. */\n  reverse?: boolean\n  /** Starting position along the border, 0–100. */\n  initialOffset?: number\n  /** Border thickness in pixels. */\n  borderWidth?: number\n}\n\nconst props = withDefaults(defineProps<BorderBeamProps>(), {\n  size: 50,\n  duration: 6,\n  delay: 0,\n  colorFrom: '#ffaa40',\n  colorTo: '#9c40ff',\n  reverse: false,\n  initialOffset: 0,\n  borderWidth: 1,\n})\n\nconst offsets = computed(() =>\n  props.reverse\n    ? [`${100 - props.initialOffset}%`, `${-props.initialOffset}%`]\n    : [`${props.initialOffset}%`, `${100 + props.initialOffset}%`],\n)\n</script>\n\n<template>\n  <div\n    class=\"pointer-events-none absolute inset-0 rounded-[inherit] border-(length:--border-beam-width) border-transparent [mask-clip:padding-box,border-box] [mask-composite:intersect] [mask-image:linear-gradient(transparent,transparent),linear-gradient(#000,#000)]\"\n    :style=\"{ '--border-beam-width': `${props.borderWidth}px` }\"\n  >\n    <motion.div\n      :class=\"\n        cn(\n          'absolute aspect-square bg-linear-to-l from-(--color-from) via-(--color-to) to-transparent',\n          props.class,\n        )\n      \"\n      :style=\"{\n        width: `${props.size}px`,\n        offsetPath: `rect(0 auto auto 0 round ${props.size}px)`,\n        '--color-from': props.colorFrom,\n        '--color-to': props.colorTo,\n      }\"\n      :initial=\"{ offsetDistance: `${props.initialOffset}%` }\"\n      :animate=\"{ offsetDistance: offsets }\"\n      :transition=\"{\n        repeat: Infinity,\n        ease: 'linear',\n        duration: props.duration,\n        delay: -props.delay,\n        ...props.transition,\n      }\"\n    />\n  </div>\n</template>\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "src/registry/ui/border-beam/index.ts",
+      "content": "export { default as BorderBeam } from './BorderBeam.vue'\nexport type { BorderBeamProps } from './BorderBeam.vue'\n",
+      "type": "registry:ui"
+    }
+  ],
+  "categories": [
+    "special-effects"
+  ],
+  "type": "registry:ui"
+}

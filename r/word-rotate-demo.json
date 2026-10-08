@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "word-rotate-demo",
+  "title": "Word Rotate — Default",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/word-rotate.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/word-rotate-demo.vue",
+      "content": "<script setup lang=\"ts\">\nimport { WordRotate } from '@/components/ui/word-rotate'\n</script>\n\n<template>\n  <WordRotate class=\"text-4xl font-bold text-black dark:text-white\" :words=\"['Word', 'Rotate']\" />\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

@@ -1,0 +1,29 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "globe",
+  "title": "Globe",
+  "description": "An autorotating, interactive and highly performant globe made using WebGL.",
+  "dependencies": [
+    "cobe",
+    "motion-v"
+  ],
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "src/registry/ui/globe/Globe.vue",
+      "content": "<script setup lang=\"ts\">\nimport type { HTMLAttributes } from 'vue'\nimport { onBeforeUnmount, onMounted, ref, watch } from 'vue'\nimport createGlobe, { type COBEOptions, type Globe as CobeGlobe } from 'cobe'\nimport { useMotionValue, useReducedMotion, useSpring } from 'motion-v'\nimport { cn } from '@/lib/utils'\n\nexport interface GlobeProps {\n  class?: HTMLAttributes['class']\n  /** cobe options, merged over the defaults. `width`, `height` and `phi` are managed for you. */\n  config?: Partial<COBEOptions>\n}\n\nconst props = defineProps<GlobeProps>()\n\n/** Pixels of horizontal drag per radian of rotation. */\nconst MOVEMENT_DAMPING = 200\n\nconst GLOBE_CONFIG: COBEOptions = {\n  width: 800,\n  height: 800,\n  devicePixelRatio: 2,\n  phi: 0,\n  theta: 0.3,\n  dark: 0,\n  diffuse: 0.4,\n  mapSamples: 16000,\n  mapBrightness: 1.2,\n  baseColor: [1, 1, 1],\n  markerColor: [251 / 255, 100 / 255, 21 / 255],\n  glowColor: [1, 1, 1],\n  markers: [\n    { location: [14.5995, 120.9842], size: 0.03 },\n    { location: [19.076, 72.8777], size: 0.1 },\n    { location: [23.8103, 90.4125], size: 0.05 },\n    { location: [30.0444, 31.2357], size: 0.07 },\n    { location: [39.9042, 116.4074], size: 0.08 },\n    { location: [-23.5505, -46.6333], size: 0.1 },\n    { location: [19.4326, -99.1332], size: 0.1 },\n    { location: [40.7128, -74.006], size: 0.1 },\n    { location: [34.6937, 135.5022], size: 0.05 },\n    { location: [41.0082, 28.9784], size: 0.06 },\n  ],\n}\n\nconst rootRef = ref<HTMLDivElement>()\nconst canvasRef = ref<HTMLCanvasElement>()\nconst isReady = ref(false)\nconst isDragging = ref(false)\nconst reducedMotion = useReducedMotion()\n\nconst rotation = useMotionValue(0)\nconst smoothRotation = useSpring(rotation, { mass: 1, damping: 30, stiffness: 100 })\n\nlet globe: CobeGlobe | null = null\nlet resizeObserver: ResizeObserver | null = null\nlet frame = 0\nlet readyTimer: ReturnType<typeof setTimeout> | undefined\nlet phi = 0\nlet width = 0\nlet pointerStart: number | null = null\nlet pointerMovement = 0\n\nfunction mount() {\n  const canvas = canvasRef.value\n  if (!canvas) return\n  width = canvas.offsetWidth\n  const options = { ...GLOBE_CONFIG, ...props.config }\n  phi = options.phi\n  globe = createGlobe(canvas, { ...options, width, height: width })\n\n  resizeObserver = new ResizeObserver(() => {\n    const next = canvas.offsetWidth\n    if (next === width) return\n    width = next\n    globe?.update({ width, height: width })\n  })\n  resizeObserver.observe(canvas)\n\n  const render = () => {\n    if (pointerStart === null && !reducedMotion.value) phi += 0.005\n    globe?.update({ phi: phi + smoothRotation.get() })\n    frame = requestAnimationFrame(render)\n  }\n  frame = requestAnimationFrame(render)\n  readyTimer = setTimeout(() => (isReady.value = true), 0)\n}\n\nfunction unmount() {\n  cancelAnimationFrame(frame)\n  clearTimeout(readyTimer)\n  resizeObserver?.disconnect()\n  resizeObserver = null\n  globe?.destroy()\n  globe = null\n  // cobe wraps the canvas in a positioning <div>; unwrap it so a re-created globe doesn't nest.\n  const canvas = canvasRef.value\n  const wrapper = canvas?.parentElement\n  if (canvas && wrapper && wrapper !== rootRef.value) wrapper.replaceWith(canvas)\n}\n\nonMounted(mount)\nonBeforeUnmount(unmount)\nwatch(\n  () => props.config,\n  () => {\n    unmount()\n    mount()\n  },\n  { deep: true },\n)\n\nfunction onPointerDown(event: PointerEvent) {\n  pointerStart = event.clientX - pointerMovement\n  isDragging.value = true\n}\n\nfunction onPointerUp() {\n  pointerStart = null\n  isDragging.value = false\n}\n\nfunction onPointerMove(event: PointerEvent) {\n  if (pointerStart === null) return\n  pointerMovement = event.clientX - pointerStart\n  rotation.set(pointerMovement / MOVEMENT_DAMPING)\n}\n</script>\n\n<template>\n  <div ref=\"rootRef\" :class=\"cn('absolute inset-0 mx-auto aspect-square w-full max-w-150', props.class)\">\n    <canvas\n      ref=\"canvasRef\"\n      aria-hidden=\"true\"\n      :class=\"\n        cn(\n          'size-full cursor-grab touch-pan-y opacity-0 transition-opacity duration-500 contain-[layout_paint_size]',\n          isReady && 'opacity-100',\n          isDragging && 'cursor-grabbing',\n        )\n      \"\n      @pointerdown=\"onPointerDown\"\n      @pointerup=\"onPointerUp\"\n      @pointerout=\"onPointerUp\"\n      @pointercancel=\"onPointerUp\"\n      @pointermove=\"onPointerMove\"\n    />\n  </div>\n</template>\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "src/registry/ui/globe/index.ts",
+      "content": "export { default as Globe } from './Globe.vue'\nexport type { GlobeProps } from './Globe.vue'\n",
+      "type": "registry:ui"
+    }
+  ],
+  "categories": [
+    "components"
+  ],
+  "type": "registry:ui"
+}

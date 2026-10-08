@@ -1,0 +1,1 @@
+import{$ as e,L as t,d as n,g as r,ut as i,y as a}from"./runtime-core.esm-bundler-De2lc3Ib.js";import{t as o}from"./RippleButton-BaXOFaq_.js";var s=a({__name:`ripple-button-demo`,setup(a){return(a,s)=>(t(),n(i(o),{"ripple-color":`#ADD8E6`},{default:e(()=>[...s[0]||=[r(`Click me`,-1)]]),_:1}))}});export{s as default};

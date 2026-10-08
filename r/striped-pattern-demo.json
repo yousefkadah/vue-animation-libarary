@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "striped-pattern-demo",
+  "title": "Striped Pattern — Radial mask",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/striped-pattern.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/striped-pattern-demo.vue",
+      "content": "<script setup lang=\"ts\">\nimport { StripedPattern } from '@/components/ui/striped-pattern'\n</script>\n\n<template>\n  <div class=\"relative flex h-[400px] w-full flex-col items-center justify-center overflow-hidden rounded-lg border bg-background\">\n    <StripedPattern class=\"[mask-image:radial-gradient(300px_circle_at_center,white,transparent)]\" />\n  </div>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

@@ -1,0 +1,28 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "spinning-text",
+  "title": "Spinning Text",
+  "description": "Text laid out around a circle that rotates continuously.",
+  "dependencies": [
+    "motion-v"
+  ],
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "src/registry/ui/spinning-text/SpinningText.vue",
+      "content": "<script setup lang=\"ts\">\nimport type { HTMLAttributes, VNodeArrayChildren } from 'vue'\nimport { Comment, computed, isVNode, useSlots } from 'vue'\nimport { motion, useReducedMotion, type MotionProps, type Transition } from 'motion-v'\nimport { cn } from '@/lib/utils'\n\nexport interface SpinningTextProps {\n  class?: HTMLAttributes['class']\n  /** The text to place around the circle. Falls back to the text of the default slot. */\n  text?: string | string[]\n  /** Seconds for one full rotation. */\n  duration?: number\n  /** Rotate counter-clockwise. */\n  reverse?: boolean\n  /** Radius of the circle, in `ch`. */\n  radius?: number\n  /** Overrides for the rotation transition. */\n  transition?: Transition\n  /** Custom variants for the rotating container and for each letter. */\n  variants?: { container?: MotionProps['variants']; item?: MotionProps['variants'] }\n}\n\ntype Variants = NonNullable<MotionProps['variants']>\n\nconst props = withDefaults(defineProps<SpinningTextProps>(), {\n  duration: 10,\n  reverse: false,\n  radius: 5,\n})\n\nconst slots = useSlots()\nconst prefersReducedMotion = useReducedMotion()\n\nconst BASE_ITEM_VARIANTS: Variants = {\n  hidden: { opacity: 1 },\n  visible: { opacity: 1 },\n}\n\nconst finalTransition = computed<Transition>(() => ({\n  repeat: Infinity,\n  ease: 'linear',\n  ...props.transition,\n  duration: props.transition?.duration ?? props.duration,\n}))\n\nconst containerVariants = computed<Variants>(() => ({\n  visible: { rotate: props.reverse ? -360 : 360 },\n  ...props.variants?.container,\n}))\n\nconst itemVariants = computed<Variants>(() => ({\n  ...BASE_ITEM_VARIANTS,\n  ...props.variants?.item,\n}))\n\nfunction textFromNodes(nodes: VNodeArrayChildren | undefined): string {\n  let text = ''\n  for (const node of nodes ?? []) {\n    if (typeof node === 'string' || typeof node === 'number') text += node\n    else if (Array.isArray(node)) text += textFromNodes(node)\n    else if (isVNode(node) && node.type !== Comment) {\n      if (typeof node.children === 'string') text += node.children\n      else if (Array.isArray(node.children)) text += textFromNodes(node.children)\n    }\n  }\n  return text\n}\n\n/** Called during render, so slot content stays reactive. */\nfunction resolveText(): string {\n  if (props.text !== undefined) return Array.isArray(props.text) ? props.text.join('') : props.text\n  return textFromNodes(slots.default?.()).trim()\n}\n\nfunction letters(text: string) {\n  return [...text.split(''), ' ']\n}\n</script>\n\n<template>\n  <motion.div\n    :class=\"cn('relative', props.class)\"\n    :style=\"{ '--total': letters(resolveText()).length, '--radius': props.radius }\"\n    initial=\"hidden\"\n    :animate=\"prefersReducedMotion ? 'hidden' : 'visible'\"\n    :variants=\"containerVariants\"\n    :transition=\"finalTransition\"\n  >\n    <motion.span\n      v-for=\"(letter, index) in letters(resolveText())\"\n      :key=\"`${index}-${letter}`\"\n      aria-hidden=\"true\"\n      :variants=\"itemVariants\"\n      class=\"absolute top-1/2 left-1/2 inline-block\"\n      :style=\"{\n        '--index': index,\n        transform:\n          'translate(-50%, -50%) rotate(calc(360deg / var(--total) * var(--index))) translateY(calc(var(--radius, 5) * -1ch))',\n        transformOrigin: 'center',\n      }\"\n    >{{ letter }}</motion.span>\n    <span class=\"sr-only\">{{ resolveText() }}</span>\n  </motion.div>\n</template>\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "src/registry/ui/spinning-text/index.ts",
+      "content": "export { default as SpinningText } from './SpinningText.vue'\nexport type { SpinningTextProps } from './SpinningText.vue'\n",
+      "type": "registry:ui"
+    }
+  ],
+  "categories": [
+    "text-animations"
+  ],
+  "type": "registry:ui"
+}

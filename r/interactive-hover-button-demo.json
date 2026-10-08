@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "interactive-hover-button-demo",
+  "title": "Interactive Hover Button — Default",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/interactive-hover-button.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/interactive-hover-button-demo.vue",
+      "content": "<script setup lang=\"ts\">\nimport { InteractiveHoverButton } from '@/components/ui/interactive-hover-button'\n</script>\n\n<template>\n  <InteractiveHoverButton>Hover Me</InteractiveHoverButton>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

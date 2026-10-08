@@ -1,0 +1,33 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "text-reveal",
+  "title": "Text Reveal",
+  "description": "Fade in text as you scroll down the page.",
+  "dependencies": [
+    "motion-v"
+  ],
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "src/registry/ui/text-reveal/TextReveal.vue",
+      "content": "<script setup lang=\"ts\">\nimport type { HTMLAttributes, VNode } from 'vue'\nimport { Comment, computed, ref } from 'vue'\nimport { useScroll } from 'motion-v'\nimport { cn } from '@/lib/utils'\nimport TextRevealWord from './TextRevealWord.vue'\n\nexport interface TextRevealProps {\n  /** The text to reveal word by word. Falls back to the text content of the default slot. */\n  text?: string\n  class?: HTMLAttributes['class']\n  /**\n   * The scrolling element to track. Defaults to the page. Set it when TextReveal sits\n   * inside its own `overflow-y-auto` box.\n   */\n  container?: HTMLElement | null\n}\n\nconst props = defineProps<TextRevealProps>()\n\nconst slots = defineSlots<{ default?: () => unknown }>()\n\n/** Plain text of the slot's vnodes, so `<TextReveal>Hello</TextReveal>` works like the `text` prop. */\nfunction textFromVNodes(nodes: unknown): string {\n  if (!Array.isArray(nodes)) return ''\n  return nodes\n    .map((node: VNode) => {\n      if (node.type === Comment) return ''\n      if (typeof node.children === 'string') return node.children\n      return textFromVNodes(node.children)\n    })\n    .join('')\n}\n\nconst content = computed(() => props.text ?? textFromVNodes(slots.default?.()).trim())\nconst words = computed(() => content.value.split(' '))\n\nconst sectionRef = ref<HTMLDivElement>()\nconst containerRef = computed(() => props.container ?? undefined)\nconst { scrollYProgress } = useScroll({ target: sectionRef, container: containerRef })\n\nconst ranges = computed(() =>\n  words.value.map((_, index): [number, number] => {\n    const start = index / words.value.length\n    return [start, start + 1 / words.value.length]\n  }),\n)\n</script>\n\n<template>\n  <div ref=\"sectionRef\" :class=\"cn('relative z-0 h-[200vh]', props.class)\">\n    <div class=\"sticky top-0 mx-auto flex h-[50%] max-w-4xl items-center bg-transparent px-4 py-20\">\n      <span class=\"sr-only\">{{ content }}</span>\n      <span\n        aria-hidden=\"true\"\n        class=\"flex flex-wrap p-5 text-2xl font-bold text-foreground/20 md:p-8 md:text-3xl lg:p-10 lg:text-4xl xl:text-5xl\"\n      >\n        <TextRevealWord\n          v-for=\"(word, index) in words\"\n          :key=\"index\"\n          :word=\"word\"\n          :progress=\"scrollYProgress\"\n          :range=\"ranges[index]!\"\n        />\n      </span>\n    </div>\n  </div>\n</template>\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "src/registry/ui/text-reveal/TextRevealWord.vue",
+      "content": "<script setup lang=\"ts\">\nimport { toRef } from 'vue'\nimport { motion, useTransform, type MotionValue } from 'motion-v'\n\nconst props = defineProps<{\n  /** Scroll progress of the whole TextReveal section, 0–1. */\n  progress: MotionValue<number>\n  /** The slice of `progress` over which this word fades in. */\n  range: [number, number]\n  word: string\n}>()\n\nconst opacity = useTransform(props.progress, toRef(props, 'range'), [0, 1])\n</script>\n\n<template>\n  <span class=\"relative mx-1 lg:mx-1.5\">\n    <span class=\"absolute opacity-30\">{{ props.word }}</span>\n    <motion.span :style=\"{ opacity }\" class=\"text-foreground\">{{ props.word }}</motion.span>\n  </span>\n</template>\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "src/registry/ui/text-reveal/index.ts",
+      "content": "export { default as TextReveal } from './TextReveal.vue'\nexport type { TextRevealProps } from './TextReveal.vue'\n",
+      "type": "registry:ui"
+    }
+  ],
+  "categories": [
+    "text-animations"
+  ],
+  "type": "registry:ui"
+}

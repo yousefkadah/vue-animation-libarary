@@ -1,0 +1,28 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "shiny-button",
+  "title": "Shiny Button",
+  "description": "A shiny button component with dynamic styles in the dark mode or light mode.",
+  "dependencies": [
+    "motion-v"
+  ],
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "src/registry/ui/shiny-button/ShinyButton.vue",
+      "content": "<script setup lang=\"ts\">\nimport type { HTMLAttributes } from 'vue'\nimport { computed } from 'vue'\nimport { motion, useReducedMotion } from 'motion-v'\nimport { cn } from '@/lib/utils'\n\nexport interface ShinyButtonProps {\n  class?: HTMLAttributes['class']\n}\n\nconst props = defineProps<ShinyButtonProps>()\n\nconst reducedMotion = useReducedMotion()\n\n/** Spring that sweeps the `--x` light across the label, then repeats after a pause. */\nconst transition = computed(() =>\n  reducedMotion.value\n    ? { duration: 0 }\n    : {\n        repeat: Infinity,\n        repeatType: 'loop' as const,\n        repeatDelay: 1,\n        type: 'spring' as const,\n        stiffness: 20,\n        damping: 15,\n        mass: 2,\n        scale: { type: 'spring' as const, stiffness: 200, damping: 5, mass: 0.5 },\n      },\n)\n\nconst labelMask =\n  'linear-gradient(-75deg, var(--primary) calc(var(--x) + 20%), transparent calc(var(--x) + 30%), var(--primary) calc(var(--x) + 100%))'\nconst borderMask = 'linear-gradient(rgb(0,0,0), rgb(0,0,0)) content-box exclude, linear-gradient(rgb(0,0,0), rgb(0,0,0))'\nconst tint = (amount: number) => `color-mix(in oklab, var(--primary) ${amount}%, transparent)`\nconst borderShine = `linear-gradient(-75deg, ${tint(10)} calc(var(--x) + 20%), ${tint(50)} calc(var(--x) + 25%), ${tint(10)} calc(var(--x) + 100%))`\n</script>\n\n<template>\n  <motion.button\n    :class=\"\n      cn(\n        'relative cursor-pointer rounded-lg border px-6 py-2 font-medium backdrop-blur-xl transition-shadow duration-300 ease-in-out hover:shadow dark:bg-[radial-gradient(circle_at_50%_0%,color-mix(in_oklab,var(--primary)_10%,transparent)_0%,transparent_60%)] dark:hover:shadow-[0_0_20px_color-mix(in_oklab,var(--primary)_10%,transparent)]',\n        props.class,\n      )\n    \"\n    :initial=\"{ '--x': '100%', scale: 0.8 }\"\n    :animate=\"{ '--x': '-100%', scale: 1 }\"\n    :while-press=\"{ scale: 0.95 }\"\n    :transition=\"transition\"\n  >\n    <span\n      class=\"relative block size-full text-sm tracking-wide text-[rgb(0,0,0,65%)] uppercase dark:font-light dark:text-[rgb(255,255,255,90%)]\"\n      :style=\"{ maskImage: labelMask, WebkitMaskImage: labelMask }\"\n    >\n      <slot />\n    </span>\n    <span\n      aria-hidden=\"true\"\n      class=\"absolute inset-0 z-10 block rounded-[inherit] p-px\"\n      :style=\"{ mask: borderMask, WebkitMask: borderMask, backgroundImage: borderShine }\"\n    />\n  </motion.button>\n</template>\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "src/registry/ui/shiny-button/index.ts",
+      "content": "export { default as ShinyButton } from './ShinyButton.vue'\nexport type { ShinyButtonProps } from './ShinyButton.vue'\n",
+      "type": "registry:ui"
+    }
+  ],
+  "categories": [
+    "buttons"
+  ],
+  "type": "registry:ui"
+}

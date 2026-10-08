@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "sparkles-text-demo",
+  "title": "Sparkles Text — Default",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/sparkles-text.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/sparkles-text-demo.vue",
+      "content": "<script setup lang=\"ts\">\nimport { SparklesText } from '@/components/ui/sparkles-text'\n</script>\n\n<template>\n  <SparklesText>Magic UI</SparklesText>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

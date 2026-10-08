@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "backlight-video",
+  "title": "Backlight — Video",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/backlight.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/backlight-video.vue",
+      "content": "<script setup lang=\"ts\">\nimport { Backlight } from '@/components/ui/backlight'\n</script>\n\n<template>\n  <Backlight :blur=\"40\" class=\"w-full py-10\">\n    <video\n      class=\"mx-auto aspect-video w-full max-w-md rounded-xl object-cover\"\n      src=\"https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.webm\"\n      autoplay\n      muted\n      loop\n      playsinline\n    />\n  </Backlight>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

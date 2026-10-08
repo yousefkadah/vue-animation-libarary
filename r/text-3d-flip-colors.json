@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "text-3d-flip-colors",
+  "title": "Text 3D Flip — Coloured back face",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/text-3d-flip.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/text-3d-flip-colors.vue",
+      "content": "<script setup lang=\"ts\">\nimport { Text3DFlip } from '@/components/ui/text-3d-flip'\n</script>\n\n<template>\n  <div class=\"flex flex-col items-center gap-3\">\n    <Text3DFlip\n      as=\"h2\"\n      text=\"Hover to flip\"\n      class=\"text-4xl font-bold tracking-tight sm:text-6xl\"\n      text-class=\"bg-background text-foreground\"\n      flip-text-class=\"bg-background text-violet-600 dark:text-violet-400\"\n      rotate-direction=\"right\"\n      stagger-from=\"last\"\n    />\n    <p class=\"text-sm text-muted-foreground\">Rotates right, staggered from the last letter.</p>\n  </div>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

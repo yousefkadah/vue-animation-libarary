@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "animated-circular-progress-bar-demo",
+  "title": "Animated Circular Progress Bar — Default",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/animated-circular-progress-bar.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/animated-circular-progress-bar-demo.vue",
+      "content": "<script setup lang=\"ts\">\nimport { onBeforeUnmount, onMounted, ref } from 'vue'\nimport { AnimatedCircularProgressBar } from '@/components/ui/animated-circular-progress-bar'\n\nconst value = ref(0)\nlet interval: ReturnType<typeof setInterval> | undefined\n\nconst next = (previous: number) => (previous === 100 ? 0 : previous + 10)\n\nonMounted(() => {\n  value.value = next(value.value)\n  interval = setInterval(() => {\n    value.value = next(value.value)\n  }, 2000)\n})\n\nonBeforeUnmount(() => clearInterval(interval))\n</script>\n\n<template>\n  <!-- The track colour switches with the theme through a CSS variable. -->\n  <AnimatedCircularProgressBar\n    :value=\"value\"\n    gauge-primary-color=\"rgb(79 70 229)\"\n    gauge-secondary-color=\"var(--track)\"\n    class=\"[--track:rgba(0,0,0,0.1)] dark:[--track:rgba(255,255,255,0.1)]\"\n  />\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

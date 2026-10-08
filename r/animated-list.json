@@ -1,0 +1,33 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "animated-list",
+  "title": "Animated List",
+  "description": "A list that animates each item in sequence with a delay. Used to showcase notifications or events on your landing page.",
+  "dependencies": [
+    "motion-v"
+  ],
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "src/registry/ui/animated-list/AnimatedList.vue",
+      "content": "<script setup lang=\"ts\">\nimport type { HTMLAttributes, VNode } from 'vue'\nimport { Comment, Fragment, onBeforeUnmount, onMounted, onUpdated, ref, useSlots } from 'vue'\nimport { AnimatePresence } from 'motion-v'\nimport { cn } from '@/lib/utils'\nimport AnimatedListItem from './AnimatedListItem.vue'\n\nexport interface AnimatedListProps {\n  class?: HTMLAttributes['class']\n  /** Milliseconds between two items appearing. */\n  delay?: number\n}\n\nconst props = withDefaults(defineProps<AnimatedListProps>(), {\n  delay: 1000,\n})\n\nconst slots = useSlots()\nconst index = ref(0)\n/** Number of items in the slot, refreshed on every render. */\nlet itemCount = 0\nlet timeout: ReturnType<typeof setTimeout> | undefined\n\nfunction flatten(nodes: VNode[]): VNode[] {\n  return nodes.flatMap((node) => {\n    if (node.type === Fragment && Array.isArray(node.children)) return flatten(node.children as VNode[])\n    if (node.type === Comment) return []\n    return [node]\n  })\n}\n\n/** The items revealed so far, newest first. Each keeps a stable key so it animates in only once. */\nfunction visibleItems() {\n  const items = flatten(slots.default?.() ?? []).map((vnode, position) => ({\n    key: vnode.key ?? position,\n    vnode,\n  }))\n  itemCount = items.length\n  return items.slice(0, index.value + 1).reverse()\n}\n\nfunction scheduleNext() {\n  if (timeout !== undefined || index.value >= itemCount - 1) return\n  timeout = setTimeout(() => {\n    timeout = undefined\n    index.value = (index.value + 1) % Math.max(itemCount, 1)\n    scheduleNext()\n  }, props.delay)\n}\n\nonMounted(scheduleNext)\n// New items added to the slot later continue the sequence.\nonUpdated(scheduleNext)\nonBeforeUnmount(() => clearTimeout(timeout))\n</script>\n\n<template>\n  <div :class=\"cn('flex flex-col items-center gap-4', props.class)\">\n    <AnimatePresence>\n      <AnimatedListItem v-for=\"item in visibleItems()\" :key=\"item.key\">\n        <component :is=\"item.vnode\" />\n      </AnimatedListItem>\n    </AnimatePresence>\n  </div>\n</template>\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "src/registry/ui/animated-list/AnimatedListItem.vue",
+      "content": "<script setup lang=\"ts\">\nimport type { HTMLAttributes } from 'vue'\nimport { motion } from 'motion-v'\nimport { cn } from '@/lib/utils'\n\nexport interface AnimatedListItemProps {\n  class?: HTMLAttributes['class']\n}\n\nconst props = defineProps<AnimatedListItemProps>()\n</script>\n\n<template>\n  <motion.div\n    layout\n    :class=\"cn('mx-auto w-full', props.class)\"\n    :initial=\"{ scale: 0, opacity: 0 }\"\n    :animate=\"{ scale: 1, opacity: 1, originY: 0 }\"\n    :exit=\"{ scale: 0, opacity: 0 }\"\n    :transition=\"{ type: 'spring', stiffness: 350, damping: 40 }\"\n  >\n    <slot />\n  </motion.div>\n</template>\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "src/registry/ui/animated-list/index.ts",
+      "content": "export { default as AnimatedList } from './AnimatedList.vue'\nexport type { AnimatedListProps } from './AnimatedList.vue'\nexport { default as AnimatedListItem } from './AnimatedListItem.vue'\nexport type { AnimatedListItemProps } from './AnimatedListItem.vue'\n",
+      "type": "registry:ui"
+    }
+  ],
+  "categories": [
+    "components"
+  ],
+  "type": "registry:ui"
+}

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "animated-list-demo",
+  "title": "Animated List — Notifications",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/animated-list.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/animated-list-demo.vue",
+      "content": "<script setup lang=\"ts\">\nimport { AnimatedList } from '@/components/ui/animated-list'\nimport { cn } from '@/lib/utils'\n\nconst base = [\n  { name: 'Payment received', description: 'Magic UI', time: '15m ago', icon: '💸', color: '#00C9A7' },\n  { name: 'User signed up', description: 'Magic UI', time: '10m ago', icon: '👤', color: '#FFB800' },\n  { name: 'New message', description: 'Magic UI', time: '5m ago', icon: '💬', color: '#FF3D71' },\n  { name: 'New event', description: 'Magic UI', time: '2m ago', icon: '🗞️', color: '#1E86FF' },\n]\n\nconst notifications = Array.from({ length: 10 }, () => base).flat()\n</script>\n\n<template>\n  <div class=\"relative flex h-[400px] w-full flex-col overflow-hidden p-2\">\n    <AnimatedList>\n      <figure\n        v-for=\"(item, index) in notifications\"\n        :key=\"index\"\n        :class=\"\n          cn(\n            'relative mx-auto min-h-fit w-full max-w-[400px] cursor-pointer overflow-hidden rounded-2xl p-4',\n            'transition-all duration-200 ease-in-out hover:scale-[103%]',\n            'bg-white [box-shadow:0_0_0_1px_rgba(0,0,0,.03),0_2px_4px_rgba(0,0,0,.05),0_12px_24px_rgba(0,0,0,.05)]',\n            'transform-gpu dark:bg-transparent dark:[box-shadow:0_-20px_80px_-20px_#ffffff1f_inset] dark:backdrop-blur-md dark:[border:1px_solid_rgba(255,255,255,.1)]',\n          )\n        \"\n      >\n        <div class=\"flex flex-row items-center gap-3\">\n          <div class=\"flex size-10 items-center justify-center rounded-2xl\" :style=\"{ backgroundColor: item.color }\">\n            <span class=\"text-lg\" aria-hidden=\"true\">{{ item.icon }}</span>\n          </div>\n          <div class=\"flex flex-col overflow-hidden\">\n            <div class=\"flex flex-row items-center text-lg font-medium whitespace-pre dark:text-white\">\n              <span class=\"text-sm sm:text-lg\">{{ item.name }}</span>\n              <span class=\"mx-1\">·</span>\n              <span class=\"text-xs text-gray-500\">{{ item.time }}</span>\n            </div>\n            <p class=\"text-sm font-normal dark:text-white/60\">{{ item.description }}</p>\n          </div>\n        </div>\n      </figure>\n    </AnimatedList>\n\n    <div class=\"pointer-events-none absolute inset-x-0 bottom-0 h-1/4 bg-linear-to-t from-background\" />\n  </div>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

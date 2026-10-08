@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "noise-texture-button",
+  "title": "Noise Texture — Button",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/noise-texture.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/noise-texture-button.vue",
+      "content": "<script setup lang=\"ts\">\nimport { NoiseTexture } from '@/components/ui/noise-texture'\n</script>\n\n<template>\n  <button\n    type=\"button\"\n    class=\"group/button relative h-10 cursor-pointer overflow-hidden rounded-md bg-secondary px-8 text-sm font-medium text-secondary-foreground transition-transform active:scale-[0.98]\"\n  >\n    <span class=\"relative z-10\">Subscribe</span>\n    <NoiseTexture :noise-opacity=\"0.45\" class=\"transition-opacity group-hover/button:opacity-100\" />\n  </button>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

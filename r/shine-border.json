@@ -1,0 +1,43 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "shine-border",
+  "title": "Shine Border",
+  "description": "Shine border is an animated background border effect.",
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "src/registry/ui/shine-border/ShineBorder.vue",
+      "content": "<script setup lang=\"ts\">\nimport type { HTMLAttributes } from 'vue'\nimport { computed } from 'vue'\nimport { cn } from '@/lib/utils'\n\nexport interface ShineBorderProps {\n  class?: HTMLAttributes['class']\n  /** Width of the border in pixels. */\n  borderWidth?: number\n  /** Seconds for one full shine cycle. */\n  duration?: number\n  /** Colour of the shine — one colour or a list that is blended into a gradient. */\n  shineColor?: string | string[]\n}\n\nconst props = withDefaults(defineProps<ShineBorderProps>(), {\n  borderWidth: 1,\n  duration: 14,\n  shineColor: '#000000',\n})\n\nconst colors = computed(() => (Array.isArray(props.shineColor) ? props.shineColor.join(',') : props.shineColor))\n</script>\n\n<template>\n  <div\n    aria-hidden=\"true\"\n    :style=\"{\n      '--border-width': `${props.borderWidth}px`,\n      '--duration': `${props.duration}s`,\n      backgroundImage: `radial-gradient(transparent,transparent, ${colors},transparent,transparent)`,\n      backgroundSize: '300% 300%',\n      mask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',\n      WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',\n      WebkitMaskComposite: 'xor',\n      maskComposite: 'exclude',\n      padding: 'var(--border-width)',\n    }\"\n    :class=\"\n      cn(\n        'pointer-events-none absolute inset-0 size-full rounded-[inherit] will-change-[background-position] motion-safe:animate-shine',\n        props.class,\n      )\n    \"\n  />\n</template>\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "src/registry/ui/shine-border/index.ts",
+      "content": "export { default as ShineBorder } from './ShineBorder.vue'\nexport type { ShineBorderProps } from './ShineBorder.vue'\n",
+      "type": "registry:ui"
+    }
+  ],
+  "cssVars": {
+    "theme": {
+      "animate-shine": "shine var(--duration) infinite linear"
+    }
+  },
+  "css": {
+    "@keyframes shine": {
+      "0%": {
+        "background-position": "0% 0%"
+      },
+      "50%": {
+        "background-position": "100% 100%"
+      },
+      "to": {
+        "background-position": "0% 0%"
+      }
+    }
+  },
+  "categories": [
+    "special-effects"
+  ],
+  "type": "registry:ui"
+}

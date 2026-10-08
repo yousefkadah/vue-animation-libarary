@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "text-3d-flip-demo",
+  "title": "Text 3D Flip — Default",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/text-3d-flip.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/text-3d-flip-demo.vue",
+      "content": "<script setup lang=\"ts\">\nimport { Text3DFlip } from '@/components/ui/text-3d-flip'\n</script>\n\n<template>\n  <Text3DFlip\n    class=\"bg-background font-serif text-2xl sm:text-5xl md:text-[56px]\"\n    text-class=\"bg-background text-foreground\"\n    flip-text-class=\"bg-background text-foreground\"\n    rotate-direction=\"top\"\n    :stagger-duration=\"0.03\"\n    stagger-from=\"first\"\n    :transition=\"{ type: 'spring', damping: 25, stiffness: 160 }\"\n  >\n    Stay hungry, stay foolish\n  </Text3DFlip>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

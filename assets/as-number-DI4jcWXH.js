@@ -1,0 +1,1 @@
+var e=e=>typeof e==`number`?e:parseFloat(e);export{e as t};

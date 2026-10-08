@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "pulsating-button-demo",
+  "title": "Pulsating Button — Pulse",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/pulsating-button.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/pulsating-button-demo.vue",
+      "content": "<script setup lang=\"ts\">\nimport { PulsatingButton } from '@/components/ui/pulsating-button'\n</script>\n\n<template>\n  <PulsatingButton>Join Affiliate Program</PulsatingButton>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

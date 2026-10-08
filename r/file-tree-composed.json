@@ -1,0 +1,19 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "file-tree-composed",
+  "title": "File Tree — Composed",
+  "dependencies": [
+    "@lucide/vue"
+  ],
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/file-tree.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/file-tree-composed.vue",
+      "content": "<script setup lang=\"ts\">\nimport { ChevronsDownUp } from '@lucide/vue'\nimport { CollapseButton, File, Folder, Tree, type TreeViewElement } from '@/components/ui/file-tree'\n\n// Only used by CollapseButton to know which folders exist.\nconst elements: TreeViewElement[] = [\n  {\n    id: '1',\n    name: 'my-app',\n    children: [\n      { id: '2', name: '.github', children: [{ id: '3', name: 'workflows', children: [{ id: '4', name: 'ci.yml' }] }] },\n      {\n        id: '5',\n        name: 'src',\n        children: [\n          { id: '6', name: 'components', children: [{ id: '7', name: 'Dock.vue' }, { id: '8', name: 'Marquee.vue' }] },\n          { id: '9', name: 'App.vue' },\n        ],\n      },\n      { id: '10', name: 'package.json' },\n    ],\n  },\n]\n</script>\n\n<template>\n  <div class=\"relative flex h-[300px] w-full max-w-sm flex-col overflow-hidden rounded-lg border bg-background\">\n    <Tree class=\"p-2\" initial-selected-id=\"7\" :initial-expanded-items=\"['1', '5', '6']\" :elements=\"elements\">\n      <Folder element=\"my-app\" value=\"1\">\n        <Folder element=\".github\" value=\"2\">\n          <Folder element=\"workflows\" value=\"3\">\n            <File value=\"4\"><span>ci.yml</span></File>\n          </Folder>\n        </Folder>\n        <Folder element=\"src\" value=\"5\">\n          <Folder element=\"components\" value=\"6\">\n            <File value=\"7\"><span>Dock.vue</span></File>\n            <File value=\"8\"><span>Marquee.vue</span></File>\n            <File value=\"locked\" :is-selectable=\"false\"><span>Secret.vue</span></File>\n          </Folder>\n          <File value=\"9\"><span>App.vue</span></File>\n        </Folder>\n        <File value=\"10\"><span>package.json</span></File>\n      </Folder>\n      <CollapseButton :elements=\"elements\">\n        <ChevronsDownUp class=\"size-4\" />\n      </CollapseButton>\n    </Tree>\n  </div>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

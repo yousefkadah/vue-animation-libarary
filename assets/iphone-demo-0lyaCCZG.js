@@ -1,0 +1,1 @@
+import{L as e,_ as t,p as n,ut as r,y as i}from"./runtime-core.esm-bundler-De2lc3Ib.js";import{t as a}from"./Iphone-DucBO8MV.js";var o={class:`w-[200px]`},s=i({__name:`iphone-demo`,setup(i){return(i,s)=>(e(),n(`div`,o,[t(r(a))]))}});export{s as default};

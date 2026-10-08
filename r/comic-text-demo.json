@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "comic-text-demo",
+  "title": "Comic Text — Boom",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/comic-text.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/comic-text-demo.vue",
+      "content": "<script setup lang=\"ts\">\nimport { ComicText } from '@/components/ui/comic-text'\n</script>\n\n<template>\n  <div class=\"space-y-8 text-center\">\n    <ComicText :font-size=\"5\">BOOM!</ComicText>\n  </div>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

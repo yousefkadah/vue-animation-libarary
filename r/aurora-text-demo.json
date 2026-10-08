@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "aurora-text-demo",
+  "title": "Aurora Text — Ship beautiful",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/aurora-text.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/aurora-text-demo.vue",
+      "content": "<script setup lang=\"ts\">\nimport { AuroraText } from '@/components/ui/aurora-text'\n</script>\n\n<template>\n  <h1 class=\"text-4xl font-bold tracking-tighter md:text-5xl lg:text-7xl\">Ship <AuroraText>beautiful</AuroraText></h1>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

@@ -1,0 +1,28 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "word-rotate",
+  "title": "Word Rotate",
+  "description": "A vertical rotation of words.",
+  "dependencies": [
+    "motion-v"
+  ],
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "src/registry/ui/word-rotate/WordRotate.vue",
+      "content": "<script setup lang=\"ts\">\nimport type { HTMLAttributes } from 'vue'\nimport { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'\nimport { AnimatePresence, motion, useReducedMotion, type MotionProps } from 'motion-v'\nimport { cn } from '@/lib/utils'\n\nexport interface WordRotateProps {\n  class?: HTMLAttributes['class']\n  /** The words to rotate through. */\n  words: string[]\n  /** Milliseconds each word stays on screen. */\n  duration?: number\n  /** Motion props for each word (`initial`, `animate`, `exit`, `transition`, …). Defaults to a slide-down fade. */\n  motionProps?: MotionProps\n}\n\nconst props = withDefaults(defineProps<WordRotateProps>(), {\n  duration: 2500,\n})\n\nconst DEFAULT_MOTION_PROPS: MotionProps = {\n  initial: { opacity: 0, y: -50 },\n  animate: { opacity: 1, y: 0 },\n  exit: { opacity: 0, y: 50 },\n  transition: { duration: 0.25, ease: 'easeOut' },\n}\n\n/** Reduced motion keeps the rotation but drops the vertical travel. */\nconst REDUCED_MOTION_PROPS: MotionProps = {\n  initial: { opacity: 0 },\n  animate: { opacity: 1 },\n  exit: { opacity: 0 },\n  transition: { duration: 0.25, ease: 'easeOut' },\n}\n\nconst prefersReducedMotion = useReducedMotion()\nconst resolvedMotionProps = computed(\n  () => props.motionProps ?? (prefersReducedMotion.value ? REDUCED_MOTION_PROPS : DEFAULT_MOTION_PROPS),\n)\n\nconst index = ref(0)\nconst currentWord = computed(() => props.words[index.value % Math.max(props.words.length, 1)] ?? '')\n\nlet interval: ReturnType<typeof setInterval> | undefined\n\nfunction start() {\n  clearInterval(interval)\n  interval = setInterval(() => {\n    index.value = (index.value + 1) % Math.max(props.words.length, 1)\n  }, props.duration)\n}\n\nonMounted(() => {\n  start()\n  watch(() => [props.words, props.duration], start)\n})\n\nonBeforeUnmount(() => clearInterval(interval))\n</script>\n\n<template>\n  <div class=\"overflow-hidden py-2\">\n    <AnimatePresence mode=\"wait\">\n      <motion.h1 :key=\"currentWord\" :class=\"cn(props.class)\" v-bind=\"resolvedMotionProps\">\n        {{ currentWord }}\n      </motion.h1>\n    </AnimatePresence>\n  </div>\n</template>\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "src/registry/ui/word-rotate/index.ts",
+      "content": "export { default as WordRotate } from './WordRotate.vue'\nexport type { WordRotateProps } from './WordRotate.vue'\n",
+      "type": "registry:ui"
+    }
+  ],
+  "categories": [
+    "text-animations"
+  ],
+  "type": "registry:ui"
+}

@@ -1,0 +1,25 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "video-text",
+  "title": "Video Text",
+  "description": "A component that displays text with a video playing in the background.",
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "src/registry/ui/video-text/VideoText.vue",
+      "content": "<script setup lang=\"ts\">\nimport type { HTMLAttributes, VNode } from 'vue'\nimport { Comment, computed } from 'vue'\nimport { cn } from '@/lib/utils'\n\nexport interface VideoTextProps {\n  /** The video source URL. */\n  src: string\n  /** The text the video plays inside. Falls back to the text content of the default slot. */\n  text?: string\n  class?: HTMLAttributes['class']\n  /** Start playing as soon as possible. */\n  autoPlay?: boolean\n  /** Mute the video (required by browsers for autoplay). */\n  muted?: boolean\n  /** Restart the video when it ends. */\n  loop?: boolean\n  /** How much of the video to preload. */\n  preload?: 'auto' | 'metadata' | 'none'\n  /** Font size of the text mask. Numbers are read as `vw` of the mask box. */\n  fontSize?: string | number\n  /** Font weight of the text mask. */\n  fontWeight?: string | number\n  /** SVG `text-anchor` of the text mask. */\n  textAnchor?: string\n  /** SVG `dominant-baseline` of the text mask. */\n  dominantBaseline?: string\n  /** Font family of the text mask. */\n  fontFamily?: string\n  /** Element to render. */\n  as?: string\n}\n\nconst props = withDefaults(defineProps<VideoTextProps>(), {\n  autoPlay: true,\n  muted: true,\n  loop: true,\n  preload: 'auto',\n  fontSize: 20,\n  fontWeight: 'bold',\n  textAnchor: 'middle',\n  dominantBaseline: 'middle',\n  fontFamily: 'sans-serif',\n  as: 'div',\n})\n\nconst slots = defineSlots<{ default?: () => unknown }>()\n\n/** Plain text of the slot's vnodes; the mask is an SVG string, so it needs plain text. */\nfunction textFromVNodes(nodes: unknown): string {\n  if (!Array.isArray(nodes)) return ''\n  return nodes\n    .map((node: VNode) => {\n      if (node.type === Comment) return ''\n      if (typeof node.children === 'string') return node.children\n      return textFromVNodes(node.children)\n    })\n    .join('')\n}\n\nconst content = computed(() => props.text ?? textFromVNodes(slots.default?.()).trim())\n\nconst escapeXml = (value: string | number) =>\n  String(value).replace(/[&<>'\"]/g, (char) => `&#${char.charCodeAt(0)};`)\n\nconst maskStyle = computed(() => {\n  const fontSize = typeof props.fontSize === 'number' ? `${props.fontSize}vw` : props.fontSize\n  const svg =\n    `<svg xmlns='http://www.w3.org/2000/svg' width='100%' height='100%'>` +\n    `<text x='50%' y='50%' font-size='${escapeXml(fontSize)}' font-weight='${escapeXml(props.fontWeight)}' ` +\n    `text-anchor='${escapeXml(props.textAnchor)}' dominant-baseline='${escapeXml(props.dominantBaseline)}' ` +\n    `font-family='${escapeXml(props.fontFamily)}'>${escapeXml(content.value)}</text></svg>`\n  const mask = `url(\"data:image/svg+xml,${encodeURIComponent(svg)}\")`\n  // The SVG has no intrinsic size, so it is stretched to exactly the box (`contain` left the\n  // fit to the browser's guess of an aspect ratio).\n  return {\n    maskImage: mask,\n    WebkitMaskImage: mask,\n    maskSize: '100% 100%',\n    WebkitMaskSize: '100% 100%',\n    maskRepeat: 'no-repeat',\n    WebkitMaskRepeat: 'no-repeat',\n    maskPosition: 'center',\n    WebkitMaskPosition: 'center',\n  }\n})\n</script>\n\n<template>\n  <component :is=\"props.as\" :class=\"cn('relative size-full', props.class)\">\n    <!--\n      p-px keeps the video 1px inside the mask box. Chrome snaps the mask tile and the video layer to\n      device pixels independently, which could otherwise leave a 1px unmasked row of video at the\n      top and bottom edges. The glyphs never reach the edges, so nothing visible is lost.\n    -->\n    <div class=\"absolute inset-0 flex items-center justify-center p-px\" :style=\"maskStyle\">\n      <video\n        class=\"h-full w-full object-cover\"\n        :autoplay=\"props.autoPlay\"\n        :muted=\"props.muted\"\n        :loop=\"props.loop\"\n        :preload=\"props.preload\"\n        playsinline\n        aria-hidden=\"true\"\n      >\n        <source :src=\"props.src\" />\n        Your browser does not support the video tag.\n      </video>\n    </div>\n    <span class=\"sr-only\">{{ content }}</span>\n  </component>\n</template>\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "src/registry/ui/video-text/index.ts",
+      "content": "export { default as VideoText } from './VideoText.vue'\nexport type { VideoTextProps } from './VideoText.vue'\n",
+      "type": "registry:ui"
+    }
+  ],
+  "categories": [
+    "text-animations"
+  ],
+  "type": "registry:ui"
+}

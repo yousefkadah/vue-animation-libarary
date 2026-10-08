@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "spinning-text-reverse",
+  "title": "Spinning Text — Reverse",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/spinning-text.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/spinning-text-reverse.vue",
+      "content": "<script setup lang=\"ts\">\nimport { SpinningText } from '@/components/ui/spinning-text'\n</script>\n\n<template>\n  <SpinningText reverse class=\"text-4xl\" :duration=\"4\" :radius=\"6\">learn more • earn more • grow more •</SpinningText>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

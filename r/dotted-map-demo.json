@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "dotted-map-demo",
+  "title": "Dotted Map — Marker overlays",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/dotted-map.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/dotted-map-demo.vue",
+      "content": "<script setup lang=\"ts\">\nimport { DottedMap, type DottedMapMarker } from '@/components/ui/dotted-map'\n\ntype CityMarker = DottedMapMarker & { label: string }\n\nconst markers: CityMarker[] = [\n  { lat: 37.5665, lng: 126.978, size: 2.8, label: 'Seoul' },\n  { lat: 40.7128, lng: -74.006, size: 2.8, label: 'NYC' },\n]\n</script>\n\n<template>\n  <div class=\"relative h-[320px] w-full overflow-hidden rounded-lg border\">\n    <div class=\"absolute inset-0 bg-radial from-transparent to-background to-200%\" />\n    <DottedMap :markers=\"markers\">\n      <template #marker-overlay=\"{ marker, x, y, r }\">\n        <g class=\"pointer-events-none\">\n          <circle :cx=\"x\" :cy=\"y\" :r=\"r * 0.45\" fill=\"white\" />\n          <rect\n            :x=\"x + r * 1.6\"\n            :y=\"y - r * 0.75\"\n            :width=\"marker.label.length * r * 0.56 + r * 1.4\"\n            :height=\"r * 1.5\"\n            :rx=\"r * 0.75\"\n            fill=\"rgba(0,0,0,0.55)\"\n          />\n          <text :x=\"x + r * 2.3\" :y=\"y + r * 0.32\" :font-size=\"r * 0.9\" fill=\"white\">{{ marker.label }}</text>\n        </g>\n      </template>\n    </DottedMap>\n  </div>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

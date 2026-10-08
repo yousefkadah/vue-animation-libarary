@@ -1,0 +1,1 @@
+import{L as e,_ as t,p as n,ut as r,y as i}from"./runtime-core.esm-bundler-De2lc3Ib.js";import{t as a}from"./Safari-Gr5CTgCA.js";var o={class:`w-full max-w-[600px]`},s=i({__name:`safari-demo`,setup(i){return(i,s)=>(e(),n(`div`,o,[t(r(a),{url:`yousefkadah.github.io`})]))}});export{s as default};

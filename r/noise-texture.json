@@ -1,0 +1,25 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "noise-texture",
+  "title": "Noise Texture",
+  "description": "An SVG fractal noise layer using feTurbulence, desaturation, and contrast controls for subtle texture overlays.",
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "src/registry/ui/noise-texture/NoiseTexture.vue",
+      "content": "<script setup lang=\"ts\">\nimport type { HTMLAttributes } from 'vue'\nimport { useId } from 'vue'\nimport { cn } from '@/lib/utils'\n\nexport interface NoiseTextureProps {\n  class?: HTMLAttributes['class']\n  /** `baseFrequency` of the turbulence; higher values give finer grain. */\n  frequency?: number\n  /** `numOctaves` of the turbulence; more octaves add detail at smaller scales. */\n  octaves?: number\n  /** Linear slope applied to each channel after desaturating; controls the contrast of the grain. */\n  slope?: number\n  /** Opacity of the noise layer. */\n  noiseOpacity?: number\n}\n\nconst props = withDefaults(defineProps<NoiseTextureProps>(), {\n  frequency: 0.4,\n  octaves: 6,\n  slope: 0.15,\n  noiseOpacity: 0.6,\n})\n\nconst filterId = useId()\n</script>\n\n<template>\n  <svg\n    aria-hidden=\"true\"\n    xmlns=\"http://www.w3.org/2000/svg\"\n    :class=\"cn('pointer-events-none absolute inset-0 z-0 size-full opacity-50 select-none dark:opacity-[0.75]', props.class)\"\n  >\n    <filter :id=\"filterId\">\n      <feTurbulence type=\"fractalNoise\" :baseFrequency=\"props.frequency\" :numOctaves=\"props.octaves\" stitchTiles=\"stitch\" />\n      <feColorMatrix type=\"saturate\" values=\"0\" />\n      <feComponentTransfer>\n        <feFuncR type=\"linear\" :slope=\"props.slope\" />\n        <feFuncG type=\"linear\" :slope=\"props.slope\" />\n        <feFuncB type=\"linear\" :slope=\"props.slope\" />\n      </feComponentTransfer>\n    </filter>\n    <rect width=\"100%\" height=\"100%\" :filter=\"`url(#${filterId})`\" :opacity=\"props.noiseOpacity\" />\n  </svg>\n</template>\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "src/registry/ui/noise-texture/index.ts",
+      "content": "export { default as NoiseTexture } from './NoiseTexture.vue'\nexport type { NoiseTextureProps } from './NoiseTexture.vue'\n",
+      "type": "registry:ui"
+    }
+  ],
+  "categories": [
+    "backgrounds"
+  ],
+  "type": "registry:ui"
+}

@@ -1,0 +1,28 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "comic-text",
+  "title": "Comic Text",
+  "description": "Comic-book lettering with a halftone fill, thick outline and a pop-in animation.",
+  "dependencies": [
+    "motion-v"
+  ],
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "src/registry/ui/comic-text/ComicText.vue",
+      "content": "<script setup lang=\"ts\">\nimport type { HTMLAttributes } from 'vue'\nimport { computed } from 'vue'\nimport { motion } from 'motion-v'\nimport { cn } from '@/lib/utils'\n\nexport interface ComicTextProps {\n  class?: HTMLAttributes['class']\n  /** Font size in `rem`. The outline and shadows scale with it. */\n  fontSize?: number\n}\n\nconst props = withDefaults(defineProps<ComicTextProps>(), {\n  fontSize: 5,\n})\n\nconst DOT_COLOR = '#EF4444'\nconst BACKGROUND_COLOR = '#FACC15'\n\nconst style = computed(() => ({\n  fontSize: `${props.fontSize}rem`,\n  fontFamily: \"'Bangers', 'Comic Sans MS', 'Impact', sans-serif\",\n  fontWeight: '900',\n  WebkitTextStroke: `${props.fontSize * 0.35}px #000000`,\n  textTransform: 'uppercase' as const,\n  filter: `drop-shadow(5px 5px 0px #000000) drop-shadow(3px 3px 0px ${DOT_COLOR})`,\n  backgroundColor: BACKGROUND_COLOR,\n  backgroundImage: `radial-gradient(circle at 1px 1px, ${DOT_COLOR} 1px, transparent 0)`,\n  backgroundSize: '8px 8px',\n  backgroundClip: 'text',\n  WebkitBackgroundClip: 'text',\n  WebkitTextFillColor: 'transparent',\n}))\n</script>\n\n<template>\n  <motion.div\n    :class=\"cn('text-center select-none', props.class)\"\n    :style=\"style\"\n    :initial=\"{ opacity: 0, scale: 0.8, rotate: -2, skewX: -10 }\"\n    :animate=\"{ opacity: 1, scale: 1, rotate: 0, skewX: -10 }\"\n    :transition=\"{ duration: 0.6, ease: [0.175, 0.885, 0.32, 1.275], type: 'spring' }\"\n  >\n    <slot />\n  </motion.div>\n</template>\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "src/registry/ui/comic-text/index.ts",
+      "content": "export { default as ComicText } from './ComicText.vue'\nexport type { ComicTextProps } from './ComicText.vue'\n",
+      "type": "registry:ui"
+    }
+  ],
+  "categories": [
+    "text-animations"
+  ],
+  "type": "registry:ui"
+}

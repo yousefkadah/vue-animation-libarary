@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "iphone-video",
+  "title": "iPhone — With video",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/iphone.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/iphone-video.vue",
+      "content": "<script setup lang=\"ts\">\nimport { Iphone } from '@/components/ui/iphone'\n</script>\n\n<template>\n  <div class=\"w-[200px]\">\n    <Iphone video-src=\"https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.webm\" />\n  </div>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

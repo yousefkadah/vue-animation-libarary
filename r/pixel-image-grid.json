@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "pixel-image-grid",
+  "title": "Pixel Image — 8×8 grid in colour",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/pixel-image.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/pixel-image-grid.vue",
+      "content": "<script setup lang=\"ts\">\nimport { PixelImage } from '@/components/ui/pixel-image'\n</script>\n\n<template>\n  <PixelImage\n    src=\"https://picsum.photos/seed/vue-magic-ui/800/800\"\n    alt=\"Random stock photo\"\n    grid=\"8x8\"\n    :grayscale-animation=\"false\"\n    :pixel-fade-in-duration=\"600\"\n    :max-animation-delay=\"1600\"\n    class=\"size-64 md:size-80\"\n  />\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

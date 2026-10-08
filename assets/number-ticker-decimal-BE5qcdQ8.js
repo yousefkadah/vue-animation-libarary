@@ -1,0 +1,1 @@
+import{L as e,d as t,ut as n,y as r}from"./runtime-core.esm-bundler-De2lc3Ib.js";import{t as i}from"./NumberTicker-Bcuuiktu.js";var a=r({__name:`number-ticker-decimal`,setup(r){return(r,a)=>(e(),t(n(i),{value:5.67,"decimal-places":2,class:`text-8xl font-medium tracking-tighter whitespace-pre-wrap`}))}});export{a as default};

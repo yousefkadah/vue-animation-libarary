@@ -1,0 +1,19 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "confetti-emoji",
+  "title": "Confetti — Emoji",
+  "dependencies": [
+    "canvas-confetti"
+  ],
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/confetti.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/confetti-emoji.vue",
+      "content": "<script setup lang=\"ts\">\nimport confetti from 'canvas-confetti'\n\nfunction handleClick() {\n  const scalar = 2\n  const unicorn = confetti.shapeFromText({ text: '🦄', scalar })\n\n  const defaults = {\n    spread: 360,\n    ticks: 60,\n    gravity: 0,\n    decay: 0.96,\n    startVelocity: 20,\n    shapes: [unicorn],\n    scalar,\n  }\n\n  const shoot = () => {\n    confetti({ ...defaults, particleCount: 30 })\n    confetti({ ...defaults, particleCount: 5 })\n    confetti({ ...defaults, particleCount: 15, scalar: scalar / 2, shapes: ['circle'] })\n  }\n\n  setTimeout(shoot, 0)\n  setTimeout(shoot, 100)\n  setTimeout(shoot, 200)\n}\n</script>\n\n<template>\n  <div class=\"relative justify-center\">\n    <button type=\"button\" class=\"inline-flex h-9 items-center justify-center rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground shadow-xs transition-colors hover:bg-primary/90\" @click=\"handleClick\">Trigger Emoji</button>\n  </div>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

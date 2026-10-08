@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "text-animate-by-line",
+  "title": "Text Animate — Fade in by line",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/text-animate.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/text-animate-by-line.vue",
+      "content": "<script setup lang=\"ts\">\nimport { TextAnimate } from '@/components/ui/text-animate'\n\nconst poem = `Fade in by line, one at a time.\nEach line is its own segment,\nso long copy reads like a story.`\n</script>\n\n<template>\n  <TextAnimate :text=\"poem\" animation=\"fadeIn\" by=\"line\" :duration=\"0.9\" class=\"text-center text-2xl leading-relaxed font-medium\" />\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "hero-video-dialog-styles",
+  "title": "Hero Video Dialog — All animation styles",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/hero-video-dialog.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/hero-video-dialog-styles.vue",
+      "content": "<script setup lang=\"ts\">\nimport { ref } from 'vue'\nimport { HeroVideoDialog, type HeroVideoAnimationStyle } from '@/components/ui/hero-video-dialog'\n\nconst styles: HeroVideoAnimationStyle[] = [\n  'from-center',\n  'from-bottom',\n  'from-top',\n  'from-left',\n  'from-right',\n  'fade',\n  'top-in-bottom-out',\n  'left-in-right-out',\n]\nconst selected = ref<HeroVideoAnimationStyle>('from-left')\n</script>\n\n<template>\n  <div class=\"flex w-full max-w-xl flex-col gap-4\">\n    <div class=\"flex flex-wrap justify-center gap-1.5\" role=\"radiogroup\" aria-label=\"Animation style\">\n      <button\n        v-for=\"style in styles\"\n        :key=\"style\"\n        type=\"button\"\n        role=\"radio\"\n        :aria-checked=\"selected === style\"\n        class=\"rounded-full border px-3 py-1 font-mono text-xs transition-colors hover:bg-accent aria-checked:border-primary aria-checked:bg-primary aria-checked:text-primary-foreground\"\n        @click=\"selected = style\"\n      >\n        {{ style }}\n      </button>\n    </div>\n    <HeroVideoDialog\n      :animation-style=\"selected\"\n      video-src=\"https://www.youtube.com/embed/OrxmtDw4pVI\"\n      thumbnail-src=\"https://i.ytimg.com/vi/OrxmtDw4pVI/maxresdefault.jpg\"\n      thumbnail-alt=\"Vue.js: The Documentary\"\n    />\n  </div>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

@@ -1,0 +1,1 @@
+import{L as e,d as t,ut as n,y as r}from"./runtime-core.esm-bundler-De2lc3Ib.js";import{t as i}from"./WordRotate-igAxtLH-.js";var a=r({__name:`word-rotate-demo`,setup(r){return(r,a)=>(e(),t(n(i),{class:`text-4xl font-bold text-black dark:text-white`,words:[`Word`,`Rotate`]}))}});export{a as default};

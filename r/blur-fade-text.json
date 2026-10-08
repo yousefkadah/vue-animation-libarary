@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "blur-fade-text",
+  "title": "Blur Fade — Text",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/blur-fade.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/blur-fade-text.vue",
+      "content": "<script setup lang=\"ts\">\nimport { BlurFade } from '@/components/ui/blur-fade'\n</script>\n\n<template>\n  <section>\n    <BlurFade :delay=\"0.25\" in-view>\n      <h2 class=\"text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none\">Hello World 👋</h2>\n    </BlurFade>\n    <BlurFade :delay=\"0.5\" in-view>\n      <span class=\"text-xl tracking-tighter text-pretty sm:text-3xl xl:text-4xl/none\">Nice to meet you</span>\n    </BlurFade>\n  </section>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "highlighter-actions",
+  "title": "Highlighter — All actions",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/highlighter.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/highlighter-actions.vue",
+      "content": "<script setup lang=\"ts\">\nimport { Highlighter } from '@/components/ui/highlighter'\n</script>\n\n<template>\n  <p class=\"max-w-md text-center text-lg leading-loose\">\n    You can\n    <Highlighter action=\"box\" color=\"#8B5CF6\">box</Highlighter>\n    a word,\n    <Highlighter action=\"circle\" color=\"#F43F5E\" :padding=\"6\">circle</Highlighter>\n    it,\n    <Highlighter action=\"strike-through\" color=\"#EF4444\">strike it out</Highlighter>,\n    <Highlighter action=\"crossed-off\" color=\"#F97316\">cross it off</Highlighter>,\n    <Highlighter action=\"underline\" color=\"#10B981\" :stroke-width=\"2\">underline</Highlighter>\n    it or\n    <Highlighter action=\"bracket\" color=\"#0EA5E9\" :padding=\"4\">bracket</Highlighter>\n    a whole thought.\n  </p>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

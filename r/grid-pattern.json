@@ -1,0 +1,25 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "grid-pattern",
+  "title": "Grid Pattern",
+  "description": "A background grid pattern made with SVGs, fully customizable using Tailwind CSS.",
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "src/registry/ui/grid-pattern/GridPattern.vue",
+      "content": "<script setup lang=\"ts\">\nimport type { HTMLAttributes } from 'vue'\nimport { useId } from 'vue'\nimport { cn } from '@/lib/utils'\n\nexport interface GridPatternProps {\n  class?: HTMLAttributes['class']\n  /** Width of one grid cell in pixels. */\n  width?: number\n  /** Height of one grid cell in pixels. */\n  height?: number\n  /** Horizontal offset of the pattern in pixels. */\n  x?: number\n  /** Vertical offset of the pattern in pixels. */\n  y?: number\n  /** `[column, row]` cells to fill in. */\n  squares?: Array<[x: number, y: number]>\n  /** SVG `stroke-dasharray` of the grid lines, e.g. `4 2` for dashes. */\n  strokeDasharray?: string\n}\n\nconst props = withDefaults(defineProps<GridPatternProps>(), {\n  width: 40,\n  height: 40,\n  x: -1,\n  y: -1,\n  strokeDasharray: '0',\n})\n\nconst id = useId()\n</script>\n\n<template>\n  <svg\n    aria-hidden=\"true\"\n    :class=\"cn('pointer-events-none absolute inset-0 h-full w-full fill-gray-400/30 stroke-gray-400/30', props.class)\"\n  >\n    <defs>\n      <pattern :id=\"id\" :width=\"props.width\" :height=\"props.height\" patternUnits=\"userSpaceOnUse\" :x=\"props.x\" :y=\"props.y\">\n        <path :d=\"`M.5 ${props.height}V.5H${props.width}`\" fill=\"none\" :stroke-dasharray=\"props.strokeDasharray\" />\n      </pattern>\n    </defs>\n    <rect width=\"100%\" height=\"100%\" stroke-width=\"0\" :fill=\"`url(#${id})`\" />\n    <svg v-if=\"props.squares?.length\" :x=\"props.x\" :y=\"props.y\" class=\"overflow-visible\">\n      <rect\n        v-for=\"([squareX, squareY], index) in props.squares\"\n        :key=\"`${index}-${squareX}-${squareY}`\"\n        stroke-width=\"0\"\n        :width=\"props.width - 1\"\n        :height=\"props.height - 1\"\n        :x=\"squareX * props.width + 1\"\n        :y=\"squareY * props.height + 1\"\n      />\n    </svg>\n  </svg>\n</template>\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "src/registry/ui/grid-pattern/index.ts",
+      "content": "export { default as GridPattern } from './GridPattern.vue'\nexport type { GridPatternProps } from './GridPattern.vue'\n",
+      "type": "registry:ui"
+    }
+  ],
+  "categories": [
+    "backgrounds"
+  ],
+  "type": "registry:ui"
+}

@@ -1,0 +1,43 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "typing-animation",
+  "title": "Typing Animation",
+  "description": "Characters appearing in typed animation.",
+  "dependencies": [
+    "motion-v"
+  ],
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "src/registry/ui/typing-animation/TypingAnimation.vue",
+      "content": "<script setup lang=\"ts\">\nimport type { HTMLAttributes, VNode } from 'vue'\nimport { Comment, computed, onBeforeUnmount, ref, watch } from 'vue'\nimport { motion, useInView } from 'motion-v'\nimport { cn } from '@/lib/utils'\n\nexport interface TypingAnimationProps {\n  /** A single string to type. Falls back to the text content of the default slot. */\n  text?: string\n  /** Strings to type and delete in sequence. Takes precedence over `text`. */\n  words?: string[]\n  class?: HTMLAttributes['class']\n  /** Milliseconds per character. Used as the typing speed when `typeSpeed` is not set. */\n  duration?: number\n  /** Milliseconds per typed character. Defaults to `duration`. */\n  typeSpeed?: number\n  /** Milliseconds per deleted character. Defaults to half the typing speed. */\n  deleteSpeed?: number\n  /** Milliseconds to wait before typing starts. */\n  delay?: number\n  /** Milliseconds to pause on a finished word before deleting it. */\n  pauseDelay?: number\n  /** Keep cycling through the words forever. */\n  loop?: boolean\n  /** Element to render. */\n  as?: 'article' | 'div' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'li' | 'p' | 'section' | 'span'\n  /** Wait until the element scrolls into view before typing. */\n  startOnView?: boolean\n  /** Show the typing cursor. */\n  showCursor?: boolean\n  /** Blink the cursor. */\n  blinkCursor?: boolean\n  /** Cursor glyph. */\n  cursorStyle?: 'line' | 'block' | 'underscore'\n}\n\nconst props = withDefaults(defineProps<TypingAnimationProps>(), {\n  duration: 100,\n  delay: 0,\n  pauseDelay: 1000,\n  loop: false,\n  as: 'span',\n  startOnView: true,\n  showCursor: true,\n  blinkCursor: true,\n  cursorStyle: 'line',\n})\n\nconst slots = defineSlots<{ default?: () => unknown }>()\n\n/** Plain text of the slot's vnodes, so `<TypingAnimation>Hello</TypingAnimation>` works like the `text` prop. */\nfunction textFromVNodes(nodes: unknown): string {\n  if (!Array.isArray(nodes)) return ''\n  return nodes\n    .map((node: VNode) => {\n      if (node.type === Comment) return ''\n      if (typeof node.children === 'string') return node.children\n      return textFromVNodes(node.children)\n    })\n    .join('')\n}\n\nconst elementRef = ref()\nconst isInView = useInView(elementRef, { amount: 0.3, once: true })\n\nconst displayedText = ref('')\nconst currentWordIndex = ref(0)\nconst currentCharIndex = ref(0)\nconst phase = ref<'typing' | 'pause' | 'deleting'>('typing')\n\nconst singleText = computed(() => props.text ?? textFromVNodes(slots.default?.()).trim())\nconst wordsToAnimate = computed(() => props.words ?? (singleText.value ? [singleText.value] : []))\nconst hasMultipleWords = computed(() => wordsToAnimate.value.length > 1)\nconst typingSpeed = computed(() => props.typeSpeed ?? props.duration)\nconst deletingSpeed = computed(() => props.deleteSpeed ?? typingSpeed.value / 2)\nconst shouldStart = computed(() => (props.startOnView ? isInView.value : true))\nconst animationSourceKey = computed(() => (props.words ? props.words.join('\\u0000') : singleText.value))\n\nwatch(animationSourceKey, () => {\n  displayedText.value = ''\n  currentWordIndex.value = 0\n  currentCharIndex.value = 0\n  phase.value = 'typing'\n})\n\nlet timeout: ReturnType<typeof setTimeout> | undefined\n\nfunction step() {\n  const graphemes = Array.from(wordsToAnimate.value[currentWordIndex.value] ?? '')\n  switch (phase.value) {\n    case 'typing':\n      if (currentCharIndex.value < graphemes.length) {\n        displayedText.value = graphemes.slice(0, currentCharIndex.value + 1).join('')\n        currentCharIndex.value++\n      } else if (hasMultipleWords.value || props.loop) {\n        const isLastWord = currentWordIndex.value === wordsToAnimate.value.length - 1\n        if (!isLastWord || props.loop) phase.value = 'pause'\n      }\n      break\n    case 'pause':\n      phase.value = 'deleting'\n      break\n    case 'deleting':\n      if (currentCharIndex.value > 0) {\n        displayedText.value = graphemes.slice(0, currentCharIndex.value - 1).join('')\n        currentCharIndex.value--\n      } else {\n        currentWordIndex.value = (currentWordIndex.value + 1) % wordsToAnimate.value.length\n        phase.value = 'typing'\n      }\n      break\n  }\n}\n\n/** Re-schedules the next keystroke whenever the typing state changes (the React effect's dependency list). */\nwatch(\n  [\n    shouldStart,\n    phase,\n    currentCharIndex,\n    currentWordIndex,\n    displayedText,\n    wordsToAnimate,\n    () => props.loop,\n    typingSpeed,\n    deletingSpeed,\n    () => props.pauseDelay,\n    () => props.delay,\n  ],\n  (_value, _oldValue, onCleanup) => {\n    if (!shouldStart.value || wordsToAnimate.value.length === 0) return\n    const timeoutDelay =\n      props.delay > 0 && displayedText.value === ''\n        ? props.delay\n        : phase.value === 'typing'\n          ? typingSpeed.value\n          : phase.value === 'deleting'\n            ? deletingSpeed.value\n            : props.pauseDelay\n    timeout = setTimeout(step, timeoutDelay)\n    const scheduled = timeout\n    onCleanup(() => clearTimeout(scheduled))\n  },\n  { immediate: true },\n)\n\nonBeforeUnmount(() => clearTimeout(timeout))\n\nconst currentWordLength = computed(() => Array.from(wordsToAnimate.value[currentWordIndex.value] ?? '').length)\n\nconst isComplete = computed(\n  () =>\n    !props.loop &&\n    currentWordIndex.value === wordsToAnimate.value.length - 1 &&\n    currentCharIndex.value >= currentWordLength.value &&\n    phase.value !== 'deleting',\n)\n\nconst shouldShowCursor = computed(\n  () =>\n    props.showCursor &&\n    !isComplete.value &&\n    (hasMultipleWords.value || props.loop || currentCharIndex.value < currentWordLength.value),\n)\n\n/** The whole text for assistive tech, which would otherwise hear every keystroke. */\nconst accessibleText = computed(() => wordsToAnimate.value.join(', '))\n\nconst cursorChar = computed(() => ({ line: '|', block: '▌', underscore: '_' })[props.cursorStyle] ?? '|')\n</script>\n\n<template>\n  <motion.span\n    ref=\"elementRef\"\n    :as=\"props.as\"\n    :class=\"cn('leading-20 tracking-[-0.02em]', props.as === 'span' && 'inline-block', props.class)\"\n  >\n    <span class=\"sr-only\">{{ accessibleText }}</span>\n    <span aria-hidden=\"true\">{{ displayedText }}<span\n        v-if=\"shouldShowCursor\"\n        :class=\"cn('inline-block', props.blinkCursor && 'animate-blink-cursor motion-reduce:animate-none')\"\n      >{{ cursorChar }}</span></span>\n  </motion.span>\n</template>\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "src/registry/ui/typing-animation/index.ts",
+      "content": "export { default as TypingAnimation } from './TypingAnimation.vue'\nexport type { TypingAnimationProps } from './TypingAnimation.vue'\n",
+      "type": "registry:ui"
+    }
+  ],
+  "cssVars": {
+    "theme": {
+      "animate-blink-cursor": "blink-cursor 1.2s step-end infinite"
+    }
+  },
+  "css": {
+    "@keyframes blink-cursor": {
+      "0%, 49%": {
+        "opacity": "1"
+      },
+      "50%, 100%": {
+        "opacity": "0"
+      }
+    }
+  },
+  "categories": [
+    "text-animations"
+  ],
+  "type": "registry:ui"
+}

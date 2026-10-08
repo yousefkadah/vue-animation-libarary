@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "scroll-based-velocity-tags",
+  "title": "Scroll Based Velocity — Standalone rows",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/scroll-based-velocity.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/scroll-based-velocity-tags.vue",
+      "content": "<script setup lang=\"ts\">\nimport { ScrollVelocityRow } from '@/components/ui/scroll-based-velocity'\n\nconst tags = ['Vue 3', 'Nuxt', 'Tailwind CSS', 'Motion', 'TypeScript', 'Vite', 'shadcn-vue']\n</script>\n\n<template>\n  <div class=\"relative flex w-full flex-col gap-3 overflow-hidden py-4\">\n    <!-- A standalone row tracks the page's scroll velocity on its own. -->\n    <ScrollVelocityRow :base-velocity=\"4\">\n      <span\n        v-for=\"tag in tags\"\n        :key=\"tag\"\n        class=\"mx-1.5 rounded-full border bg-secondary px-4 py-1.5 text-sm font-medium text-secondary-foreground\"\n      >\n        {{ tag }}\n      </span>\n    </ScrollVelocityRow>\n    <!-- Constant speed: ignores scrolling entirely. -->\n    <ScrollVelocityRow :base-velocity=\"4\" :direction=\"-1\" :scroll-reactivity=\"false\">\n      <span\n        v-for=\"tag in [...tags].reverse()\"\n        :key=\"tag\"\n        class=\"mx-1.5 rounded-full border border-dashed px-4 py-1.5 text-sm font-medium text-muted-foreground\"\n      >\n        {{ tag }}\n      </span>\n    </ScrollVelocityRow>\n    <div class=\"pointer-events-none absolute inset-y-0 left-0 w-1/5 bg-linear-to-r from-background\" />\n    <div class=\"pointer-events-none absolute inset-y-0 right-0 w-1/5 bg-linear-to-l from-background\" />\n  </div>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

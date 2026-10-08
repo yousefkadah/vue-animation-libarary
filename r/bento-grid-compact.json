@@ -1,0 +1,19 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "bento-grid-compact",
+  "title": "Bento Grid — Compact",
+  "dependencies": [
+    "@lucide/vue"
+  ],
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/bento-grid.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/bento-grid-compact.vue",
+      "content": "<script setup lang=\"ts\">\nimport { Gauge, Lock, Palette, Zap } from '@lucide/vue'\nimport { BentoCard, BentoGrid } from '@/components/ui/bento-grid'\n</script>\n\n<template>\n  <BentoGrid class=\"max-w-2xl auto-rows-[14rem] grid-cols-2\">\n    <BentoCard\n      :icon=\"Zap\"\n      name=\"Fast by default\"\n      description=\"Pure CSS where it can be, Motion where it must.\"\n      href=\"#\"\n      cta=\"Benchmarks\"\n      class=\"col-span-2 sm:col-span-1\"\n    >\n      <template #background>\n        <div class=\"absolute inset-0 bg-linear-to-br from-yellow-300/30 via-transparent to-transparent\" aria-hidden=\"true\" />\n      </template>\n    </BentoCard>\n    <BentoCard\n      :icon=\"Palette\"\n      name=\"Themeable\"\n      description=\"Every colour comes from your shadcn tokens.\"\n      href=\"#\"\n      cta=\"Theming\"\n      class=\"col-span-2 sm:col-span-1\"\n    >\n      <template #background>\n        <div class=\"absolute inset-0 bg-linear-to-bl from-pink-300/30 via-transparent to-transparent\" aria-hidden=\"true\" />\n      </template>\n    </BentoCard>\n    <BentoCard\n      :icon=\"Lock\"\n      name=\"Accessible\"\n      description=\"Reduced motion and screen readers are first-class.\"\n      href=\"#\"\n      cta=\"Accessibility\"\n      class=\"col-span-2 sm:col-span-1\"\n    >\n      <template #background>\n        <div class=\"absolute inset-0 bg-linear-to-tr from-emerald-300/30 via-transparent to-transparent\" aria-hidden=\"true\" />\n      </template>\n    </BentoCard>\n    <BentoCard\n      :icon=\"Gauge\"\n      name=\"Tiny\"\n      description=\"Copy only what you use — no runtime to install.\"\n      href=\"#\"\n      cta=\"Install\"\n      class=\"col-span-2 sm:col-span-1\"\n    >\n      <template #background>\n        <div class=\"absolute inset-0 bg-linear-to-tl from-sky-300/30 via-transparent to-transparent\" aria-hidden=\"true\" />\n      </template>\n    </BentoCard>\n  </BentoGrid>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

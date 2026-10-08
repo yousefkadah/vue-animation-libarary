@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "video-text-typography",
+  "title": "Video Text — Custom typography",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/video-text.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/video-text-typography.vue",
+      "content": "<script setup lang=\"ts\">\nimport { VideoText } from '@/components/ui/video-text'\n</script>\n\n<template>\n  <div class=\"flex w-full max-w-xl flex-col items-center gap-2\">\n    <div class=\"relative h-[180px] w-full overflow-hidden\">\n      <VideoText\n        as=\"h2\"\n        text=\"Spring\"\n        src=\"https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.webm\"\n        :font-size=\"24\"\n        :font-weight=\"900\"\n        font-family=\"Georgia, 'Times New Roman', serif\"\n      />\n    </div>\n    <p class=\"text-sm text-muted-foreground\">Any font, weight or size: the mask is plain SVG text.</p>\n  </div>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

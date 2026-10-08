@@ -1,0 +1,1 @@
+import{Q as e,it as t,ut as n}from"./runtime-core.esm-bundler-De2lc3Ib.js";import{t as r}from"./viewport-DzAwJFCB.js";import{t as i}from"./dist-DaUdHELn.js";function a(a,o){let s=t(!1);return e(e=>{let t=n(o)||{},{once:c}=t,l=i(a);if(!l||c&&s.value)return;let u=r(l,()=>(s.value=!0,c?void 0:()=>{s.value=!1}),{...t,root:n(t.root)});e(()=>{u()})},{flush:`post`}),s}export{a as t};

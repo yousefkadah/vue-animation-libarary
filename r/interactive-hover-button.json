@@ -1,0 +1,28 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "interactive-hover-button",
+  "title": "Interactive Hover Button",
+  "description": "Interactive hover button: a dot grows to fill the button and the label slides out for an arrow.",
+  "dependencies": [
+    "@lucide/vue"
+  ],
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "src/registry/ui/interactive-hover-button/InteractiveHoverButton.vue",
+      "content": "<script setup lang=\"ts\">\nimport type { HTMLAttributes } from 'vue'\nimport { ArrowRight } from '@lucide/vue'\nimport { cn } from '@/lib/utils'\n\nexport interface InteractiveHoverButtonProps {\n  class?: HTMLAttributes['class']\n}\n\nconst props = defineProps<InteractiveHoverButtonProps>()\n</script>\n\n<template>\n  <button\n    :class=\"\n      cn(\n        'group relative w-auto cursor-pointer overflow-hidden rounded-full border bg-background p-2 px-6 text-center font-semibold',\n        props.class,\n      )\n    \"\n  >\n    <span class=\"flex items-center justify-center gap-2\">\n      <span class=\"size-2 rounded-full bg-primary transition-all duration-300 group-hover:scale-[100.8]\" />\n      <span class=\"inline-block transition-all duration-300 group-hover:translate-x-12 group-hover:opacity-0\">\n        <slot />\n      </span>\n    </span>\n    <span\n      aria-hidden=\"true\"\n      class=\"absolute top-0 z-10 flex size-full translate-x-12 items-center justify-center gap-2 text-primary-foreground opacity-0 transition-all duration-300 group-hover:-translate-x-5 group-hover:opacity-100\"\n    >\n      <span><slot /></span>\n      <ArrowRight />\n    </span>\n  </button>\n</template>\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "src/registry/ui/interactive-hover-button/index.ts",
+      "content": "export { default as InteractiveHoverButton } from './InteractiveHoverButton.vue'\nexport type { InteractiveHoverButtonProps } from './InteractiveHoverButton.vue'\n",
+      "type": "registry:ui"
+    }
+  ],
+  "categories": [
+    "buttons"
+  ],
+  "type": "registry:ui"
+}
