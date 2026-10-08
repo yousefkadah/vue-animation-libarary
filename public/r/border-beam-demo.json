@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "border-beam-demo",
+  "title": "Border Beam — Login card",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/border-beam.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/border-beam-demo.vue",
+      "content": "<script setup lang=\"ts\">\nimport { BorderBeam } from '@/components/ui/border-beam'\n</script>\n\n<template>\n  <div class=\"relative w-[350px] overflow-hidden rounded-xl border bg-card text-card-foreground shadow-sm\">\n    <div class=\"space-y-1.5 p-6\">\n      <h3 class=\"text-lg font-semibold\">Login</h3>\n      <p class=\"text-sm text-muted-foreground\">Enter your credentials to access your account.</p>\n    </div>\n    <form class=\"grid gap-4 px-6\" @submit.prevent>\n      <label class=\"grid gap-2 text-sm font-medium\">\n        Email\n        <input type=\"email\" placeholder=\"you@example.com\" class=\"h-9 rounded-md border bg-transparent px-3 text-sm font-normal outline-none focus-visible:ring-2 focus-visible:ring-ring/50\" />\n      </label>\n      <label class=\"grid gap-2 text-sm font-medium\">\n        Password\n        <input type=\"password\" placeholder=\"Enter your password\" class=\"h-9 rounded-md border bg-transparent px-3 text-sm font-normal outline-none focus-visible:ring-2 focus-visible:ring-ring/50\" />\n      </label>\n    </form>\n    <div class=\"flex justify-between p-6\">\n      <button class=\"h-9 rounded-md border px-4 text-sm font-medium hover:bg-accent\">Register</button>\n      <button class=\"h-9 rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground hover:bg-primary/90\">Login</button>\n    </div>\n    <BorderBeam :duration=\"8\" :size=\"100\" />\n  </div>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

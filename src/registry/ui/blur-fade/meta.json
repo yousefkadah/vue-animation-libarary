@@ -1,0 +1,31 @@
+{
+  "name": "blur-fade",
+  "title": "Blur Fade",
+  "description": "Blur fade in and out animation. Used to smoothly fade in and out content.",
+  "category": "animations",
+  "exports": ["BlurFade"],
+  "dependencies": ["motion-v"],
+  "usage": "<script setup lang=\"ts\">\nimport { BlurFade } from '@/components/ui/blur-fade'\n</script>\n\n<template>\n  <BlurFade :delay=\"0.25\" in-view>\n    <h2 class=\"text-3xl font-bold\">Hello world 👋</h2>\n  </BlurFade>\n</template>",
+  "examples": [
+    { "name": "blur-fade-demo", "title": "Image gallery" },
+    { "name": "blur-fade-text", "title": "Text" }
+  ],
+  "api": [
+    {
+      "name": "BlurFade",
+      "props": [
+        { "name": "class", "type": "string", "description": "Classes for the wrapper." },
+        { "name": "variants", "type": "Variants", "description": "Custom hidden / visible variants." },
+        { "name": "duration", "type": "number", "default": "0.4", "description": "Animation duration in seconds." },
+        { "name": "delay", "type": "number", "default": "0", "description": "Delay in seconds. Combine with an index for a stagger." },
+        { "name": "offset", "type": "number", "default": "6", "description": "Travel distance in pixels." },
+        { "name": "direction", "type": "\"up\" | \"down\" | \"left\" | \"right\"", "default": "\"down\"", "description": "Direction the content travels from." },
+        { "name": "inView", "type": "boolean", "default": "false", "description": "Animate when scrolled into view instead of on mount." },
+        { "name": "inViewMargin", "type": "string", "default": "\"-50px\"", "description": "Root margin for the in-view check." },
+        { "name": "blur", "type": "string", "default": "\"6px\"", "description": "Initial blur." },
+        { "name": "as", "type": "string", "default": "\"div\"", "description": "Element to render." }
+      ],
+      "slots": [{ "name": "default", "description": "Content to animate." }]
+    }
+  ]
+}

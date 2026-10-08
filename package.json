@@ -1,31 +1,24 @@
 {
   "name": "@yousefkadah/vue-magic-ui",
   "version": "2.0.0",
-  "description": "A modern Vue 3 animated component library with spring physics, gesture support, and advanced animations",
-  "main": "dist/index.cjs",
-  "module": "dist/index.mjs",
-  "types": "dist/index.d.ts",
-  "style": "dist/style.css",
+  "description": "70+ free and open-source animated components for Vue 3, built with Tailwind CSS and Motion. Copy-paste them with the shadcn-vue CLI or install from npm.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.cjs",
-      "types": "./dist/index.d.ts"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
     },
-    "./composables": {
-      "import": "./dist/composables.mjs",
-      "require": "./dist/composables.cjs",
-      "types": "./dist/composables.d.ts"
-    },
-    "./utils": {
-      "import": "./dist/utils.mjs",
-      "require": "./dist/utils.cjs",
-      "types": "./dist/utils.d.ts"
-    },
-    "./dist/style.css": "./dist/style.css"
+    "./theme.css": "./dist/theme.css",
+    "./package.json": "./package.json"
   },
   "files": [
     "dist"
+  ],
+  "sideEffects": [
+    "*.css"
   ],
   "repository": {
     "type": "git",
@@ -36,80 +29,71 @@
     "url": "https://github.com/yousefkadah/vue-animation-libarary/issues"
   },
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "build:lib": "vue-tsc --noEmit && vite build --mode lib",
-    "build:demo": "vite build",
+    "dev": "npm run registry:meta && vite",
+    "build": "npm run registry && npm run build:site && npm run build:lib",
+    "build:site": "vite build",
+    "build:lib": "vite build --mode lib",
+    "registry": "npm run registry:meta && shadcn-vue build --output public/r",
+    "registry:meta": "node scripts/build-registry.mjs",
+    "typecheck": "vue-tsc --noEmit",
+    "test": "vitest run",
     "preview": "vite preview",
-    "deploy": "npm run build:demo && gh-pages -d dist",
-    "docs:dev": "vitepress dev docs",
-    "docs:build": "vitepress build docs",
-    "docs:preview": "vitepress preview docs",
-    "type-check": "vue-tsc --noEmit",
-    "lint": "eslint src --ext .vue,.js,.ts,.jsx,.tsx",
-    "lint:fix": "eslint src --ext .vue,.js,.ts,.jsx,.tsx --fix",
-    "test": "vitest",
-    "test:ui": "vitest --ui",
-    "test:coverage": "vitest --coverage"
+    "deploy": "npm run registry && npm run build:site && gh-pages -d dist-site --dotfiles",
+    "prepublishOnly": "npm run registry:meta && npm run build:lib"
   },
   "keywords": [
     "vue",
     "vue3",
+    "nuxt",
     "animation",
+    "animated-components",
+    "motion",
+    "motion-v",
+    "tailwindcss",
+    "shadcn-vue",
+    "magic-ui",
+    "ui-library",
     "components",
-    "ui",
-    "library",
-    "typescript",
-    "animated",
-    "magic",
-    "effects",
-    "spring",
-    "physics",
-    "gestures",
-    "scroll",
-    "framer-motion",
-    "modern",
-    "performance",
-    "accessibility",
-    "composables",
-    "motion"
+    "design-engineering"
   ],
   "author": "Yousef Kadah",
   "license": "MIT",
-  "devDependencies": {
-    "@types/node": "^20.10.0",
-    "@vitejs/plugin-vue": "^4.5.0",
-    "@vue/eslint-config-typescript": "^12.0.0",
-    "@vue/tsconfig": "^0.4.0",
-    "eslint": "^8.53.0",
-    "eslint-plugin-vue": "^9.18.0",
-    "gh-pages": "^6.3.0",
-    "terser": "^5.44.1",
-    "typescript": "^5.3.3",
-    "vite": "^5.0.0",
-    "vite-plugin-dts": "^4.5.4",
-    "vitepress": "^1.0.0",
-    "vitest": "^1.0.0",
-    "vue-tsc": "^2.0.29"
+  "peerDependencies": {
+    "vue": "^3.5.0"
   },
   "dependencies": {
-    "vue": "^3.0.0",
-    "vue-router": "^4.5.1"
+    "@lucide/vue": "^1.53.0",
+    "@vueuse/core": "^15.0.0",
+    "canvas-confetti": "^1.9.4",
+    "clsx": "^2.1.1",
+    "cobe": "^2.0.1",
+    "motion-v": "^2.6.0",
+    "rough-notation": "^0.5.1",
+    "tailwind-merge": "^3.7.0"
   },
-  "peerDependencies": {
-    "vue": "^3.0.0"
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "@types/canvas-confetti": "^1.9.0",
+    "@types/node": "^22.15.0",
+    "@vitejs/plugin-vue": "^6.0.9",
+    "@vue/test-utils": "^2.5.1",
+    "gh-pages": "^6.3.0",
+    "happy-dom": "^20.14.5",
+    "shadcn-vue": "^2.8.2",
+    "shiki": "^4.5.0",
+    "tailwindcss": "^4.3.3",
+    "typescript": "~5.9.3",
+    "vite": "^8.3.4",
+    "vite-plugin-dts": "^4.5.4",
+    "vitest": "^5.0.3",
+    "vue": "^3.5.43",
+    "vue-router": "^4.6.4",
+    "vue-tsc": "^3.3.12"
   },
   "publishConfig": {
     "access": "public"
   },
-  "sideEffects": false,
   "engines": {
-    "node": ">=16.0.0"
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not dead",
-    "not ie 11"
-  ]
+    "node": ">=20"
+  }
 }

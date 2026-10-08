@@ -1,0 +1,19 @@
+# Vue Magic UI
+
+> Animated, copy-paste components for Vue 3 built with Tailwind CSS and Motion.
+
+## components
+
+- [Marquee](https://yousefkadah.github.io/vue-animation-libarary/docs/components/marquee): An infinite scrolling component that can be used to display text, images, or videos. Registry: https://yousefkadah.github.io/vue-animation-libarary/r/marquee.json
+
+## special-effects
+
+- [Border Beam](https://yousefkadah.github.io/vue-animation-libarary/docs/components/border-beam): An animated beam of light which travels along the border of its container. Registry: https://yousefkadah.github.io/vue-animation-libarary/r/border-beam.json
+
+## animations
+
+- [Blur Fade](https://yousefkadah.github.io/vue-animation-libarary/docs/components/blur-fade): Blur fade in and out animation. Used to smoothly fade in and out content. Registry: https://yousefkadah.github.io/vue-animation-libarary/r/blur-fade.json
+
+## buttons
+
+- [Shimmer Button](https://yousefkadah.github.io/vue-animation-libarary/docs/components/shimmer-button): A button with a shimmering light which travels around the perimeter. Registry: https://yousefkadah.github.io/vue-animation-libarary/r/shimmer-button.json

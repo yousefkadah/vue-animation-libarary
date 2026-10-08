@@ -1,0 +1,16 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "shimmer-button-demo",
+  "title": "Shimmer Button — Default",
+  "registryDependencies": [
+    "https://yousefkadah.github.io/vue-animation-libarary/r/shimmer-button.json"
+  ],
+  "files": [
+    {
+      "path": "src/registry/examples/shimmer-button-demo.vue",
+      "content": "<script setup lang=\"ts\">\nimport { ShimmerButton } from '@/components/ui/shimmer-button'\n</script>\n\n<template>\n  <ShimmerButton class=\"shadow-2xl\">\n    <span class=\"text-center text-sm leading-none font-medium tracking-tight whitespace-pre-wrap text-white lg:text-lg dark:from-white dark:to-slate-900/10\">\n      Shimmer Button\n    </span>\n  </ShimmerButton>\n</template>\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

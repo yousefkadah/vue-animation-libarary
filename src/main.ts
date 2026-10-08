@@ -1,9 +1,6 @@
 import { createApp } from 'vue'
 import App from './App.vue'
-import router from './router'
-import VueMagicUI from './index'
+import { router } from './router'
+import './styles/globals.css'
 
-const app = createApp(App)
-app.use(router)
-app.use(VueMagicUI)
-app.mount('#app')
+createApp(App).use(router).mount('#app')
