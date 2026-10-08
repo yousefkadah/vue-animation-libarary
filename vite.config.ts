@@ -51,7 +51,7 @@ function staticRoutes(): Plugin {
   }
 }
 
-export default defineConfig(({ mode, command }) => {
+export default defineConfig(({ mode, command, isPreview }) => {
   if (mode === 'lib') {
     return {
       resolve: { alias },
@@ -86,7 +86,7 @@ export default defineConfig(({ mode, command }) => {
   }
 
   return {
-    base: command === 'build' ? '/vue-animation-libarary/' : '/',
+    base: command === 'build' || isPreview ? '/vue-animation-libarary/' : '/',
     resolve: { alias },
     plugins: [vue(), tailwindcss(), staticRoutes()],
     build: {
