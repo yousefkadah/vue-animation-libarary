@@ -106,20 +106,22 @@ const heroMarquee = computed(() => components.slice(0, 24))
         <p class="max-w-xl text-muted-foreground">Every tile below is a real component running on this page.</p>
       </div>
       <div class="grid auto-rows-[260px] gap-4 md:grid-cols-4">
-        <RouterLink
+        <div
           v-for="tile in featured"
           :key="tile.example"
-          :to="`/docs/components/${tile.component?.name}`"
           :class="['group relative flex flex-col overflow-hidden rounded-2xl border bg-card transition-shadow hover:shadow-xl', tile.span]"
         >
-          <div class="pointer-events-auto flex min-h-0 flex-1 items-center justify-center overflow-hidden p-4 [&>*]:max-h-full [&>*]:max-w-full" @click.prevent.stop>
+          <div class="flex min-h-0 flex-1 items-center justify-center overflow-hidden p-4 [&>*]:max-h-full [&>*]:max-w-full">
             <component :is="tile.view" />
           </div>
-          <div class="flex items-center justify-between border-t bg-background/80 px-4 py-2.5 text-sm backdrop-blur">
+          <RouterLink
+            :to="`/docs/components/${tile.component?.name}`"
+            class="flex items-center justify-between border-t bg-background/80 px-4 py-2.5 text-sm backdrop-blur"
+          >
             <span class="font-medium">{{ tile.component?.title }}</span>
             <ArrowRight class="size-4 text-muted-foreground transition-transform group-hover:translate-x-0.5" />
-          </div>
-        </RouterLink>
+          </RouterLink>
+        </div>
       </div>
     </section>
 
