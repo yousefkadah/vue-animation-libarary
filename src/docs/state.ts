@@ -16,6 +16,14 @@ watch(theme, (value) => {
   }
 })
 
+/** Components such as AnimatedThemeToggler flip the class directly — keep the header icon in sync. */
+if (typeof MutationObserver !== 'undefined' && typeof document !== 'undefined') {
+  new MutationObserver(() => {
+    const current = readStoredTheme()
+    if (current !== theme.value) theme.value = current
+  }).observe(document.documentElement, { attributes: true, attributeFilter: ['class'] })
+}
+
 export function toggleTheme() {
   theme.value = theme.value === 'dark' ? 'light' : 'dark'
 }
