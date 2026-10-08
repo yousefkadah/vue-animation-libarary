@@ -99,12 +99,17 @@ function updatePath() {
   const rectA = fromElement.getBoundingClientRect()
   const rectB = toElement.getBoundingClientRect()
 
-  svgDimensions.value = { width: containerRect.width, height: containerRect.height }
+  // Client rects are in screen pixels; the SVG draws in the container's own CSS pixels.
+  // They differ when an ancestor is scaled (CSS zoom or a transform), so convert.
+  const scaleX = containerElement.offsetWidth ? containerRect.width / containerElement.offsetWidth : 1
+  const scaleY = containerElement.offsetHeight ? containerRect.height / containerElement.offsetHeight : 1
 
-  const startX = rectA.left - containerRect.left + rectA.width / 2 + props.startXOffset
-  const startY = rectA.top - containerRect.top + rectA.height / 2 + props.startYOffset
-  const endX = rectB.left - containerRect.left + rectB.width / 2 + props.endXOffset
-  const endY = rectB.top - containerRect.top + rectB.height / 2 + props.endYOffset
+  svgDimensions.value = { width: containerRect.width / scaleX, height: containerRect.height / scaleY }
+
+  const startX = (rectA.left - containerRect.left + rectA.width / 2) / scaleX + props.startXOffset
+  const startY = (rectA.top - containerRect.top + rectA.height / 2) / scaleY + props.startYOffset
+  const endX = (rectB.left - containerRect.left + rectB.width / 2) / scaleX + props.endXOffset
+  const endY = (rectB.top - containerRect.top + rectB.height / 2) / scaleY + props.endYOffset
 
   const controlY = startY - props.curvature
   pathD.value = `M ${startX},${startY} Q ${(startX + endX) / 2},${controlY} ${endX},${endY}`
