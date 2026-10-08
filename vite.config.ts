@@ -65,6 +65,7 @@ export default defineConfig(({ mode, command }) => {
         }),
         copyTheme(),
       ],
+      publicDir: false,
       build: {
         outDir: 'dist',
         emptyOutDir: true,
