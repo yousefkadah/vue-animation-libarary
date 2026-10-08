@@ -1,408 +1,109 @@
-# Vue Magic UI 2.0 🎨✨
+# Vue Magic UI
 
-[![npm version](https://badge.fury.io/js/@yousefkadah%2Fvue-magic-ui.svg)](https://badge.fury.io/js/@yousefkadah%2Fvue-magic-ui)
-[![npm downloads](https://img.shields.io/npm/dt/@yousefkadah/vue-magic-ui.svg)](https://www.npmjs.com/package/@yousefkadah/vue-magic-ui)
-[![Live Demo](https://img.shields.io/badge/demo-live-brightgreen.svg)](https://yousefkadah.github.io/vue-animation-libarary/)
-[![GitHub license](https://img.shields.io/github/license/yousefkadah/vue-animation-libarary.svg)](https://github.com/yousefkadah/vue-animation-libarary/blob/main/LICENSE)
-[![GitHub stars](https://img.shields.io/github/stars/yousefkadah/vue-animation-libarary.svg?style=social&label=Star)](https://github.com/yousefkadah/vue-animation-libarary)
+[![npm version](https://img.shields.io/npm/v/@yousefkadah/vue-magic-ui.svg)](https://www.npmjs.com/package/@yousefkadah/vue-magic-ui)
+[![npm downloads](https://img.shields.io/npm/dm/@yousefkadah/vue-magic-ui.svg)](https://www.npmjs.com/package/@yousefkadah/vue-magic-ui)
+[![license](https://img.shields.io/github/license/yousefkadah/vue-animation-libarary.svg)](LICENSE)
 
-A **modern Vue 3 animation library** with spring physics, gesture recognition, and advanced animations that rivals **Framer Motion** and **React Spring**. Build stunning, production-ready user interfaces with physics-based animations and interactive components.
+**74 free and open-source animated components for Vue 3** — built with TypeScript, Tailwind CSS v4 and [motion-v](https://motion.dev/docs/vue).
+Copy them into your app with one command, or install the package from npm.
 
-## 🌟 Live Demo
+**[Documentation & live demos →](https://yousefkadah.github.io/vue-animation-libarary/)**
 
-**[✨ View Live Demo ✨](https://yousefkadah.github.io/vue-animation-libarary/)**
+Using React? The same catalogue — same names, same props — is available as
+**[React Magic UI](https://github.com/yousefkadah/react-animation-library)**.
 
-See all components in action with interactive examples and code snippets!
+## Why
 
-## ✨ What's New in 2.0
+- **Own the code.** Like shadcn-vue, components are copied into your project, so you can change anything.
+- **One command.** `shadcn-vue add` drops in the source, installs npm dependencies and adds the keyframes to your CSS.
+- **Themed by default.** Components use the shadcn colour tokens and work in light and dark mode.
+- **Accessible motion.** Looping animations respect `prefers-reduced-motion`; split text stays readable by screen readers.
+- **Typed and documented.** Every prop is typed and listed with its default on the docs site.
 
-### 🚀 **Spring Physics System**
-- Realistic spring animations with configurable tension, friction, and mass
-- Velocity-based physics that feels natural and responsive
-- Auto-stop detection for performance optimization
+## Install a component (recommended)
 
-### 👆 **Advanced Gesture Recognition**  
-- Multi-touch drag support with velocity tracking
-- Bounds constraints and elastic resistance
-- Cross-platform compatibility (mouse + touch)
-
-### 📜 **Scroll-Triggered Animations**
-- Intersection Observer integration for performance
-- Parallax effects with customizable speed
-- Advanced triggers for complex scroll interactions
-
-### ⚡ **Performance Optimization**
-- Reduced motion detection for accessibility compliance
-- Device capability assessment (GPU acceleration, battery)
-- Smart animation degradation based on device performance
-
-### 🎯 **React Feature Parity**
-- **Spring physics** (react-spring equivalent)
-- **Gesture system** (react-use-gesture equivalent)  
-- **Declarative animations** (Framer Motion equivalent)
-- **Performance optimizations** beyond most React libraries
-
-## 🔧 Installation & Setup
+You need a Vue 3.5+ project with Tailwind CSS v4 and [shadcn-vue](https://www.shadcn-vue.com/docs/installation) initialised. Then:
 
 ```bash
-# Install the library
-npm install @yousefkadah/vue-magic-ui
-
-# Import styles (required)
-import '@yousefkadah/vue-magic-ui/dist/style.css'
+npx shadcn-vue@latest add https://yousefkadah.github.io/vue-animation-libarary/r/marquee.json
 ```
-
-### Tree-Shakeable Imports
-
-```typescript
-// Import only what you need
-import { useSpring, useGesture } from '@yousefkadah/vue-magic-ui/composables'
-import { easings } from '@yousefkadah/vue-magic-ui/utils'
-import { Motion, FadeIn } from '@yousefkadah/vue-magic-ui'
-```
-
-## 🎯 Demo & Documentation
-
-**🌐 Live Demo**: [https://yousefkadah.github.io/vue-animation-libarary/](https://yousefkadah.github.io/vue-animation-libarary/)
-
-The live demo includes a comprehensive showcase with two main pages:
-
-### 🏠 Home Page ([Demo Home](https://yousefkadah.github.io/vue-animation-libarary/#/))
-- Beautiful landing page showcasing the library
-- Hero section with interactive animations
-- Feature highlights and statistics
-- Call-to-action sections
-
-### 📚 Components Page ([Demo Components](https://yousefkadah.github.io/vue-animation-libarary/#/components))
-- Complete component documentation
-- Live demos for each component
-- Code examples and usage instructions
-- Props documentation and customization options
-- Component categories: Animations, Effects, UI Elements, Backgrounds
-
-## 📦 Component Categories
-
-### 🎭 Professional Effects
-- **Meteors** - Animated meteor shower effect
-- **Aurora** - Northern lights background animation  
-- **RetroGrid** - 80s-style animated grid background
-- **GridPattern** - Subtle grid overlay pattern
-- **RippleEffect** - Expanding ripple animations
-- **BorderBeam** - Animated border beam effect
-
-### 🔄 Interactive Components  
-- **OrbitingCircles** - Elements orbiting around a center
-- **AnimatedBeam** - Animated connection lines
-- **FloatingCard** - 3D floating cards with mouse tracking
-- **MagicButton** - Professional button with multiple variants
-- **ShimmerButton** - Shimmer effect on hover
-
-### 📝 Text Animations
-- **SparkleText** - Text with sparkle effects
-- **TypewriterText** - Typewriter effect with multiple texts
-- **GradientText** - Animated gradient text effects
-- **TextReveal** - Character-by-character reveal animation
-- **NumberTicker** - Smooth number counting animation
-- **Marquee** - Scrolling text marquee
-
-### 🎯 Entrance Animations
-- **FadeIn** - Smooth fade-in with intersection observer
-- **SlideIn** - Slide from any direction
-
-### ⚡ Loaders & Effects
-- **PulseLoader** - Pulsing dots animation
-- **WaveLoader** - Wave bars animation  
-- **ParticleEffect** - Interactive particle system
-- **MorphingShape** - SVG shape morphing
-- **GlowCard** - Cards with glow effects
-
-## 🎯 Usage Examples
-
-### Professional Landing Page Hero
 
 ```vue
+<script setup lang="ts">
+import { Marquee } from '@/components/ui/marquee'
+</script>
+
 <template>
-  <div class="hero">
-    <Aurora :size="1200" :colors="['#42b883', '#369870', '#2a9d8f']">
-      <div class="hero-content">
-        <h1>
-          <SparkleText :auto-sparkle="true">
-            Welcome to the Future
-          </SparkleText>
-        </h1>
-        
-        <TypewriterText 
-          :text="['Innovation starts here', 'Build amazing experiences']"
-          :loop="true"
-          :speed="60"
-        />
-        
-        <BorderBeam :size="300" :duration="8">
-          <MagicButton variant="gradient">
-            Get Started
-          </MagicButton>
-        </BorderBeam>
-      </div>
-    </Aurora>
-  </div>
-</template>
-```
-
-### Interactive Dashboard
-
-```vue
-<template>
-  <div class="dashboard">
-    <!-- Animated metrics -->
-    <div class="metrics">
-      <div class="metric-card">
-        <NumberTicker :value="1234567" :duration="2000" />
-        <p>Total Users</p>
-      </div>
-      
-      <div class="metric-card">
-        <NumberTicker :value="99.9" :decimal-places="1" suffix="%" />
-        <p>Uptime</p>
-      </div>
-    </div>
-    
-    <!-- Orbiting indicators -->
-    <OrbitingCircles 
-      :items="['Vue', 'React', 'Angular', 'Svelte']"
-      :radius="100"
-      :duration="20"
-    >
-      <template #center>
-        <div class="orbit-center">Frameworks</div>
-      </template>
-    </OrbitingCircles>
-    
-    <!-- Animated connections -->
-    <AnimatedBeam 
-      :width="300"
-      :height="100"
-      path-color="#00D4FF"
-      :curvature="0.5"
-    />
-  </div>
-</template>
-```
-
-### Modern Background Effects
-
-```vue
-<template>
-  <div class="page">
-    <!-- Retro grid background -->
-    <RetroGrid 
-      :size="60"
-      color="#00D4FF"
-      :opacity="0.3"
-      :rotate-x="45"
-    >
-      <div class="content">
-        <h1>Retro Style Content</h1>
-      </div>
-    </RetroGrid>
-    
-    <!-- Meteor shower effect -->
-    <Meteors 
-      :number="30"
-      :colors="['#42b883', '#369870', '#2a9d8f']"
-    >
-      <div class="meteor-content">
-        <h2>Amazing Content</h2>
-      </div>
-    </Meteors>
-    
-    <!-- Ripple interaction -->
-    <RippleEffect 
-      :num-ripples="3"
-      :duration="2"
-      ripple-color="rgba(102, 126, 234, 0.4)"
-    >
-      <button>Click for Ripples</button>
-    </RippleEffect>
-  </div>
-</template>
-```
-
-### Scrolling Marquee
-
-```vue
-<template>
-  <Marquee :speed="20" :pause-on-hover="true">
-    <div class="marquee-item">🎉 Breaking News</div>
-    <div class="marquee-item">✨ New Features</div>
-    <div class="marquee-item">🚀 Performance Updates</div>
+  <Marquee pause-on-hover>
+    <span>Vue</span>
+    <span>Nuxt</span>
+    <span>Vite</span>
   </Marquee>
 </template>
 ```
 
-## 🎨 Advanced Customization
+Add the registry once to `components.json` and use short names:
 
-### Theme Integration
-
-```vue
-<template>
-  <div class="themed-app">
-    <!-- Custom color schemes -->
-    <Aurora 
-      :colors="themeColors.aurora"
-      :duration="8"
-    />
-    
-    <BorderBeam 
-      :color-from="themeColors.primary"
-      :color-to="themeColors.secondary"
-    />
-    
-    <GradientText 
-      :colors="themeColors.gradient"
-      :animated="true"
-    >
-      Themed Text
-    </GradientText>
-  </div>
-</template>
-
-<script setup>
-const themeColors = {
-  primary: '#42b883',
-  secondary: '#369870', 
-  aurora: ['#42b883', '#369870', '#2a9d8f'],
-  gradient: ['#42b883', '#369870', '#2a9d8f']
+```json
+{
+  "registries": {
+    "@magic": "https://yousefkadah.github.io/vue-animation-libarary/r/{name}.json"
+  }
 }
-</script>
 ```
-
-### Performance Optimization
-
-```vue
-<template>
-  <div>
-    <!-- Reduce particles for mobile -->
-    <ParticleEffect 
-      :particle-count="isMobile ? 20 : 50"
-      :interactive="!isMobile"
-    />
-    
-    <!-- Conditional animations -->
-    <Meteors 
-      v-if="!prefersReducedMotion"
-      :number="30"
-    />
-  </div>
-</template>
-
-<script setup>
-import { ref, onMounted } from 'vue'
-
-const isMobile = ref(false)
-const prefersReducedMotion = ref(false)
-
-onMounted(() => {
-  isMobile.value = window.innerWidth < 768
-  prefersReducedMotion.value = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-})
-</script>
-```
-
-## 🛠️ Development
 
 ```bash
-# Clone repository
-git clone https://github.com/yousefkadah/vue-animation-libarary.git
+npx shadcn-vue@latest add @magic/border-beam @magic/number-ticker
+```
 
-# Install dependencies  
+## Or install from npm
+
+```bash
+npm install @yousefkadah/vue-magic-ui
+```
+
+```css
+/* your Tailwind entry CSS */
+@import "tailwindcss";
+@import "@yousefkadah/vue-magic-ui/theme.css";
+@source "../node_modules/@yousefkadah/vue-magic-ui/dist";
+```
+
+```ts
+import { BorderBeam, Marquee, NumberTicker } from '@yousefkadah/vue-magic-ui'
+```
+
+## Components
+
+**Components** — [Animated Circular Progress Bar](https://yousefkadah.github.io/vue-animation-libarary/docs/components/animated-circular-progress-bar) · [Animated List](https://yousefkadah.github.io/vue-animation-libarary/docs/components/animated-list) · [Avatar Circles](https://yousefkadah.github.io/vue-animation-libarary/docs/components/avatar-circles) · [Bento Grid](https://yousefkadah.github.io/vue-animation-libarary/docs/components/bento-grid) · [Code Comparison](https://yousefkadah.github.io/vue-animation-libarary/docs/components/code-comparison) · [Dock](https://yousefkadah.github.io/vue-animation-libarary/docs/components/dock) · [Dotted Map](https://yousefkadah.github.io/vue-animation-libarary/docs/components/dotted-map) · [File Tree](https://yousefkadah.github.io/vue-animation-libarary/docs/components/file-tree) · [Globe](https://yousefkadah.github.io/vue-animation-libarary/docs/components/globe) · [Hero Video Dialog](https://yousefkadah.github.io/vue-animation-libarary/docs/components/hero-video-dialog) · [Icon Cloud](https://yousefkadah.github.io/vue-animation-libarary/docs/components/icon-cloud) · [Lens](https://yousefkadah.github.io/vue-animation-libarary/docs/components/lens) · [Marquee](https://yousefkadah.github.io/vue-animation-libarary/docs/components/marquee) · [Orbiting Circles](https://yousefkadah.github.io/vue-animation-libarary/docs/components/orbiting-circles) · [Pointer](https://yousefkadah.github.io/vue-animation-libarary/docs/components/pointer) · [Progressive Blur](https://yousefkadah.github.io/vue-animation-libarary/docs/components/progressive-blur) · [Scroll Progress](https://yousefkadah.github.io/vue-animation-libarary/docs/components/scroll-progress) · [Smooth Cursor](https://yousefkadah.github.io/vue-animation-libarary/docs/components/smooth-cursor) · [Terminal](https://yousefkadah.github.io/vue-animation-libarary/docs/components/terminal)
+
+**Special Effects** — [Animated Beam](https://yousefkadah.github.io/vue-animation-libarary/docs/components/animated-beam) · [Backlight](https://yousefkadah.github.io/vue-animation-libarary/docs/components/backlight) · [Border Beam](https://yousefkadah.github.io/vue-animation-libarary/docs/components/border-beam) · [Confetti](https://yousefkadah.github.io/vue-animation-libarary/docs/components/confetti) · [Cool Mode](https://yousefkadah.github.io/vue-animation-libarary/docs/components/cool-mode) · [Glare Hover](https://yousefkadah.github.io/vue-animation-libarary/docs/components/glare-hover) · [Magic Card](https://yousefkadah.github.io/vue-animation-libarary/docs/components/magic-card) · [Meteors](https://yousefkadah.github.io/vue-animation-libarary/docs/components/meteors) · [Neon Gradient Card](https://yousefkadah.github.io/vue-animation-libarary/docs/components/neon-gradient-card) · [Particles](https://yousefkadah.github.io/vue-animation-libarary/docs/components/particles) · [Pixel Image](https://yousefkadah.github.io/vue-animation-libarary/docs/components/pixel-image) · [Shine Border](https://yousefkadah.github.io/vue-animation-libarary/docs/components/shine-border) · [Theme Toggler](https://yousefkadah.github.io/vue-animation-libarary/docs/components/animated-theme-toggler) · [Warp Background](https://yousefkadah.github.io/vue-animation-libarary/docs/components/warp-background)
+
+**Animations** — [Blur Fade](https://yousefkadah.github.io/vue-animation-libarary/docs/components/blur-fade)
+
+**Text Animations** — [Animated Gradient Text](https://yousefkadah.github.io/vue-animation-libarary/docs/components/animated-gradient-text) · [Animated Shiny Text](https://yousefkadah.github.io/vue-animation-libarary/docs/components/animated-shiny-text) · [Aurora Text](https://yousefkadah.github.io/vue-animation-libarary/docs/components/aurora-text) · [Comic Text](https://yousefkadah.github.io/vue-animation-libarary/docs/components/comic-text) · [Dia Text Reveal](https://yousefkadah.github.io/vue-animation-libarary/docs/components/dia-text-reveal) · [Highlighter](https://yousefkadah.github.io/vue-animation-libarary/docs/components/highlighter) · [Hyper Text](https://yousefkadah.github.io/vue-animation-libarary/docs/components/hyper-text) · [Kinetic Text](https://yousefkadah.github.io/vue-animation-libarary/docs/components/kinetic-text) · [Line Shadow Text](https://yousefkadah.github.io/vue-animation-libarary/docs/components/line-shadow-text) · [Morphing Text](https://yousefkadah.github.io/vue-animation-libarary/docs/components/morphing-text) · [Number Ticker](https://yousefkadah.github.io/vue-animation-libarary/docs/components/number-ticker) · [Scroll Based Velocity](https://yousefkadah.github.io/vue-animation-libarary/docs/components/scroll-based-velocity) · [Sparkles Text](https://yousefkadah.github.io/vue-animation-libarary/docs/components/sparkles-text) · [Spinning Text](https://yousefkadah.github.io/vue-animation-libarary/docs/components/spinning-text) · [Text 3D Flip](https://yousefkadah.github.io/vue-animation-libarary/docs/components/text-3d-flip) · [Text Animate](https://yousefkadah.github.io/vue-animation-libarary/docs/components/text-animate) · [Text Reveal](https://yousefkadah.github.io/vue-animation-libarary/docs/components/text-reveal) · [Typing Animation](https://yousefkadah.github.io/vue-animation-libarary/docs/components/typing-animation) · [Video Text](https://yousefkadah.github.io/vue-animation-libarary/docs/components/video-text) · [Word Rotate](https://yousefkadah.github.io/vue-animation-libarary/docs/components/word-rotate)
+
+**Buttons** — [Interactive Hover Button](https://yousefkadah.github.io/vue-animation-libarary/docs/components/interactive-hover-button) · [Pulsating Button](https://yousefkadah.github.io/vue-animation-libarary/docs/components/pulsating-button) · [Rainbow Button](https://yousefkadah.github.io/vue-animation-libarary/docs/components/rainbow-button) · [Ripple Button](https://yousefkadah.github.io/vue-animation-libarary/docs/components/ripple-button) · [Shimmer Button](https://yousefkadah.github.io/vue-animation-libarary/docs/components/shimmer-button) · [Shiny Button](https://yousefkadah.github.io/vue-animation-libarary/docs/components/shiny-button)
+
+**Backgrounds** — [Animated Grid Pattern](https://yousefkadah.github.io/vue-animation-libarary/docs/components/animated-grid-pattern) · [Dot Pattern](https://yousefkadah.github.io/vue-animation-libarary/docs/components/dot-pattern) · [Flickering Grid](https://yousefkadah.github.io/vue-animation-libarary/docs/components/flickering-grid) · [Grid Pattern](https://yousefkadah.github.io/vue-animation-libarary/docs/components/grid-pattern) · [Hexagon Pattern](https://yousefkadah.github.io/vue-animation-libarary/docs/components/hexagon-pattern) · [Interactive Grid Pattern](https://yousefkadah.github.io/vue-animation-libarary/docs/components/interactive-grid-pattern) · [Light Rays](https://yousefkadah.github.io/vue-animation-libarary/docs/components/light-rays) · [Noise Texture](https://yousefkadah.github.io/vue-animation-libarary/docs/components/noise-texture) · [Retro Grid](https://yousefkadah.github.io/vue-animation-libarary/docs/components/retro-grid) · [Ripple](https://yousefkadah.github.io/vue-animation-libarary/docs/components/ripple) · [Striped Pattern](https://yousefkadah.github.io/vue-animation-libarary/docs/components/striped-pattern)
+
+**Device Mocks** — [Android](https://yousefkadah.github.io/vue-animation-libarary/docs/components/android) · [Safari](https://yousefkadah.github.io/vue-animation-libarary/docs/components/safari) · [iPhone](https://yousefkadah.github.io/vue-animation-libarary/docs/components/iphone)
+## Development
+
+```bash
 npm install
-
-# Start development server
-npm run dev
-
-# Build library
-npm run build:lib
-
-# Build documentation
-npm run docs:build
+npm run dev        # docs site at http://localhost:5173
+npm test           # mounts every example and fails on any error or Vue warning
+npm run build      # registry JSON + docs site + npm package
 ```
 
-## 📋 Component API Reference
+Adding a component? Read [CONTRIBUTING.md](CONTRIBUTING.md).
 
-### Aurora
-```typescript
-interface AuroraProps {
-  size?: number        // Size of aurora effect (default: 800)
-  colors?: string[]    // Array of colors (default: ['#42b883', '#369870', '#2a9d8f'])
-  duration?: number    // Animation duration in seconds (default: 8)
-  opacity?: number     // Opacity of effect (default: 0.3)
-  invert?: boolean     // Invert colors (default: false)
-}
-```
+## Credits
 
-### Meteors  
-```typescript
-interface MeteorsProps {
-  number?: number      // Number of meteors (default: 30)
-  width?: number       // Container width (default: 800)
-  height?: number      // Container height (default: 400)
-  colors?: string[]    // Meteor colors (default: ['#42b883', '#369870', '#2a9d8f'])
-  speed?: number       // Animation speed multiplier (default: 1)
-}
-```
+Component designs and APIs follow [Magic UI](https://magicui.design) by the Magic UI team (MIT),
+re-implemented for Vue. See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 
-### BorderBeam
-```typescript
-interface BorderBeamProps {
-  size?: number        // Beam size (default: 200)
-  duration?: number    // Animation duration (default: 15)
-  borderWidth?: number // Border width (default: 1.5)
-  colorFrom?: string   // Start color (default: '#ffaa40')
-  colorTo?: string     // End color (default: '#9c40ff')
-  delay?: number       // Animation delay (default: 0)
-}
-```
+## License
 
-### NumberTicker
-```typescript
-interface NumberTickerProps {
-  value: number           // Target number to animate to
-  duration?: number       // Animation duration in ms (default: 2000)
-  decimalPlaces?: number  // Number of decimal places (default: 0)
-}
-```
-
-### OrbitingCircles
-```typescript
-interface OrbitingCirclesProps {
-  items: any[]         // Array of items to orbit
-  radius?: number      // Orbit radius (default: 100)
-  duration?: number    // Orbit duration in seconds (default: 20)
-  reverse?: boolean    // Reverse direction (default: false)
-}
-```
-
-## 🌟 Inspiration
-
-This library draws inspiration from:
-- [Magic UI](https://magicui.design/) - React component designs
-- [Aceternity UI](https://ui.aceternity.com/) - Modern animations  
-- [Framer Motion](https://www.framer.com/motion/) - Animation patterns
-
-## 🎯 Roadmap
-
-- [ ] 3D transform components
-- [ ] Scroll-triggered animations  
-- [ ] Chart animation components
-- [ ] Mobile gesture interactions
-- [ ] WebGL-powered effects
-- [ ] Accessibility improvements
-- [ ] React/Svelte ports
-
-## 📄 License
-
-MIT License - see [LICENSE](LICENSE) for details.
-
----
-
-Built with ❤️ for the Vue.js community
+[MIT](LICENSE) © Yousef Kadah
