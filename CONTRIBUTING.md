@@ -85,7 +85,8 @@ Categories: `components`, `special-effects`, `animations`, `text-animations`, `b
 ## Checks
 
 ```bash
-node scripts/build-registry.mjs   # validates meta.json + regenerates artifacts
+node scripts/build-registry.mjs --check <slug>   # validates one component's meta.json
+node scripts/build-registry.mjs --strict         # validates everything + regenerates artifacts
 npx vue-tsc --noEmit              # types
 npx vitest run -t "<slug>"        # every example mounts with no errors or Vue warnings
 ```

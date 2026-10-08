@@ -8,10 +8,22 @@ import type { Component } from 'vue'
  * Run one component's examples with: npx vitest run -t "border-beam"
  */
 const examples = import.meta.glob<Component>('../src/registry/examples/*.vue', { import: 'default' })
-const metas = import.meta.glob<{ name: string; examples: { name: string }[] }>('../src/registry/ui/*/meta.json', {
+const metaSources = import.meta.glob<string>('../src/registry/ui/*/meta.json', {
   eager: true,
+  query: '?raw',
   import: 'default',
 })
+
+type Meta = { name: string; examples: { name: string }[] }
+const metas: Record<string, Meta> = {}
+for (const [path, source] of Object.entries(metaSources)) {
+  const slug = path.split('/').at(-2)!
+  try {
+    metas[path] = JSON.parse(source) as Meta
+  } catch {
+    metas[path] = { name: slug, examples: [{ name: `${slug} (meta.json is invalid JSON)` }] }
+  }
+}
 
 afterEach(() => {
   vi.restoreAllMocks()

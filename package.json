@@ -33,13 +33,13 @@
     "build": "npm run registry && npm run build:site && npm run build:lib",
     "build:site": "vite build",
     "build:lib": "vite build --mode lib",
-    "registry": "npm run registry:meta && shadcn-vue build --output public/r",
+    "registry": "node scripts/build-registry.mjs --strict && shadcn-vue build --output public/r",
     "registry:meta": "node scripts/build-registry.mjs",
     "typecheck": "vue-tsc --noEmit",
     "test": "vitest run",
     "preview": "vite preview",
     "deploy": "npm run registry && npm run build:site && gh-pages -d dist-site --dotfiles",
-    "prepublishOnly": "npm run registry:meta && npm run build:lib"
+    "prepublishOnly": "node scripts/build-registry.mjs --strict && npm run typecheck && npm test && npm run build:lib"
   },
   "keywords": [
     "vue",

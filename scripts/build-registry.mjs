@@ -34,51 +34,64 @@ const CATEGORIES = [
   'device-mocks',
 ]
 
+const args = process.argv.slice(2)
+/** `--strict`: any invalid component fails the run (CI, build, publish). */
+const strict = args.includes('--strict')
+/** `--check a,b`: validate only these slugs, write nothing, exit non-zero on their errors. */
+const checkIndex = args.indexOf('--check')
+const checkOnly = checkIndex >= 0 ? (args[checkIndex + 1] ?? '').split(',').filter(Boolean) : null
+
 const root = process.cwd()
 const uiDir = join(root, 'src/registry/ui')
 const examplesDir = join(root, 'src/registry/examples')
 const errors = []
+const invalidSlugs = new Set()
+const fail = (slug, message) => {
+  errors.push(`${slug}: ${message}`)
+  if (slug) invalidSlugs.add(slug)
+}
 
-const slugs = readdirSync(uiDir, { withFileTypes: true })
+const allSlugs = readdirSync(uiDir, { withFileTypes: true })
   .filter((entry) => entry.isDirectory())
   .map((entry) => entry.name)
   .sort()
+const slugs = checkOnly ? allSlugs.filter((slug) => checkOnly.includes(slug)) : allSlugs
 
-const metas = slugs.map((slug) => {
+let metas = slugs.map((slug) => {
   const metaPath = join(uiDir, slug, 'meta.json')
   if (!existsSync(metaPath)) {
-    errors.push(`${slug}: missing meta.json`)
+    fail(slug, `missing meta.json`)
     return null
   }
   let meta
   try {
     meta = JSON.parse(readFileSync(metaPath, 'utf8'))
   } catch (error) {
-    errors.push(`${slug}: meta.json is not valid JSON (${error.message})`)
+    fail(slug, `meta.json is not valid JSON (${error.message})`)
     return null
   }
-  if (meta.name !== slug) errors.push(`${slug}: meta.name must equal the folder name`)
+  if (meta.name !== slug) fail(slug, `meta.name must equal the folder name`)
   for (const field of ['title', 'description', 'category']) {
-    if (!meta[field]) errors.push(`${slug}: meta.${field} is required`)
+    if (!meta[field]) fail(slug, `meta.${field} is required`)
   }
   if (!CATEGORIES.includes(meta.category)) {
-    errors.push(`${slug}: unknown category "${meta.category}" (use one of ${CATEGORIES.join(', ')})`)
+    fail(slug, `unknown category "${meta.category}" (use one of ${CATEGORIES.join(', ')})`)
   }
   if (!Array.isArray(meta.exports) || meta.exports.length === 0) {
-    errors.push(`${slug}: meta.exports must list the exported component names`)
+    fail(slug, `meta.exports must list the exported component names`)
   }
   if (!Array.isArray(meta.examples) || meta.examples.length === 0) {
-    errors.push(`${slug}: meta.examples needs at least one example`)
+    fail(slug, `meta.examples needs at least one example`)
   }
   for (const example of meta.examples ?? []) {
     const file = join(examplesDir, `${example.name}${CONFIG.exampleExtension}`)
-    if (!existsSync(file)) errors.push(`${slug}: example file ${example.name}${CONFIG.exampleExtension} not found`)
+    if (!existsSync(file)) fail(slug, `example file ${example.name}${CONFIG.exampleExtension} not found`)
   }
   meta.files = readdirSync(join(uiDir, slug))
     .filter((file) => CONFIG.componentExtensions.some((ext) => file.endsWith(ext)))
     .sort()
   if (!meta.files.some((file) => file === 'index.ts' || file === `${slug}.tsx`)) {
-    errors.push(`${slug}: needs an index.ts barrel`)
+    fail(slug, `needs an index.ts barrel`)
   }
   return meta
 }).filter(Boolean)
@@ -86,17 +99,28 @@ const metas = slugs.map((slug) => {
 const exportOwners = new Map()
 for (const meta of metas) {
   for (const name of meta.exports ?? []) {
-    if (exportOwners.has(name)) errors.push(`export "${name}" is declared by both ${exportOwners.get(name)} and ${meta.name}`)
+    if (exportOwners.has(name)) fail(meta.name, `export "${name}" is also declared by ${exportOwners.get(name)}`)
     exportOwners.set(name, meta.name)
   }
   for (const dep of meta.registryDependencies ?? []) {
-    if (!slugs.includes(dep)) errors.push(`${meta.name}: registryDependency "${dep}" is not a component in this registry`)
+    if (!allSlugs.includes(dep)) fail(meta.name, `registryDependency "${dep}" is not a component in this registry`)
   }
 }
 
+if (checkOnly) {
+  if (checkOnly.some((slug) => !allSlugs.includes(slug))) errors.push(`unknown slug in --check: ${checkOnly.join(', ')}`)
+  if (errors.length) {
+    console.error(`\n✖ Invalid:\n  - ${errors.join('\n  - ')}\n`)
+    process.exit(1)
+  }
+  console.log(`✔ ${checkOnly.join(', ')} valid`)
+  process.exit(0)
+}
+
 if (errors.length) {
-  console.error(`\n✖ Registry is invalid:\n  - ${errors.join('\n  - ')}\n`)
-  process.exit(1)
+  console[strict ? 'error' : 'warn'](`\n${strict ? '✖' : '⚠'} Registry problems${strict ? '' : ' (skipped these components)'}:\n  - ${errors.join('\n  - ')}\n`)
+  if (strict) process.exit(1)
+  metas = metas.filter((meta) => !invalidSlugs.has(meta.name))
 }
 
 const itemUrl = (name) => `${CONFIG.homepage}/r/${name}.json`

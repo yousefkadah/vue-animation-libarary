@@ -50,14 +50,27 @@ export const categories = [
 
 export type CategoryId = (typeof categories)[number]['id']
 
-const metaModules = import.meta.glob<ComponentMeta>('../registry/ui/*/meta.json', {
+const metaSources = import.meta.glob<string>('../registry/ui/*/meta.json', {
   eager: true,
+  query: '?raw',
   import: 'default',
 })
 
-export const components: ComponentMeta[] = Object.values(metaModules).sort((a, b) =>
-  a.title.localeCompare(b.title),
-)
+/** Parsed leniently so one half-written meta.json doesn't take the whole site down. */
+function parseMeta(path: string, source: string): ComponentMeta | null {
+  try {
+    const meta = JSON.parse(source) as ComponentMeta
+    return meta.name && meta.title && meta.category && meta.examples?.length ? meta : null
+  } catch (error) {
+    console.warn(`[catalog] skipping ${path}:`, error)
+    return null
+  }
+}
+
+export const components: ComponentMeta[] = Object.entries(metaSources)
+  .map(([path, source]) => parseMeta(path, source))
+  .filter((meta): meta is ComponentMeta => meta !== null)
+  .sort((a, b) => a.title.localeCompare(b.title))
 
 /** Components in sidebar order: grouped by category, alphabetical inside each group. */
 export const orderedComponents: ComponentMeta[] = categories.flatMap((category) =>
